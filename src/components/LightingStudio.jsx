@@ -27,8 +27,8 @@ function Lights({ progress }) {
 
     // Key Light (0.15 - 0.30)
     if (keyLightRef.current) {
-      const keyIntensity = THREE.MathUtils.mapLinear(p, 0.15, 0.30, 0.2, 1.5);
-      keyLightRef.current.intensity = Math.max(0.2, keyIntensity);
+      const keyIntensity = THREE.MathUtils.mapLinear(p, 0.15, 0.30, 0.5, 2.0);
+      keyLightRef.current.intensity = Math.max(0.5, keyIntensity);
 
       // Key Light Position (0.30 - 0.45)
       if (p >= 0.30 && p <= 0.45) {
@@ -41,14 +41,14 @@ function Lights({ progress }) {
 
     // Fill Light (0.45 - 0.60)
     if (fillLightRef.current) {
-      const fillIntensity = THREE.MathUtils.mapLinear(p, 0.45, 0.60, 0.1, 0.6);
-      fillLightRef.current.intensity = Math.max(0.1, fillIntensity);
+      const fillIntensity = THREE.MathUtils.mapLinear(p, 0.45, 0.60, 0.3, 0.8);
+      fillLightRef.current.intensity = Math.max(0.3, fillIntensity);
     }
 
     // Rim Light (0.75 - 0.90)
     if (rimLightRef.current) {
-      const rimIntensity = THREE.MathUtils.mapLinear(p, 0.75, 0.90, 0.1, 1.2);
-      rimLightRef.current.intensity = Math.max(0.1, rimIntensity);
+      const rimIntensity = THREE.MathUtils.mapLinear(p, 0.75, 0.90, 0.3, 1.5);
+      rimLightRef.current.intensity = Math.max(0.3, rimIntensity);
     }
 
     // Color change (0.60 - 0.75)
@@ -68,7 +68,7 @@ function Lights({ progress }) {
         position={[-5, 4, 3]}
         angle={0.6}
         penumbra={0.4}
-        intensity={0.2}
+        intensity={0.5}
         castShadow
         shadow-mapSize-width={2048}
         shadow-mapSize-height={2048}
@@ -82,7 +82,7 @@ function Lights({ progress }) {
         position={[5, 3, 3]}
         angle={0.8}
         penumbra={0.6}
-        intensity={0.1}
+        intensity={0.3}
         color={0xffffff}
       />
 
@@ -92,12 +92,12 @@ function Lights({ progress }) {
         position={[0, 2, -5]}
         angle={0.4}
         penumbra={0.4}
-        intensity={0.1}
+        intensity={0.3}
         color={0xffddaa}
       />
 
-      {/* Subtle ambient light */}
-      <ambientLight intensity={0.15} />
+      {/* Stronger ambient light for visibility */}
+      <ambientLight intensity={0.4} />
     </>
   );
 }
@@ -158,7 +158,7 @@ function CanvasContent({ progress, onLoad }) {
 
       // Normalize scale to fit in a reasonable size
       const maxDim = Math.max(size.x, size.y, size.z);
-      const scale = 0.015 / maxDim; // Much smaller scale - 100x smaller
+      const scale = 0.5 / maxDim; // Balanced scale for visibility
       scene.scale.set(scale, scale, scale);
 
       console.log('Model scale:', scale);
