@@ -53,6 +53,8 @@ body {
 /* SECTION 5: Lighting Studio */
 .section-5 {
   background: linear-gradient(135deg, #111111 0%, #0a0a0a 100%);
+  padding: 0;
+  z-index: 10;
 }
 
 /* SECTION 6: Selected Work */
@@ -390,13 +392,6 @@ body {
     min-width: 50px;
     letter-spacing: 0.5px;
   }
-}
-
-/* SECTION 5: Lighting Studio */
-.section-5 {
-  position: relative;
-  z-index: 10;
-  padding: 0;
 }
 
 .lighting-studio-container {
