@@ -27,8 +27,8 @@ function Lights({ progress }) {
 
     // Key Light (0.15 - 0.30)
     if (keyLightRef.current) {
-      const keyIntensity = THREE.MathUtils.mapLinear(p, 0.15, 0.30, 0, 1.5);
-      keyLightRef.current.intensity = Math.max(0, keyIntensity);
+      const keyIntensity = THREE.MathUtils.mapLinear(p, 0.15, 0.30, 0.2, 1.5);
+      keyLightRef.current.intensity = Math.max(0.2, keyIntensity);
 
       // Key Light Position (0.30 - 0.45)
       if (p >= 0.30 && p <= 0.45) {
@@ -41,14 +41,14 @@ function Lights({ progress }) {
 
     // Fill Light (0.45 - 0.60)
     if (fillLightRef.current) {
-      const fillIntensity = THREE.MathUtils.mapLinear(p, 0.45, 0.60, 0, 0.6);
-      fillLightRef.current.intensity = Math.max(0, fillIntensity);
+      const fillIntensity = THREE.MathUtils.mapLinear(p, 0.45, 0.60, 0.1, 0.6);
+      fillLightRef.current.intensity = Math.max(0.1, fillIntensity);
     }
 
     // Rim Light (0.75 - 0.90)
     if (rimLightRef.current) {
-      const rimIntensity = THREE.MathUtils.mapLinear(p, 0.75, 0.90, 0, 1.2);
-      rimLightRef.current.intensity = Math.max(0, rimIntensity);
+      const rimIntensity = THREE.MathUtils.mapLinear(p, 0.75, 0.90, 0.1, 1.2);
+      rimLightRef.current.intensity = Math.max(0.1, rimIntensity);
     }
 
     // Color change (0.60 - 0.75)
@@ -68,7 +68,7 @@ function Lights({ progress }) {
         position={[-5, 4, 3]}
         angle={0.6}
         penumbra={0.4}
-        intensity={0}
+        intensity={0.2}
         castShadow
         shadow-mapSize-width={2048}
         shadow-mapSize-height={2048}
@@ -82,7 +82,7 @@ function Lights({ progress }) {
         position={[5, 3, 3]}
         angle={0.8}
         penumbra={0.6}
-        intensity={0}
+        intensity={0.1}
         color={0xffffff}
       />
 
@@ -92,12 +92,12 @@ function Lights({ progress }) {
         position={[0, 2, -5]}
         angle={0.4}
         penumbra={0.4}
-        intensity={0}
+        intensity={0.1}
         color={0xffddaa}
       />
 
-      {/* Very subtle ambient light */}
-      <ambientLight intensity={0.03} />
+      {/* Subtle ambient light */}
+      <ambientLight intensity={0.15} />
     </>
   );
 }
@@ -131,7 +131,7 @@ function StudioFloor() {
   return (
     <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1.5, 0]} receiveShadow>
       <planeGeometry args={[30, 30]} />
-      <shadowMaterial opacity={0.4} />
+      <meshStandardMaterial color="#111111" roughness={0.8} metalness={0.2} />
     </mesh>
   );
 }
@@ -191,7 +191,7 @@ function CanvasContent({ progress, onLoad }) {
       <Lights progress={progress} />
       <StudioFloor />
       <Environment preset="studio" background={false} />
-      <hemisphereLight args={[0x222222, 0x111111, 0.1]} />
+      <hemisphereLight args={[0x444444, 0x222222, 0.3]} />
     </>
   );
 }
