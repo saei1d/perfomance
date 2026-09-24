@@ -1,6 +1,6 @@
 import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, useGLTF, Environment, ContactShadows, PresentationControls } from '@react-three/drei';
-import { Suspense, useState, useEffect, useRef } from 'react';
+import { Suspense, useState, useEffect, useRef, useMemo } from 'react';
 
 // Drone states
 const DRONE_STATES = {
@@ -104,7 +104,7 @@ function DroneModel({ droneState, onLoad }) {
   }, [scene, onLoad]);
 
   // Animate propellers
-  useFrame((state, delta) => {
+  useFrame(() => {
     // Smooth speed transition
     const speedDiff = targetSpeed.current - currentSpeed.current;
     if (Math.abs(speedDiff) > 0.001) {
@@ -198,27 +198,41 @@ function CanvasContent({ droneState, onLoad }) {
   );
 }
 
+function detectWebGL() {
+  try {
+    const canvas = document.createElement('canvas');
+    return Boolean(canvas.getContext('webgl2') || canvas.getContext('webgl') || canvas.getContext('experimental-webgl'));
+  } catch {
+    return false;
+  }
+}
+
 export default function Drone3D() {
-  const [isLoading, setIsLoading] = useState(true);
+  const rootRef = useRef(null);
+  const [isWebGLSupported] = useState(detectWebGL);
+  const [isLoading, setIsLoading] = useState(isWebGLSupported);
   const [error, setError] = useState(null);
   const [droneState, setDroneState] = useState(DRONE_STATES.OFF);
-  const [isWebGLSupported, setIsWebGLSupported] = useState(true);
+  const [inView, setInView] = useState(true);
+  const quality = useMemo(() => {
+    const mobile = window.matchMedia('(max-width: 768px)').matches;
+    return {
+      dpr: Math.min(window.devicePixelRatio || 1, mobile ? 1.25 : 1.75),
+      antialias: !mobile,
+      powerPreference: mobile ? 'default' : 'high-performance',
+    };
+  }, []);
 
-  // Check WebGL support on mount
   useEffect(() => {
-    try {
-      const canvas = document.createElement('canvas');
-      const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
-      if (!gl) {
-        setIsWebGLSupported(false);
-        setError(new Error('WebGL not supported'));
-        setIsLoading(false);
-      }
-    } catch (e) {
-      setIsWebGLSupported(false);
-      setError(e);
-      setIsLoading(false);
-    }
+    const node = rootRef.current;
+    if (!node || !('IntersectionObserver' in window)) return undefined;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setInView(entry.isIntersecting),
+      { rootMargin: '100px 0px' },
+    );
+    observer.observe(node);
+    return () => observer.disconnect();
   }, []);
 
   const handleLoad = () => {
@@ -232,7 +246,7 @@ export default function Drone3D() {
   };
 
   return (
-    <div className="drone-3d-container">
+    <div className="drone-3d-container" ref={rootRef}>
       {!isWebGLSupported && (
         <div className="drone-error">
           <p>3D View Not Available</p>
@@ -257,15 +271,15 @@ export default function Drone3D() {
       {isWebGLSupported && (
         <Canvas
           camera={{ position: [0, 0, 3.5], fov: 50 }}
+          frameloop={inView ? 'always' : 'never'}
           gl={{
-            antialias: true,
+            antialias: quality.antialias,
             alpha: true,
-            powerPreference: "high-performance",
-            preserveDrawingBuffer: true,
+            powerPreference: quality.powerPreference,
             stencil: false,
             depth: true
           }}
-          dpr={Math.min(window.devicePixelRatio, 2)}
+          dpr={quality.dpr}
           onError={handleError}
           style={{ opacity: isLoading ? 0 : 1 }}
         >
@@ -277,28 +291,34 @@ export default function Drone3D() {
 
       {isWebGLSupported && (
         <div className="drone-3d-overlay">
-        <h2 className="drone-3d-title">OUR EQUIPMENT</h2>
-        <p className="drone-3d-subtitle">Interactive 3D Model</p>
-        <p className="drone-3d-hint">Drag to rotate • Scroll to zoom</p>
+        <h2 className="drone-3d-title">Aerial unit</h2>
+        <p className="drone-3d-subtitle">Four rotors</p>
+        <p className="drone-3d-hint">Drag to orbit · Scroll to zoom</p>
         
         <div className="drone-controls">
-          <button 
+          <button
+            type="button"
             className={`drone-control-btn ${droneState === DRONE_STATES.OFF ? 'active' : ''}`}
+            aria-pressed={droneState === DRONE_STATES.OFF}
             onClick={() => setDroneState(DRONE_STATES.OFF)}
           >
-            OFF
+            Off
           </button>
-          <button 
+          <button
+            type="button"
             className={`drone-control-btn ${droneState === DRONE_STATES.ON ? 'active' : ''}`}
+            aria-pressed={droneState === DRONE_STATES.ON}
             onClick={() => setDroneState(DRONE_STATES.ON)}
           >
-            ON
+            On
           </button>
-          <button 
+          <button
+            type="button"
             className={`drone-control-btn ${droneState === DRONE_STATES.TURBO ? 'active' : ''}`}
+            aria-pressed={droneState === DRONE_STATES.TURBO}
             onClick={() => setDroneState(DRONE_STATES.TURBO)}
           >
-            TURBO
+            Turbo
           </button>
         </div>
       </div>

@@ -1,156 +1,221 @@
 import { Canvas } from '@react-three/fiber';
-import { useGLTF, Environment } from '@react-three/drei';
-import { Suspense, useState, useEffect, useRef } from 'react';
-import * as THREE from 'three';
+import { useGLTF } from '@react-three/drei';
+import { Component, useCallback, useEffect, useRef, useState } from 'react';
+import { STATUE_URL, STAGES } from './lighting/constants';
+import StudioScene from './lighting/StudioScene';
+import { labelOpacity } from './lighting/timeline';
+import { gsap, ScrollTrigger } from '../lib/gsap';
+import './lighting/lighting.css';
 
-// Fallback component if model fails to load
-function FallbackStatue() {
-  return (
-    <mesh>
-      <boxGeometry args={[1, 2, 1]} />
-      <meshStandardMaterial color="#888888" />
-    </mesh>
-  );
+function supportsWebGL() {
+  try {
+    const canvas = document.createElement('canvas');
+    return Boolean(canvas.getContext('webgl2') || canvas.getContext('webgl'));
+  } catch {
+    return false;
+  }
 }
 
-function SimpleStatue({ onLoad }) {
-  const { scene } = useGLTF('/perfomance/output5.glb');
-  const modelRef = useRef();
+class SceneBoundary extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { error: null };
+  }
+
+  static getDerivedStateFromError(error) {
+    return { error };
+  }
+
+  render() {
+    if (this.state.error) return this.props.fallback;
+    return this.props.children;
+  }
+}
+
+function useCompactViewport() {
+  const query = '(max-width: 900px)';
+  const [compact, setCompact] = useState(() =>
+    typeof window !== 'undefined' ? window.matchMedia(query).matches : false,
+  );
 
   useEffect(() => {
-    if (scene) {
-      console.log('Scene loaded successfully, children:', scene.children.length);
+    const media = window.matchMedia(query);
+    const onChange = () => setCompact(media.matches);
+    media.addEventListener('change', onChange);
+    return () => media.removeEventListener('change', onChange);
+  }, []);
 
-      // Center and normalize the model
-      const box = new THREE.Box3().setFromObject(scene);
-      const center = box.getCenter(new THREE.Vector3());
-      const size = box.getSize(new THREE.Vector3());
-
-      console.log('Model bounds:', { center, size });
-
-      // Center the model manually
-      scene.position.set(0, 0.5, 0); // Adjust Y position for centering
-
-      // Normalize scale to fit in a reasonable size
-      const maxDim = Math.max(size.x, size.y, size.z);
-      const scale = 1.8 / maxDim; // Smaller scale
-      scene.scale.set(scale, scale, scale);
-
-      console.log('Model scale:', scale);
-
-      scene.traverse((child) => {
-        if (child.isMesh) {
-          console.log('Found mesh:', child.name);
-          child.castShadow = true;
-          child.receiveShadow = true;
-          if (child.material) {
-            child.material.needsUpdate = true;
-            // Force materials to be visible
-            if (child.material.color) {
-              child.material.color.setHex(0xffffff);
-            }
-            if (child.material.roughness !== undefined) {
-              child.material.roughness = 0.3;
-            }
-            if (child.material.metalness !== undefined) {
-              child.material.metalness = 0.1;
-            }
-          }
-        }
-      });
-
-      if (onLoad) onLoad();
-    }
-  }, [scene, onLoad]);
-
-  return (
-    <>
-      <primitive ref={modelRef} object={scene} position={[0, 0, 0]} />
-      <Environment preset="studio" background={false} />
-      <ambientLight intensity={5.0} color="#ffffff" />
-      <directionalLight position={[5, 5, 5]} intensity={10} color="#ffffff" castShadow />
-      <directionalLight position={[-5, 3, -5]} intensity={5} color="#ffffff" />
-      <pointLight position={[0, 3, 2]} intensity={5} color="#ffffff" />
-    </>
-  );
+  return compact;
 }
 
 export default function LightingStudio() {
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [isWebGLSupported, setIsWebGLSupported] = useState(true);
+  const trackRef = useRef(null);
+  const stickyRef = useRef(null);
+  const progressRef = useRef(0);
+  const labelRefs = useRef({});
+  const meterRef = useRef(null);
+  const chapterRef = useRef(null);
+  const compact = useCompactViewport();
+  const [armed, setArmed] = useState(false);
+  const [inView, setInView] = useState(false);
+  const [ready, setReady] = useState(false);
+  const [webgl] = useState(supportsWebGL);
 
-  // Check WebGL support on mount
+  const markReady = useCallback(() => setReady(true), []);
+
   useEffect(() => {
-    try {
-      const canvas = document.createElement('canvas');
-      const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
-      if (!gl) {
-        setIsWebGLSupported(false);
-        setError(new Error('WebGL not supported'));
-        setIsLoading(false);
-      }
-    } catch (e) {
-      setIsWebGLSupported(false);
-      setError(e);
-      setIsLoading(false);
-    }
+    const track = trackRef.current;
+    if (!track) return undefined;
+
+    const loader = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        useGLTF.preload(STATUE_URL, false, false);
+        setArmed(true);
+        loader.disconnect();
+      },
+      { rootMargin: '40% 0px' },
+    );
+    loader.observe(track);
+    return () => loader.disconnect();
   }, []);
 
-  const handleLoad = () => {
-    console.log('Model loaded successfully');
-    setIsLoading(false);
-  };
+  useEffect(() => {
+    const sticky = stickyRef.current;
+    if (!sticky) return undefined;
 
-  const handleError = (error) => {
-    console.error('Lighting Studio Error:', error);
-    setError(error);
-    setIsLoading(false);
-  };
+    const visibility = new IntersectionObserver(
+      ([entry]) => setInView(entry.isIntersecting),
+      { rootMargin: '80px 0px' },
+    );
+    visibility.observe(sticky);
+    return () => visibility.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const track = trackRef.current;
+    if (!track) return undefined;
+
+    const paint = (progress) => {
+      STAGES.forEach((stage) => {
+        const node = labelRefs.current[stage.id];
+        if (!node) return;
+        const opacity = labelOpacity(progress, stage.start, stage.end);
+        node.style.opacity = String(opacity);
+        node.setAttribute('aria-hidden', opacity > 0.4 ? 'false' : 'true');
+      });
+
+      if (meterRef.current) {
+        meterRef.current.style.transform = `scaleX(${progress})`;
+      }
+
+      if (chapterRef.current) {
+        const fade = 1 - Math.min(1, Math.max(0, (progress - 0.04) / 0.12));
+        chapterRef.current.style.opacity = String(fade);
+      }
+    };
+
+    const proxy = { p: 0 };
+    const ctx = gsap.context(() => {
+      gsap.to(proxy, {
+        p: 1,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: track,
+          start: 'top top',
+          end: 'bottom bottom',
+            scrub: 0.18,
+          invalidateOnRefresh: true,
+        },
+        onUpdate: () => {
+          progressRef.current = proxy.p;
+          paint(proxy.p);
+        },
+      });
+    });
+
+    paint(0);
+    document.fonts?.ready.then(() => ScrollTrigger.refresh());
+
+    return () => ctx.revert();
+  }, []);
+
+  const fallback = (
+    <div className="studio-fallback">
+      <p>This lighting studio needs WebGL.</p>
+      <p>Try Safari, Chrome, or Firefox with hardware acceleration turned on.</p>
+    </div>
+  );
 
   return (
-    <div className="lighting-studio-container" style={{ background: '#1a1a1a' }}>
-      {!isWebGLSupported && (
-        <div className="lighting-studio-error">
-          <p>3D View Not Available</p>
-          <p className="error-message">Your browser doesn't support WebGL. Please try Chrome, Firefox, or Edge.</p>
-        </div>
-      )}
+    <section
+      id="studio"
+      ref={trackRef}
+      className="studio-track"
+      aria-label="Lighting studio"
+    >
+      <div ref={stickyRef} className="studio-sticky">
+        <p className="sr-only">
+          Scroll to build a cinematic still: darkness, key light, light position, fill, color, rim light, and the finished frame.
+        </p>
 
-      {isLoading && isWebGLSupported && (
-        <div className="lighting-studio-loading">
-          <div className="loading-spinner"></div>
-          <p>Loading Studio...</p>
-        </div>
-      )}
+        {webgl && armed && (
+          <SceneBoundary fallback={fallback}>
+            <div className="studio-canvas">
+              <Canvas
+                shadows
+                frameloop={inView ? 'always' : 'never'}
+                dpr={compact ? [1, 1.25] : [1, 1.75]}
+                camera={{
+                  position: [0.02, 1.22, 6.5],
+                  fov: compact ? 34 : 30,
+                  near: 0.1,
+                  far: 40,
+                }}
+                gl={{
+                  antialias: !compact,
+                  alpha: false,
+                  stencil: false,
+                  powerPreference: compact ? 'default' : 'high-performance',
+                }}
+                onCreated={({ gl }) => {
+                  gl.toneMappingExposure = 0.98;
+                }}
+              >
+                <StudioScene progressRef={progressRef} compact={compact} onReady={markReady} />
+              </Canvas>
+            </div>
+          </SceneBoundary>
+        )}
 
-      {error && isWebGLSupported && (
-        <div className="lighting-studio-error">
-          <p>Failed to load 3D scene</p>
-          <p className="error-message">{error?.message || 'Unknown error'}</p>
-        </div>
-      )}
+        {!webgl && fallback}
 
-      {isWebGLSupported && !error && (
-        <div className="lighting-studio-canvas">
-          <Canvas
-            camera={{ position: [0, 0, 5], fov: 50 }}
-            gl={{
-              antialias: true,
-              alpha: false,
-              powerPreference: "high-performance"
-            }}
-            dpr={Math.min(window.devicePixelRatio, 2)}
-            onError={handleError}
-            style={{ width: '100%', height: '100%', background: '#2a2a2a' }}
-          >
-            <color attach="background" args={['#2a2a2a']} />
-            <Suspense fallback={<FallbackStatue />}>
-              <SimpleStatue onLoad={handleLoad} />
-            </Suspense>
-          </Canvas>
+        <div className="studio-vignette" />
+        <p ref={chapterRef} className="studio-chapter">03 — Lighting</p>
+
+        <div className="studio-ui">
+          {STAGES.map((stage) => (
+            <div
+              key={stage.id}
+              ref={(node) => {
+                labelRefs.current[stage.id] = node;
+              }}
+              className={`studio-label studio-label--${stage.id}`}
+              aria-hidden={stage.id !== 'darkness'}
+            >
+              {stage.kicker ? <span className="studio-kicker">{stage.kicker}</span> : null}
+              <h2>{stage.title}</h2>
+              {stage.subtitle ? <p>{stage.subtitle}</p> : null}
+            </div>
+          ))}
         </div>
-      )}
-    </div>
+
+        <div className="studio-meter" aria-hidden="true">
+          <span ref={meterRef} />
+        </div>
+
+        {webgl && armed && !ready && <p className="studio-status">Loading studio</p>}
+      </div>
+    </section>
   );
 }

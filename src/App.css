@@ -1,860 +1,284 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+.skip {
+  position: absolute;
+  left: 1rem;
+  top: -4rem;
+  z-index: 80;
+  padding: 0.6rem 0.9rem;
+  background: #e8e2d6;
+  color: #111;
+  text-decoration: none;
 }
 
-body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  background: #0a0a0a;
-  color: #ffffff;
-  overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
+.skip:focus {
+  top: 0.75rem;
 }
 
-/* Cinematic Prototype Container */
-.cinematic-prototype {
-  width: 100%;
-  min-height: 400vh; /* 4 sections now */
-  position: relative;
-}
-
-.section {
-  position: relative;
-  height: 100vh;
-  width: 100%;
-  z-index: 2;
+.nav {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 40;
   display: flex;
   align-items: center;
-  justify-content: center;
-  padding: 0 8%;
-}
-
-/* SECTION 1: Hero */
-.section-1 {
-  justify-content: flex-start;
-}
-
-/* SECTION 2: 3D Drone */
-.section-2 {
-  background: linear-gradient(135deg, #0a0a0a 0%, #111111 100%);
-}
-
-/* SECTION 3: Title Transition */
-.section-3 {
-  background: linear-gradient(135deg, #111111 0%, #0a0a0a 100%);
-  flex-direction: column;
-  text-align: center;
-}
-
-.transition-content {
-  max-width: 800px;
-  text-align: center;
-}
-
-.transition-title {
-  font-size: clamp(48px, 8vw, 120px);
-  font-weight: 200;
-  letter-spacing: 8px;
-  margin: 0;
-  line-height: 1.1;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.9);
-  text-shadow: 0 4px 30px rgba(0, 0, 0, 0.8);
-}
-
-.lighting-title {
-  color: rgba(255, 221, 170, 0.9);
-  margin-top: 20px;
-}
-
-.transition-subtitle {
-  font-size: clamp(14px, 2vw, 18px);
-  font-weight: 300;
-  letter-spacing: 4px;
-  margin-top: 40px;
-  opacity: 0.6;
-  text-transform: uppercase;
-}
-
-/* SECTION 4: Lighting Studio */
-.section-4 {
-  background: linear-gradient(135deg, #0a0a0a 0%, #111111 100%);
-  padding: 0;
-  z-index: 10;
-}
-
-.hero-content {
-  max-width: 600px;
+  justify-content: space-between;
+  gap: 1rem;
+  padding:
+    calc(1rem + env(safe-area-inset-top))
+    max(1.25rem, env(safe-area-inset-right))
+    1rem
+    max(1.25rem, env(safe-area-inset-left));
   pointer-events: none;
 }
 
-.brand-subtitle {
-  font-size: 11px;
-  letter-spacing: 6px;
-  text-transform: uppercase;
-  opacity: 0.5;
-  margin-bottom: 30px;
+.nav a {
+  pointer-events: auto;
+  text-decoration: none;
+}
+
+.wordmark {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 1.35rem;
   font-weight: 500;
-}
-
-.brand-title {
-  font-size: clamp(48px, 6vw, 96px);
-  line-height: 0.9;
-  font-weight: 300;
-  letter-spacing: -2px;
-  margin-bottom: 40px;
-}
-
-.title-line {
-  display: block;
-  opacity: 0;
-  animation: fadeInUp 1s ease forwards;
-}
-
-.title-line:nth-child(1) { animation-delay: 0.2s; }
-.title-line:nth-child(2) { animation-delay: 0.4s; }
-.title-line:nth-child(3) { animation-delay: 0.6s; }
-
-.scroll-hint {
-  font-size: 12px;
-  letter-spacing: 2px;
-  opacity: 0.4;
-  animation: pulse 2s ease-in-out infinite;
-}
-
-/* SECTION 2: About */
-.about-container {
-  width: 100%;
-  max-width: 1000px;
-}
-
-.about-content {
-  text-align: center;
-}
-
-.about-subtitle {
-  font-size: 11px;
-  letter-spacing: 6px;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  opacity: 0.5;
-  margin-bottom: 30px;
-  font-weight: 500;
 }
 
-.about-title {
-  font-size: clamp(36px, 5vw, 64px);
-  line-height: 1.1;
-  font-weight: 300;
-  letter-spacing: -1px;
-  margin-bottom: 40px;
-}
-
-.about-title-line {
-  display: block;
-  opacity: 0;
-  animation: fadeInUp 1s ease forwards;
-}
-
-.about-title-line:nth-child(1) { animation-delay: 0.2s; }
-.about-title-line:nth-child(2) { animation-delay: 0.4s; }
-.about-title-line:nth-child(3) { animation-delay: 0.6s; }
-
-.about-description {
-  font-size: clamp(14px, 1.5vw, 16px);
-  line-height: 1.8;
-  opacity: 0.7;
-  margin-bottom: 20px;
-  max-width: 700px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.about-stats {
+.nav nav {
   display: flex;
-  justify-content: center;
-  gap: 60px;
-  margin-top: 60px;
+  gap: 1.25rem;
 }
 
-.stat-item {
-  text-align: center;
-}
-
-.stat-number {
-  font-size: clamp(32px, 4vw, 48px);
-  font-weight: 200;
-  letter-spacing: -1px;
-  margin-bottom: 8px;
-}
-
-.stat-label {
-  font-size: 11px;
-  letter-spacing: 2px;
+.nav nav a {
+  font-size: 0.68rem;
+  letter-spacing: 0.28em;
   text-transform: uppercase;
-  opacity: 0.5;
+  color: rgba(232, 226, 214, 0.72);
 }
 
-/* SECTION 3: Services */
-.services-container {
-  width: 100%;
-  max-width: 1200px;
+.nav nav a:hover,
+.nav nav a:focus-visible {
+  color: #f4efe6;
 }
 
-.services-title {
-  font-size: clamp(32px, 4vw, 56px);
+.aerial {
+  position: relative;
+  z-index: 2;
+  background: #070708;
+  scroll-margin-top: 4.5rem;
+}
+
+.aerial-copy {
+  max-width: 40rem;
+  padding:
+    clamp(4.5rem, 10vh, 7rem)
+    max(6vw, env(safe-area-inset-right))
+    clamp(1.5rem, 4vh, 2.5rem)
+    max(6vw, env(safe-area-inset-left));
+}
+
+.aerial-copy h2 {
+  margin: 0 0 1rem;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(3rem, 7vw, 5.6rem);
+  font-weight: 500;
+  letter-spacing: -0.035em;
+  line-height: 0.92;
+}
+
+.aerial-copy p:last-child {
+  max-width: 34rem;
+  margin: 0;
+  font-size: 1rem;
   font-weight: 300;
-  letter-spacing: 4px;
-  margin-bottom: 60px;
-  text-align: center;
+  line-height: 1.7;
+  color: rgba(232, 226, 214, 0.72);
 }
 
-.services-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 40px;
+.aerial-stage {
+  position: relative;
+  height: 100vh;
+  height: 100dvh;
+  min-height: 32rem;
+  background-color: #080808;
+  background-image:
+    linear-gradient(rgba(232, 226, 214, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(232, 226, 214, 0.045) 1px, transparent 1px);
+  background-size: 72px 72px;
+  background-position: center;
 }
 
-.service-card {
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 4px;
-  padding: 40px;
-  transition: border-color 0.3s ease, background 0.3s ease, transform 0.3s ease;
+.aerial-corner {
+  position: absolute;
+  z-index: 3;
+  width: 1.25rem;
+  height: 1.25rem;
+  pointer-events: none;
+  border-color: rgba(196, 165, 116, 0.7);
+  border-style: solid;
 }
 
-.service-card:hover {
-  border-color: rgba(255, 255, 255, 0.1);
-  background: rgba(255, 255, 255, 0.04);
-  transform: translateY(-5px);
+.aerial-corner-tl { top: 1rem; left: 1rem; border-width: 1px 0 0 1px; }
+.aerial-corner-tr { top: 1rem; right: 1rem; border-width: 1px 1px 0 0; }
+.aerial-corner-bl { bottom: 1rem; left: 1rem; border-width: 0 0 1px 1px; }
+.aerial-corner-br { bottom: 1rem; right: 1rem; border-width: 0 1px 1px 0; }
+
+.aerial-hold {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  font-size: 0.72rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: rgba(232, 226, 214, 0.45);
 }
 
-.service-number {
-  font-size: clamp(32px, 4vw, 48px);
-  font-weight: 200;
-  letter-spacing: -1px;
-  opacity: 0.15;
-  margin-bottom: 20px;
-}
-
-.service-title {
-  font-size: clamp(18px, 2vw, 24px);
-  font-weight: 400;
-  letter-spacing: -0.5px;
-  margin-bottom: 16px;
-}
-
-.service-description {
-  font-size: 14px;
-  opacity: 0.6;
-  line-height: 1.6;
-}
-
-/* SECTION 4: 3D Drone */
 .drone-3d-container {
   width: 100%;
   height: 100%;
   position: relative;
-  background: linear-gradient(135deg, #0a0a0a 0%, #111111 100%);
+  background: transparent;
 }
 
 .drone-3d-container canvas {
   width: 100% !important;
   height: 100% !important;
+  touch-action: none;
 }
 
 .drone-3d-overlay {
   position: absolute;
-  bottom: 80px;
-  left: 50%;
-  transform: translateX(-50%);
+  right: max(1.25rem, env(safe-area-inset-right));
+  bottom: calc(1.4rem + env(safe-area-inset-bottom));
+  left: max(1.25rem, env(safe-area-inset-left));
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   text-align: center;
-  z-index: 10;
-  pointer-events: auto;
-  width: 90%;
-  max-width: 600px;
+  pointer-events: none;
 }
 
 .drone-3d-title {
-  font-size: clamp(24px, 4vw, 48px);
-  font-weight: 300;
-  letter-spacing: 8px;
-  margin-bottom: 10px;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+  margin: 0;
+  font-family: Outfit, "Segoe UI", sans-serif;
+  font-size: clamp(0.72rem, 1.4vw, 0.85rem);
+  font-weight: 400;
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
 }
 
 .drone-3d-subtitle {
-  font-size: 12px;
-  letter-spacing: 4px;
-  opacity: 0.6;
-  margin-bottom: 20px;
-  text-transform: uppercase;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+  margin: 0.4rem 0 0;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 1.35rem;
+  font-style: italic;
+  letter-spacing: 0;
+  text-transform: none;
+  color: rgba(232, 226, 214, 0.78);
 }
 
 .drone-3d-hint {
-  font-size: 11px;
-  letter-spacing: 2px;
-  opacity: 0.4;
+  margin: 0.35rem 0 0;
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-  margin-bottom: 30px;
+  color: rgba(232, 226, 214, 0.68);
 }
 
 .drone-controls {
   display: flex;
-  gap: 15px;
-  margin-top: 20px;
   flex-wrap: wrap;
   justify-content: center;
+  gap: 0.55rem;
+  margin-top: 1rem;
+  pointer-events: auto;
 }
 
 .drone-control-btn {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  color: white;
-  padding: 12px 24px;
-  font-size: 11px;
-  letter-spacing: 2px;
+  min-width: 5.5rem;
+  min-height: 2.75rem;
+  padding: 0.7rem 1rem;
+  border: 1px solid rgba(232, 226, 214, 0.22);
+  border-radius: 999px;
+  background: rgba(7, 7, 8, 0.55);
+  color: #e8e2d6;
+  font-family: inherit;
+  font-size: 0.68rem;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
   cursor: pointer;
-  transition: all 0.3s ease;
-  border-radius: 4px;
-  min-width: 80px;
+  -webkit-tap-highlight-color: transparent;
+  transition: border-color 0.25s ease, background 0.25s ease, color 0.25s ease;
 }
 
 .drone-control-btn:hover {
-  background: rgba(255, 255, 255, 0.15);
-  border-color: rgba(255, 255, 255, 0.3);
-  transform: translateY(-2px);
+  border-color: rgba(232, 226, 214, 0.45);
 }
 
 .drone-control-btn.active {
-  background: rgba(255, 255, 255, 0.25);
-  border-color: rgba(255, 255, 255, 0.5);
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
-}
-
-/* Mobile responsive styles */
-@media (max-width: 768px) {
-  .drone-3d-container {
-    min-height: 100vh;
-    height: auto;
-  }
-
-  .drone-3d-overlay {
-    bottom: 20px;
-    padding: 0 15px;
-    width: 95%;
-  }
-
-  .drone-3d-title {
-    font-size: clamp(16px, 4vw, 24px);
-    letter-spacing: 4px;
-    margin-bottom: 8px;
-  }
-
-  .drone-3d-subtitle {
-    font-size: clamp(11px, 2.5vw, 14px);
-    margin-bottom: 8px;
-  }
-
-  .drone-3d-hint {
-    font-size: 9px;
-    margin-bottom: 15px;
-    letter-spacing: 1px;
-  }
-
-  .drone-controls {
-    gap: 8px;
-    margin-top: 12px;
-  }
-
-  .drone-control-btn {
-    padding: 8px 12px;
-    font-size: 9px;
-    min-width: 60px;
-    letter-spacing: 1px;
-  }
-}
-
-@media (max-width: 480px) {
-  .drone-3d-overlay {
-    bottom: 15px;
-    padding: 0 10px;
-  }
-
-  .drone-3d-title {
-    font-size: clamp(14px, 5vw, 20px);
-    letter-spacing: 3px;
-  }
-
-  .drone-3d-subtitle {
-    font-size: 10px;
-  }
-
-  .drone-3d-hint {
-    font-size: 8px;
-    margin-bottom: 12px;
-  }
-
-  .drone-controls {
-    gap: 6px;
-    margin-top: 10px;
-  }
-
-  .drone-control-btn {
-    padding: 6px 10px;
-    font-size: 8px;
-    min-width: 50px;
-    letter-spacing: 0.5px;
-  }
-}
-
-.lighting-studio-container {
-  width: 100%;
-  height: 100vh;
-  position: relative;
-  background: linear-gradient(135deg, #050505 0%, #0a0a0a 100%);
-  overflow: hidden;
-}
-
-.lighting-studio-canvas {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-}
-
-.lighting-studio-overlay {
-  position: absolute;
-  top: 50%;
-  left: 8%;
-  transform: translateY(-50%);
-  z-index: 15;
-  pointer-events: none;
-}
-
-.lighting-studio-labels {
-  color: rgba(255, 255, 255, 0.9);
-}
-
-.stage-number {
-  font-size: clamp(48px, 8vw, 120px);
-  font-weight: 200;
-  letter-spacing: 8px;
-  opacity: 0.3;
-  display: block;
-  margin-bottom: 10px;
-  line-height: 1;
-}
-
-.stage-title {
-  font-size: clamp(24px, 4vw, 48px);
-  font-weight: 300;
-  letter-spacing: 6px;
-  margin-bottom: 8px;
-  text-transform: uppercase;
-  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.8);
-}
-
-.stage-subtitle {
-  font-size: clamp(12px, 2vw, 16px);
-  font-weight: 300;
-  letter-spacing: 2px;
-  opacity: 0.6;
-  text-transform: uppercase;
-}
-
-.lighting-studio-progress {
-  position: absolute;
-  bottom: 30px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 200px;
-  height: 2px;
-  background: rgba(255, 255, 255, 0.1);
-  z-index: 15;
-}
-
-.progress-bar {
-  height: 100%;
-  background: rgba(255, 255, 255, 0.5);
-  transition: width 0.1s ease-out;
-}
-
-/* Mobile responsive for Lighting Studio */
-@media (max-width: 768px) {
-  .transition-title {
-    font-size: clamp(36px, 10vw, 72px);
-    letter-spacing: 4px;
-  }
-
-  .transition-subtitle {
-    font-size: clamp(10px, 3vw, 14px);
-  }
-
-  .lighting-studio-overlay {
-    left: 5%;
-    right: 5%;
-    text-align: center;
-    top: 35%;
-  }
-
-  .stage-number {
-    font-size: clamp(36px, 10vw, 72px);
-    letter-spacing: 4px;
-  }
-
-  .stage-title {
-    font-size: clamp(18px, 5vw, 32px);
-    letter-spacing: 4px;
-  }
-
-  .stage-subtitle {
-    font-size: clamp(10px, 3vw, 14px);
-  }
-
-  .lighting-studio-progress {
-    width: 150px;
-    bottom: 20px;
-  }
-}
-
-@media (max-width: 480px) {
-  .transition-title {
-    font-size: clamp(28px, 12vw, 56px);
-    letter-spacing: 2px;
-  }
-
-  .transition-subtitle {
-    font-size: 9px;
-  }
-
-  .lighting-studio-overlay {
-    top: 30%;
-  }
-
-  .stage-number {
-    font-size: clamp(28px, 12vw, 56px);
-    letter-spacing: 2px;
-  }
-
-  .stage-title {
-    font-size: clamp(14px, 6vw, 24px);
-    letter-spacing: 2px;
-  }
-
-  .stage-subtitle {
-    font-size: 9px;
-  }
-}
-
-.lighting-studio-loading,
-.lighting-studio-error {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  z-index: 5;
-  background: linear-gradient(135deg, #050505 0%, #0a0a0a 100%);
-}
-
-.lighting-studio-loading p,
-.lighting-studio-error p {
-  font-size: 14px;
-  opacity: 0.6;
-  margin-top: 20px;
+  border-color: rgba(196, 165, 116, 0.9);
+  background: rgba(196, 165, 116, 0.16);
+  color: #f6efe2;
 }
 
 .drone-loading,
 .drone-error {
   position: absolute;
   inset: 0;
+  z-index: 5;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  z-index: 5;
-  background: linear-gradient(135deg, #0a0a0a 0%, #111111 100%);
+  background: rgba(8, 8, 8, 0.88);
 }
 
 .drone-loading p,
 .drone-error p {
-  font-size: 14px;
-  opacity: 0.6;
-  margin-top: 20px;
+  margin-top: 1rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(232, 226, 214, 0.62);
 }
 
 .loading-spinner {
-  width: 40px;
-  height: 40px;
-  border: 2px solid rgba(255, 255, 255, 0.1);
-  border-top-color: rgba(255, 255, 255, 0.5);
+  width: 2rem;
+  height: 2rem;
+  border: 1px solid rgba(232, 226, 214, 0.16);
+  border-top-color: rgba(232, 226, 214, 0.75);
   border-radius: 50%;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
+  animation: spin 0.9s linear infinite;
 }
 
 .error-message {
-  font-size: 12px !important;
-  opacity: 0.4 !important;
-  margin-top: 10px !important;
-}
-
-/* SECTION 5: Selected Work */
-.projects-container {
-  width: 100%;
-  max-width: 1400px;
-}
-
-.projects-title {
-  font-size: clamp(32px, 4vw, 56px);
-  font-weight: 300;
-  letter-spacing: 4px;
-  margin-bottom: 60px;
+  max-width: 18rem;
+  font-size: 0.75rem !important;
+  letter-spacing: 0.04em !important;
+  text-transform: none !important;
   text-align: center;
+  line-height: 1.5;
 }
 
-.projects-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 40px;
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
 
-.project-card {
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 4px;
-  overflow: hidden;
-  transition: border-color 0.3s ease, background 0.3s ease;
-}
-
-.project-card:hover {
-  border-color: rgba(255, 255, 255, 0.1);
-  background: rgba(255, 255, 255, 0.04);
-}
-
-.project-placeholder {
-  position: relative;
-  aspect-ratio: 16/9;
-  background: linear-gradient(135deg, #151515, #1a1a1a);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.project-number {
-  font-size: clamp(48px, 6vw, 72px);
-  font-weight: 200;
-  letter-spacing: -2px;
-  opacity: 0.15;
-}
-
-.project-info {
-  padding: 30px;
-}
-
-.project-category {
-  font-size: 10px;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  opacity: 0.5;
-  margin-bottom: 12px;
-  display: block;
-}
-
-.project-name {
-  font-size: clamp(18px, 2vw, 24px);
-  font-weight: 400;
-  letter-spacing: -0.5px;
-  margin-bottom: 12px;
-  line-height: 1.3;
-}
-
-.project-description {
-  font-size: 13px;
-  opacity: 0.6;
-  line-height: 1.6;
-}
-
-/* Animations */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes pulse {
-  0%, 100% {
-    opacity: 0.4;
-  }
-  50% {
-    opacity: 0.7;
-  }
-}
-
-/* SECTION 6: Contact */
-.contact-container {
-  width: 100%;
-  max-width: 800px;
-}
-
-.contact-content {
-  text-align: center;
-}
-
-.contact-subtitle {
-  font-size: 11px;
-  letter-spacing: 6px;
-  text-transform: uppercase;
-  opacity: 0.5;
-  margin-bottom: 30px;
-  font-weight: 500;
-}
-
-.contact-title {
-  font-size: clamp(32px, 5vw, 56px);
-  font-weight: 300;
-  letter-spacing: 2px;
-  margin-bottom: 30px;
-}
-
-.contact-description {
-  font-size: clamp(14px, 1.5vw, 16px);
-  line-height: 1.8;
-  opacity: 0.7;
-  margin-bottom: 50px;
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.contact-info {
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
-  margin-bottom: 50px;
-  max-width: 400px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.contact-item {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  text-align: left;
-}
-
-.contact-icon {
-  font-size: 24px;
-  opacity: 0.8;
-}
-
-.contact-details {
-  flex: 1;
-}
-
-.contact-label {
-  font-size: 10px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  opacity: 0.5;
-  margin-bottom: 4px;
-}
-
-.contact-value {
-  font-size: 14px;
-  opacity: 0.8;
-}
-
-.contact-button {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  color: white;
-  padding: 16px 40px;
-  font-size: 12px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: background 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
-  border-radius: 4px;
-}
-
-.contact-button:hover {
-  background: rgba(255, 255, 255, 0.15);
-  border-color: rgba(255, 255, 255, 0.3);
-  transform: translateY(-2px);
-}
-
-/* Responsive Design */
-@media (max-width: 1024px) {
-  .projects-grid {
-    grid-template-columns: repeat(2, 1fr);
+@media (max-width: 640px) {
+  .nav nav {
+    gap: 0.8rem;
   }
 
-  .services-grid {
-    grid-template-columns: 1fr;
+  .nav nav a {
+    letter-spacing: 0.16em;
   }
 
-  .about-stats {
-    gap: 40px;
-  }
-
-  .drone-3d-overlay {
-    bottom: 40px;
-  }
-}
-
-@media (max-width: 768px) {
-  .section {
-    padding: 0 5%;
-  }
-
-  .brand-title {
-    letter-spacing: -1px;
-  }
-
-  .projects-grid {
-    grid-template-columns: 1fr;
-    gap: 30px;
-  }
-
-  .drone-3d-title {
-    letter-spacing: 4px;
-  }
-
-  .about-stats {
-    flex-direction: column;
-    gap: 30px;
-  }
-
-  .contact-info {
-    gap: 20px;
-  }
-
-  .about-title,
-  .services-title,
-  .projects-title,
-  .contact-title {
-    letter-spacing: 1px;
-  }
-
-  .drone-3d-overlay {
-    bottom: 30px;
+  .aerial-stage {
+    min-height: 100vh;
+    min-height: 100dvh;
   }
 }

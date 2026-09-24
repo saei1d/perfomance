@@ -1,0 +1,227 @@
+.studio-track {
+  position: relative;
+  height: 520vh;
+  background: #050505;
+  color: #e8e2d6;
+}
+
+.studio-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  background: #050505;
+}
+
+.studio-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.studio-canvas canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+  touch-action: pan-y;
+}
+
+.studio-vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at center, transparent 42%, rgba(0, 0, 0, 0.45) 100%),
+    linear-gradient(to top, rgba(0, 0, 0, 0.35), transparent 28%);
+}
+
+.studio-chapter {
+  position: absolute;
+  top: calc(5.2rem + env(safe-area-inset-top));
+  left: max(1.5rem, env(safe-area-inset-left));
+  z-index: 4;
+  margin: 0;
+  font-family: Outfit, "Segoe UI", sans-serif;
+  font-size: 0.68rem;
+  font-weight: 400;
+  letter-spacing: 0.38em;
+  text-transform: uppercase;
+  color: rgba(232, 226, 214, 0.55);
+  pointer-events: none;
+}
+
+.studio-ui {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+}
+
+.studio-label {
+  position: absolute;
+  left: max(6vw, env(safe-area-inset-left));
+  bottom: 14vh;
+  max-width: min(28rem, 46vw);
+  opacity: 0;
+  transition: opacity 0.05s linear;
+}
+
+.studio-kicker {
+  display: block;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(2.6rem, 5vw, 4.4rem);
+  font-weight: 500;
+  line-height: 0.85;
+  letter-spacing: -0.03em;
+  color: rgba(232, 226, 214, 0.38);
+}
+
+.studio-label h2 {
+  margin: 0.45rem 0 0;
+  font-family: Outfit, "Segoe UI", sans-serif;
+  font-size: 0.78rem;
+  font-weight: 400;
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
+}
+
+.studio-label p {
+  margin: 0.65rem 0 0;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(1.15rem, 2vw, 1.55rem);
+  font-style: italic;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+  color: rgba(232, 226, 214, 0.72);
+}
+
+.studio-label--darkness {
+  opacity: 1;
+}
+
+.studio-label--final {
+  left: max(6vw, env(safe-area-inset-left));
+  bottom: 14vh;
+  width: min(14rem, 36vw);
+  max-width: none;
+  text-align: left;
+  transform: none;
+}
+
+.studio-label--final h2,
+.studio-label--final p {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(2.1rem, 4.2vw, 3.6rem);
+  font-weight: 500;
+  letter-spacing: -0.035em;
+  line-height: 0.9;
+  text-transform: none;
+  color: #e8e2d6;
+}
+
+.studio-label--final p {
+  margin-top: 0.15rem;
+  font-style: italic;
+  color: rgba(232, 226, 214, 0.82);
+}
+
+.studio-meter {
+  position: absolute;
+  left: 50%;
+  bottom: calc(1.4rem + env(safe-area-inset-bottom));
+  z-index: 4;
+  width: min(9rem, 28vw);
+  height: 1px;
+  transform: translateX(-50%);
+  background: rgba(232, 226, 214, 0.16);
+  pointer-events: none;
+}
+
+.studio-meter span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: rgba(232, 226, 214, 0.7);
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
+.studio-status,
+.studio-fallback {
+  position: absolute;
+  z-index: 5;
+  margin: 0;
+  color: rgba(232, 226, 214, 0.62);
+  font-family: Outfit, "Segoe UI", sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+}
+
+.studio-status {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.studio-fallback {
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  text-align: center;
+  padding: 2rem;
+  background: #050505;
+}
+
+.studio-fallback p {
+  margin: 0;
+  max-width: 22rem;
+  letter-spacing: 0.04em;
+  text-transform: none;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+@media (max-width: 900px) {
+  .studio-track {
+    height: 400vh;
+  }
+
+  .studio-label {
+    left: max(1.25rem, env(safe-area-inset-left));
+    right: max(1.25rem, env(safe-area-inset-right));
+    bottom: auto;
+    top: calc(6.5rem + env(safe-area-inset-top));
+    width: auto;
+    max-width: 14rem;
+    text-align: left;
+    transform: none;
+  }
+
+  .studio-label--final {
+    top: auto;
+    bottom: calc(4.5rem + env(safe-area-inset-bottom));
+    width: min(12rem, 46vw);
+  }
+
+  .studio-label--final h2,
+  .studio-label--final p {
+    font-size: clamp(2.2rem, 10vw, 3.4rem);
+  }
+
+  .studio-chapter {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .studio-label {
+    transition: none;
+  }
+}
