@@ -3,13 +3,23 @@ import { useGLTF, Environment } from '@react-three/drei';
 import { Suspense, useState, useEffect, useRef } from 'react';
 import * as THREE from 'three';
 
+// Fallback component if model fails to load
+function FallbackStatue() {
+  return (
+    <mesh>
+      <boxGeometry args={[1, 2, 1]} />
+      <meshStandardMaterial color="#888888" />
+    </mesh>
+  );
+}
+
 function SimpleStatue({ onLoad }) {
   const { scene } = useGLTF('/perfomance/output5.glb');
   const modelRef = useRef();
 
   useEffect(() => {
     if (scene) {
-      console.log('Scene loaded:', scene);
+      console.log('Scene loaded successfully, children:', scene.children.length);
 
       // Center and normalize the model
       const box = new THREE.Box3().setFromObject(scene);
@@ -18,24 +28,33 @@ function SimpleStatue({ onLoad }) {
 
       console.log('Model bounds:', { center, size });
 
-      // Center the model
-      scene.position.x = -center.x;
-      scene.position.y = -center.y;
-      scene.position.z = -center.z;
+      // Center the model manually
+      scene.position.set(0, 0.5, 0); // Adjust Y position for centering
 
       // Normalize scale to fit in a reasonable size
       const maxDim = Math.max(size.x, size.y, size.z);
-      const scale = 0.8 / maxDim;
+      const scale = 1.8 / maxDim; // Smaller scale
       scene.scale.set(scale, scale, scale);
 
       console.log('Model scale:', scale);
 
       scene.traverse((child) => {
         if (child.isMesh) {
+          console.log('Found mesh:', child.name);
           child.castShadow = true;
           child.receiveShadow = true;
           if (child.material) {
             child.material.needsUpdate = true;
+            // Force materials to be visible
+            if (child.material.color) {
+              child.material.color.setHex(0xffffff);
+            }
+            if (child.material.roughness !== undefined) {
+              child.material.roughness = 0.3;
+            }
+            if (child.material.metalness !== undefined) {
+              child.material.metalness = 0.1;
+            }
           }
         }
       });
@@ -48,9 +67,10 @@ function SimpleStatue({ onLoad }) {
     <>
       <primitive ref={modelRef} object={scene} position={[0, 0, 0]} />
       <Environment preset="studio" background={false} />
-      <ambientLight intensity={0.6} />
-      <directionalLight position={[5, 5, 5]} intensity={1} castShadow />
-      <directionalLight position={[-5, 3, -5]} intensity={0.5} />
+      <ambientLight intensity={5.0} color="#ffffff" />
+      <directionalLight position={[5, 5, 5]} intensity={10} color="#ffffff" castShadow />
+      <directionalLight position={[-5, 3, -5]} intensity={5} color="#ffffff" />
+      <pointLight position={[0, 3, 2]} intensity={5} color="#ffffff" />
     </>
   );
 }
@@ -89,7 +109,7 @@ export default function LightingStudio() {
   };
 
   return (
-    <div className="lighting-studio-container">
+    <div className="lighting-studio-container" style={{ background: '#1a1a1a' }}>
       {!isWebGLSupported && (
         <div className="lighting-studio-error">
           <p>3D View Not Available</p>
@@ -117,14 +137,15 @@ export default function LightingStudio() {
             camera={{ position: [0, 0, 5], fov: 50 }}
             gl={{
               antialias: true,
-              alpha: true,
+              alpha: false,
               powerPreference: "high-performance"
             }}
             dpr={Math.min(window.devicePixelRatio, 2)}
             onError={handleError}
-            style={{ width: '100%', height: '100%', opacity: isLoading ? 0 : 1 }}
+            style={{ width: '100%', height: '100%', background: '#2a2a2a' }}
           >
-            <Suspense fallback={null}>
+            <color attach="background" args={['#2a2a2a']} />
+            <Suspense fallback={<FallbackStatue />}>
               <SimpleStatue onLoad={handleLoad} />
             </Suspense>
           </Canvas>
