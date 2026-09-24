@@ -486,6 +486,15 @@ body {
 
 /* Mobile responsive for Lighting Studio */
 @media (max-width: 768px) {
+  .transition-title {
+    font-size: clamp(36px, 10vw, 72px);
+    letter-spacing: 4px;
+  }
+
+  .transition-subtitle {
+    font-size: clamp(10px, 3vw, 14px);
+  }
+
   .lighting-studio-overlay {
     left: 5%;
     right: 5%;
@@ -514,6 +523,15 @@ body {
 }
 
 @media (max-width: 480px) {
+  .transition-title {
+    font-size: clamp(28px, 12vw, 56px);
+    letter-spacing: 2px;
+  }
+
+  .transition-subtitle {
+    font-size: 9px;
+  }
+
   .lighting-studio-overlay {
     top: 30%;
   }
