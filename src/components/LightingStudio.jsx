@@ -111,14 +111,14 @@ function CameraRig({ progress }) {
     // Camera movement (0.90 - 1.0)
     if (p >= 0.90) {
       const cameraProgress = THREE.MathUtils.mapLinear(p, 0.90, 1.0, 0, 1);
-      const startPos = [0, 0.5, 6];
-      const endPos = [0, 0.3, 4.5];
+      const startPos = [0, 0.5, 8]; // Further back to see larger model
+      const endPos = [0, 0.3, 6];  // Closer at the end
 
       state.camera.position.x = THREE.MathUtils.lerp(startPos[0], endPos[0], cameraProgress);
       state.camera.position.y = THREE.MathUtils.lerp(startPos[1], endPos[1], cameraProgress);
       state.camera.position.z = THREE.MathUtils.lerp(startPos[2], endPos[2], cameraProgress);
     } else {
-      state.camera.position.set(0, 0.5, 6);
+      state.camera.position.set(0, 0.5, 8); // Further back initially
     }
 
     state.camera.lookAt(0, 0, 0);
@@ -156,9 +156,9 @@ function CanvasContent({ progress, onLoad }) {
       scene.position.y = -center.y;
       scene.position.z = -center.z;
 
-      // Normalize scale to fit in a reasonable size
+      // Normalize scale to fit in a reasonable size - make it larger for better visibility
       const maxDim = Math.max(size.x, size.y, size.z);
-      const scale = 2 / maxDim;
+      const scale = 3 / maxDim; // Increased from 2 to 3 for larger display
       scene.scale.set(scale, scale, scale);
 
       console.log('Model scale:', scale);
@@ -308,7 +308,7 @@ export default function LightingStudio() {
       {isWebGLSupported && !error && (
         <div className="lighting-studio-canvas">
           <Canvas
-            camera={{ position: [0, 0.5, 6], fov: 45 }}
+            camera={{ position: [0, 0.5, 8], fov: 50 }}
             gl={{
               antialias: true,
               alpha: true,
