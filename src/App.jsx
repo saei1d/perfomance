@@ -5,6 +5,7 @@ import ProjectCards from "./components/ProjectCards";
 import Services from "./components/Services";
 import About from "./components/About";
 import Contact from "./components/Contact";
+import LightingStudio from "./components/LightingStudio";
 import "./App.css";
 
 function App() {
@@ -64,13 +65,18 @@ function App() {
         <Drone3D />
       </section>
 
-      {/* SECTION 5: Selected Work */}
+      {/* SECTION 5: Lighting Studio */}
       <section className="section section-5">
+        <LightingStudio />
+      </section>
+
+      {/* SECTION 6: Selected Work */}
+      <section className="section section-6">
         <ProjectCards />
       </section>
 
-      {/* SECTION 6: Contact */}
-      <section className="section section-6">
+      {/* SECTION 7: Contact */}
+      <section className="section section-7">
         <Contact />
       </section>
     </main>

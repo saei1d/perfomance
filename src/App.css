@@ -15,8 +15,18 @@ body {
 /* Cinematic Prototype Container */
 .cinematic-prototype {
   width: 100%;
-  min-height: 600vh; /* 6 sections */
+  min-height: 700vh; /* 7 sections now */
   position: relative;
+}
+
+.section {
+  min-height: 100vh;
+  width: 100%;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 8%;
 }
 
 /* Sections */
@@ -34,6 +44,36 @@ body {
 /* SECTION 1: Hero */
 .section-1 {
   justify-content: flex-start;
+}
+
+/* SECTION 2: About */
+.section-2 {
+  background: linear-gradient(135deg, #0a0a0a 0%, #111111 100%);
+}
+
+/* SECTION 3: Services */
+.section-3 {
+  background: linear-gradient(135deg, #111111 0%, #0a0a0a 100%);
+}
+
+/* SECTION 4: 3D Drone */
+.section-4 {
+  background: linear-gradient(135deg, #0a0a0a 0%, #111111 100%);
+}
+
+/* SECTION 5: Lighting Studio */
+.section-5 {
+  background: linear-gradient(135deg, #111111 0%, #0a0a0a 100%);
+}
+
+/* SECTION 6: Selected Work */
+.section-6 {
+  background: linear-gradient(135deg, #0a0a0a 0%, #111111 100%);
+}
+
+/* SECTION 7: Contact */
+.section-7 {
+  background: linear-gradient(135deg, #111111 0%, #0a0a0a 100%);
 }
 
 .hero-content {
@@ -360,6 +400,128 @@ body {
     font-size: 8px;
     min-width: 50px;
     letter-spacing: 0.5px;
+  }
+}
+
+/* SECTION 5: Lighting Studio */
+.lighting-studio-container {
+  width: 100%;
+  height: 100vh;
+  position: relative;
+  background: linear-gradient(135deg, #050505 0%, #0a0a0a 100%);
+  overflow: hidden;
+}
+
+.lighting-studio-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.lighting-studio-overlay {
+  position: absolute;
+  top: 50%;
+  left: 8%;
+  transform: translateY(-50%);
+  z-index: 10;
+  pointer-events: none;
+}
+
+.lighting-studio-labels {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.stage-number {
+  font-size: clamp(48px, 8vw, 120px);
+  font-weight: 200;
+  letter-spacing: 8px;
+  opacity: 0.3;
+  display: block;
+  margin-bottom: 10px;
+  line-height: 1;
+}
+
+.stage-title {
+  font-size: clamp(24px, 4vw, 48px);
+  font-weight: 300;
+  letter-spacing: 6px;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.8);
+}
+
+.stage-subtitle {
+  font-size: clamp(12px, 2vw, 16px);
+  font-weight: 300;
+  letter-spacing: 2px;
+  opacity: 0.6;
+  text-transform: uppercase;
+}
+
+.lighting-studio-progress {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200px;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.1);
+  z-index: 10;
+}
+
+.progress-bar {
+  height: 100%;
+  background: rgba(255, 255, 255, 0.5);
+  transition: width 0.1s ease-out;
+}
+
+/* Mobile responsive for Lighting Studio */
+@media (max-width: 768px) {
+  .lighting-studio-overlay {
+    left: 5%;
+    right: 5%;
+    text-align: center;
+    top: 40%;
+  }
+
+  .stage-number {
+    font-size: clamp(36px, 10vw, 72px);
+    letter-spacing: 4px;
+  }
+
+  .stage-title {
+    font-size: clamp(18px, 5vw, 32px);
+    letter-spacing: 4px;
+  }
+
+  .stage-subtitle {
+    font-size: clamp(10px, 3vw, 14px);
+  }
+
+  .lighting-studio-progress {
+    width: 150px;
+    bottom: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .lighting-studio-overlay {
+    top: 35%;
+  }
+
+  .stage-number {
+    font-size: clamp(28px, 12vw, 56px);
+    letter-spacing: 2px;
+  }
+
+  .stage-title {
+    font-size: clamp(14px, 6vw, 24px);
+    letter-spacing: 2px;
+  }
+
+  .stage-subtitle {
+    font-size: 9px;
   }
 }
 
