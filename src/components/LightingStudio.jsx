@@ -65,22 +65,23 @@ function Lights({ progress }) {
       {/* Key Light */}
       <spotLight
         ref={keyLightRef}
-        position={[-4, 3, 2]}
-        angle={0.5}
-        penumbra={0.5}
+        position={[-5, 4, 3]}
+        angle={0.6}
+        penumbra={0.4}
         intensity={0}
         castShadow
-        shadow-mapSize-width={1024}
-        shadow-mapSize-height={1024}
+        shadow-mapSize-width={2048}
+        shadow-mapSize-height={2048}
+        shadow-bias={-0.0001}
         color={0xffffff}
       />
 
       {/* Fill Light */}
       <spotLight
         ref={fillLightRef}
-        position={[4, 2, 2]}
-        angle={0.6}
-        penumbra={0.8}
+        position={[5, 3, 3]}
+        angle={0.8}
+        penumbra={0.6}
         intensity={0}
         color={0xffffff}
       />
@@ -88,15 +89,15 @@ function Lights({ progress }) {
       {/* Rim Light */}
       <spotLight
         ref={rimLightRef}
-        position={[0, 1, -4]}
-        angle={0.3}
-        penumbra={0.3}
+        position={[0, 2, -5]}
+        angle={0.4}
+        penumbra={0.4}
         intensity={0}
         color={0xffddaa}
       />
 
       {/* Very subtle ambient light */}
-      <ambientLight intensity={0.05} />
+      <ambientLight intensity={0.03} />
     </>
   );
 }
@@ -110,14 +111,14 @@ function CameraRig({ progress }) {
     // Camera movement (0.90 - 1.0)
     if (p >= 0.90) {
       const cameraProgress = THREE.MathUtils.mapLinear(p, 0.90, 1.0, 0, 1);
-      const startPos = [0, 0, 5];
-      const endPos = [0, 0.2, 4];
+      const startPos = [0, 0.5, 6];
+      const endPos = [0, 0.3, 4.5];
 
       state.camera.position.x = THREE.MathUtils.lerp(startPos[0], endPos[0], cameraProgress);
       state.camera.position.y = THREE.MathUtils.lerp(startPos[1], endPos[1], cameraProgress);
       state.camera.position.z = THREE.MathUtils.lerp(startPos[2], endPos[2], cameraProgress);
     } else {
-      state.camera.position.set(0, 0, 5);
+      state.camera.position.set(0, 0.5, 6);
     }
 
     state.camera.lookAt(0, 0, 0);
@@ -128,27 +129,51 @@ function CameraRig({ progress }) {
 
 function StudioFloor() {
   return (
-    <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1, 0]} receiveShadow>
-      <planeGeometry args={[20, 20]} />
-      <shadowMaterial opacity={0.3} />
+    <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1.5, 0]} receiveShadow>
+      <planeGeometry args={[30, 30]} />
+      <shadowMaterial opacity={0.4} />
     </mesh>
   );
 }
 
 function CanvasContent({ progress, onLoad }) {
   const { scene } = useGLTF('/perfomance/output5.glb');
+  const modelRef = useRef();
 
   useEffect(() => {
     if (scene) {
+      // Center and normalize the model
+      const box = new THREE.Box3().setFromObject(scene);
+      const center = box.getCenter(new THREE.Vector3());
+      const size = box.getSize(new THREE.Vector3());
+
+      // Center the model
+      scene.position.x = -center.x;
+      scene.position.y = -center.y;
+      scene.position.z = -center.z;
+
+      // Normalize scale to fit in a reasonable size
+      const maxDim = Math.max(size.x, size.y, size.z);
+      const scale = 2 / maxDim;
+      scene.scale.set(scale, scale, scale);
+
       scene.traverse((child) => {
         if (child.isMesh) {
           child.castShadow = true;
           child.receiveShadow = true;
           if (child.material) {
             child.material.needsUpdate = true;
+            // Optimize materials for better lighting
+            if (child.material.roughness !== undefined) {
+              child.material.roughness = Math.min(child.material.roughness, 0.8);
+            }
+            if (child.material.metalness !== undefined) {
+              child.material.metalness = Math.min(child.material.metalness, 0.9);
+            }
           }
         }
       });
+
       if (onLoad) onLoad();
     }
   }, [scene, onLoad]);
@@ -156,10 +181,11 @@ function CanvasContent({ progress, onLoad }) {
   return (
     <>
       <CameraRig progress={progress} />
-      <primitive object={scene} scale={1.5} position={[0, 0, 0]} rotation={[0, Math.PI, 0]} />
+      <primitive ref={modelRef} object={scene} position={[0, 0, 0]} />
       <Lights progress={progress} />
       <StudioFloor />
       <Environment preset="studio" background={false} />
+      <hemisphereLight args={[0x222222, 0x111111, 0.1]} />
     </>
   );
 }
@@ -271,7 +297,7 @@ export default function LightingStudio() {
       {isWebGLSupported && !error && (
         <div className="lighting-studio-canvas">
           <Canvas
-            camera={{ position: [0, 0, 5], fov: 45 }}
+            camera={{ position: [0, 0.5, 6], fov: 45 }}
             gl={{
               antialias: true,
               alpha: true,
