@@ -202,49 +202,81 @@ export default function Drone3D() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [droneState, setDroneState] = useState(DRONE_STATES.OFF);
+  const [isWebGLSupported, setIsWebGLSupported] = useState(true);
+
+  // Check WebGL support on mount
+  useEffect(() => {
+    try {
+      const canvas = document.createElement('canvas');
+      const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+      if (!gl) {
+        setIsWebGLSupported(false);
+        setError(new Error('WebGL not supported'));
+        setIsLoading(false);
+      }
+    } catch (e) {
+      setIsWebGLSupported(false);
+      setError(e);
+      setIsLoading(false);
+    }
+  }, []);
 
   const handleLoad = () => {
     setIsLoading(false);
   };
 
   const handleError = (error) => {
+    console.error('3D Canvas Error:', error);
     setError(error);
     setIsLoading(false);
   };
 
   return (
     <div className="drone-3d-container">
-      {isLoading && (
+      {!isWebGLSupported && (
+        <div className="drone-error">
+          <p>3D View Not Available</p>
+          <p className="error-message">Your browser doesn't support WebGL. Please try Chrome, Firefox, or Edge.</p>
+        </div>
+      )}
+
+      {isLoading && isWebGLSupported && (
         <div className="drone-loading">
           <div className="loading-spinner"></div>
           <p>Loading 3D Model...</p>
         </div>
       )}
-      
-      {error && (
+
+      {error && isWebGLSupported && (
         <div className="drone-error">
           <p>Failed to load 3D model</p>
-          <p className="error-message">{error?.message || 'Unknown error'}</p>
+          <p className="error-message">Please try refreshing the page or using a different browser</p>
         </div>
       )}
-      
-      <Canvas
-        camera={{ position: [0, 0, 15], fov: 30 }}
-        gl={{ 
-          antialias: true, 
-          alpha: true,
-          powerPreference: "high-performance"
-        }}
-        dpr={[1, 2]}
-        onError={handleError}
-        style={{ opacity: isLoading || error ? 0 : 1 }}
-      >
+
+      {isWebGLSupported && (
+        <Canvas
+          camera={{ position: [0, 0, 15], fov: 30 }}
+          gl={{
+            antialias: true,
+            alpha: true,
+            powerPreference: "high-performance",
+            preserveDrawingBuffer: true,
+            stencil: false,
+            depth: true
+          }}
+          dpr={Math.min(window.devicePixelRatio, 2)}
+          onError={handleError}
+          style={{ opacity: isLoading ? 0 : 1 }}
+        >
         <Suspense fallback={null}>
           <CanvasContent droneState={droneState} onLoad={handleLoad} />
-        </Suspense>
-      </Canvas>
-      
-      <div className="drone-3d-overlay">
+          </Suspense>
+        </Canvas>
+      )}
+
+      {isWebGLSupported && (
+        <div className="drone-3d-overlay">
         <h2 className="drone-3d-title">OUR EQUIPMENT</h2>
         <p className="drone-3d-subtitle">Interactive 3D Model</p>
         <p className="drone-3d-hint">Drag to rotate • Scroll to zoom</p>
@@ -270,6 +302,7 @@ export default function Drone3D() {
           </button>
         </div>
       </div>
+      )}
     </div>
   );
 }
