@@ -217,12 +217,14 @@ body {
 
 .drone-3d-overlay {
   position: absolute;
-  bottom: 60px;
+  bottom: 80px;
   left: 50%;
   transform: translateX(-50%);
   text-align: center;
   z-index: 10;
   pointer-events: auto;
+  width: 90%;
+  max-width: 600px;
 }
 
 .drone-3d-title {
@@ -287,34 +289,77 @@ body {
 
 /* Mobile responsive styles */
 @media (max-width: 768px) {
+  .drone-3d-container {
+    min-height: 100vh;
+    height: auto;
+  }
+
   .drone-3d-overlay {
-    bottom: 40px;
-    padding: 0 20px;
+    bottom: 20px;
+    padding: 0 15px;
+    width: 95%;
   }
 
   .drone-3d-title {
-    font-size: clamp(18px, 5vw, 32px);
+    font-size: clamp(16px, 4vw, 24px);
+    letter-spacing: 4px;
+    margin-bottom: 8px;
   }
 
   .drone-3d-subtitle {
-    font-size: clamp(12px, 3vw, 16px);
+    font-size: clamp(11px, 2.5vw, 14px);
+    margin-bottom: 8px;
   }
 
   .drone-3d-hint {
-    font-size: 10px;
-    margin-bottom: 20px;
+    font-size: 9px;
+    margin-bottom: 15px;
+    letter-spacing: 1px;
   }
 
   .drone-controls {
-    gap: 10px;
-    margin-top: 15px;
+    gap: 8px;
+    margin-top: 12px;
   }
 
   .drone-control-btn {
-    padding: 10px 16px;
-    font-size: 10px;
-    min-width: 70px;
+    padding: 8px 12px;
+    font-size: 9px;
+    min-width: 60px;
     letter-spacing: 1px;
+  }
+}
+
+@media (max-width: 480px) {
+  .drone-3d-overlay {
+    bottom: 15px;
+    padding: 0 10px;
+  }
+
+  .drone-3d-title {
+    font-size: clamp(14px, 5vw, 20px);
+    letter-spacing: 3px;
+  }
+
+  .drone-3d-subtitle {
+    font-size: 10px;
+  }
+
+  .drone-3d-hint {
+    font-size: 8px;
+    margin-bottom: 12px;
+  }
+
+  .drone-controls {
+    gap: 6px;
+    margin-top: 10px;
+  }
+
+  .drone-control-btn {
+    padding: 6px 10px;
+    font-size: 8px;
+    min-width: 50px;
+    letter-spacing: 0.5px;
   }
 }
 

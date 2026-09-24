@@ -256,7 +256,7 @@ export default function Drone3D() {
 
       {isWebGLSupported && (
         <Canvas
-          camera={{ position: [0, 0, 6], fov: 40 }}
+          camera={{ position: [0, 0, 3.5], fov: 50 }}
           gl={{
             antialias: true,
             alpha: true,
