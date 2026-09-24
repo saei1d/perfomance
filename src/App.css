@@ -1,0 +1,573 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #0a0a0a;
+  color: #ffffff;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Cinematic Prototype Container */
+.cinematic-prototype {
+  width: 100%;
+  min-height: 600vh; /* 6 sections */
+  position: relative;
+}
+
+/* Sections */
+.section {
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 8%;
+}
+
+/* SECTION 1: Hero */
+.section-1 {
+  justify-content: flex-start;
+}
+
+.hero-content {
+  max-width: 600px;
+  pointer-events: none;
+}
+
+.brand-subtitle {
+  font-size: 11px;
+  letter-spacing: 6px;
+  text-transform: uppercase;
+  opacity: 0.5;
+  margin-bottom: 30px;
+  font-weight: 500;
+}
+
+.brand-title {
+  font-size: clamp(48px, 6vw, 96px);
+  line-height: 0.9;
+  font-weight: 300;
+  letter-spacing: -2px;
+  margin-bottom: 40px;
+}
+
+.title-line {
+  display: block;
+  opacity: 0;
+  animation: fadeInUp 1s ease forwards;
+}
+
+.title-line:nth-child(1) { animation-delay: 0.2s; }
+.title-line:nth-child(2) { animation-delay: 0.4s; }
+.title-line:nth-child(3) { animation-delay: 0.6s; }
+
+.scroll-hint {
+  font-size: 12px;
+  letter-spacing: 2px;
+  opacity: 0.4;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+/* SECTION 2: About */
+.about-container {
+  width: 100%;
+  max-width: 1000px;
+}
+
+.about-content {
+  text-align: center;
+}
+
+.about-subtitle {
+  font-size: 11px;
+  letter-spacing: 6px;
+  text-transform: uppercase;
+  opacity: 0.5;
+  margin-bottom: 30px;
+  font-weight: 500;
+}
+
+.about-title {
+  font-size: clamp(36px, 5vw, 64px);
+  line-height: 1.1;
+  font-weight: 300;
+  letter-spacing: -1px;
+  margin-bottom: 40px;
+}
+
+.about-title-line {
+  display: block;
+  opacity: 0;
+  animation: fadeInUp 1s ease forwards;
+}
+
+.about-title-line:nth-child(1) { animation-delay: 0.2s; }
+.about-title-line:nth-child(2) { animation-delay: 0.4s; }
+.about-title-line:nth-child(3) { animation-delay: 0.6s; }
+
+.about-description {
+  font-size: clamp(14px, 1.5vw, 16px);
+  line-height: 1.8;
+  opacity: 0.7;
+  margin-bottom: 20px;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.about-stats {
+  display: flex;
+  justify-content: center;
+  gap: 60px;
+  margin-top: 60px;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-number {
+  font-size: clamp(32px, 4vw, 48px);
+  font-weight: 200;
+  letter-spacing: -1px;
+  margin-bottom: 8px;
+}
+
+.stat-label {
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  opacity: 0.5;
+}
+
+/* SECTION 3: Services */
+.services-container {
+  width: 100%;
+  max-width: 1200px;
+}
+
+.services-title {
+  font-size: clamp(32px, 4vw, 56px);
+  font-weight: 300;
+  letter-spacing: 4px;
+  margin-bottom: 60px;
+  text-align: center;
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 40px;
+}
+
+.service-card {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+  padding: 40px;
+  transition: border-color 0.3s ease, background 0.3s ease, transform 0.3s ease;
+}
+
+.service-card:hover {
+  border-color: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.04);
+  transform: translateY(-5px);
+}
+
+.service-number {
+  font-size: clamp(32px, 4vw, 48px);
+  font-weight: 200;
+  letter-spacing: -1px;
+  opacity: 0.15;
+  margin-bottom: 20px;
+}
+
+.service-title {
+  font-size: clamp(18px, 2vw, 24px);
+  font-weight: 400;
+  letter-spacing: -0.5px;
+  margin-bottom: 16px;
+}
+
+.service-description {
+  font-size: 14px;
+  opacity: 0.6;
+  line-height: 1.6;
+}
+
+/* SECTION 4: 3D Drone */
+.drone-3d-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  background: linear-gradient(135deg, #0a0a0a 0%, #111111 100%);
+}
+
+.drone-3d-container canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.drone-3d-overlay {
+  position: absolute;
+  bottom: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  z-index: 10;
+  pointer-events: auto;
+}
+
+.drone-3d-title {
+  font-size: clamp(24px, 4vw, 48px);
+  font-weight: 300;
+  letter-spacing: 8px;
+  margin-bottom: 10px;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.drone-3d-subtitle {
+  font-size: 12px;
+  letter-spacing: 4px;
+  opacity: 0.6;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.drone-3d-hint {
+  font-size: 11px;
+  letter-spacing: 2px;
+  opacity: 0.4;
+  text-transform: uppercase;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+  margin-bottom: 30px;
+}
+
+.drone-controls {
+  display: flex;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.drone-control-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 12px 24px;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-radius: 4px;
+  min-width: 100px;
+}
+
+.drone-control-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+.drone-control-btn.active {
+  background: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.5);
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+}
+
+.drone-loading,
+.drone-error {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 5;
+  background: linear-gradient(135deg, #0a0a0a 0%, #111111 100%);
+}
+
+.drone-loading p,
+.drone-error p {
+  font-size: 14px;
+  opacity: 0.6;
+  margin-top: 20px;
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-top-color: rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.error-message {
+  font-size: 12px !important;
+  opacity: 0.4 !important;
+  margin-top: 10px !important;
+}
+
+/* SECTION 5: Selected Work */
+.projects-container {
+  width: 100%;
+  max-width: 1400px;
+}
+
+.projects-title {
+  font-size: clamp(32px, 4vw, 56px);
+  font-weight: 300;
+  letter-spacing: 4px;
+  margin-bottom: 60px;
+  text-align: center;
+}
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+}
+
+.project-card {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+  overflow: hidden;
+  transition: border-color 0.3s ease, background 0.3s ease;
+}
+
+.project-card:hover {
+  border-color: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.project-placeholder {
+  position: relative;
+  aspect-ratio: 16/9;
+  background: linear-gradient(135deg, #151515, #1a1a1a);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.project-number {
+  font-size: clamp(48px, 6vw, 72px);
+  font-weight: 200;
+  letter-spacing: -2px;
+  opacity: 0.15;
+}
+
+.project-info {
+  padding: 30px;
+}
+
+.project-category {
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  opacity: 0.5;
+  margin-bottom: 12px;
+  display: block;
+}
+
+.project-name {
+  font-size: clamp(18px, 2vw, 24px);
+  font-weight: 400;
+  letter-spacing: -0.5px;
+  margin-bottom: 12px;
+  line-height: 1.3;
+}
+
+.project-description {
+  font-size: 13px;
+  opacity: 0.6;
+  line-height: 1.6;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* SECTION 6: Contact */
+.contact-container {
+  width: 100%;
+  max-width: 800px;
+}
+
+.contact-content {
+  text-align: center;
+}
+
+.contact-subtitle {
+  font-size: 11px;
+  letter-spacing: 6px;
+  text-transform: uppercase;
+  opacity: 0.5;
+  margin-bottom: 30px;
+  font-weight: 500;
+}
+
+.contact-title {
+  font-size: clamp(32px, 5vw, 56px);
+  font-weight: 300;
+  letter-spacing: 2px;
+  margin-bottom: 30px;
+}
+
+.contact-description {
+  font-size: clamp(14px, 1.5vw, 16px);
+  line-height: 1.8;
+  opacity: 0.7;
+  margin-bottom: 50px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.contact-info {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  margin-bottom: 50px;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  text-align: left;
+}
+
+.contact-icon {
+  font-size: 24px;
+  opacity: 0.8;
+}
+
+.contact-details {
+  flex: 1;
+}
+
+.contact-label {
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  opacity: 0.5;
+  margin-bottom: 4px;
+}
+
+.contact-value {
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+.contact-button {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 16px 40px;
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+  border-radius: 4px;
+}
+
+.contact-button:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .projects-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .services-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .about-stats {
+    gap: 40px;
+  }
+
+  .drone-3d-overlay {
+    bottom: 40px;
+  }
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding: 0 5%;
+  }
+
+  .brand-title {
+    letter-spacing: -1px;
+  }
+
+  .projects-grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .drone-3d-title {
+    letter-spacing: 4px;
+  }
+
+  .about-stats {
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  .contact-info {
+    gap: 20px;
+  }
+
+  .about-title,
+  .services-title,
+  .projects-title,
+  .contact-title {
+    letter-spacing: 1px;
+  }
+
+  .drone-3d-overlay {
+    bottom: 30px;
+  }
+}
