@@ -20,7 +20,7 @@ const SPEED_CONFIG = {
 const TRANSITION_SPEED = 0.008;
 
 function DroneModel({ droneState, onLoad }) {
-  const { scene } = useGLTF('/output3.glb');
+  const { scene } = useGLTF('/perfomance/output3.glb');
   const propellerRefs = useRef({
     prop1: null,
     prop2: null,
