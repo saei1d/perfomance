@@ -98,65 +98,6 @@ function DroneModel({ droneState, onLoad }) {
 
     findPropellerBones(scene);
     fixMaterials(scene);
-    
-    console.log('Propeller bones found:', {
-      prop1: !!propellerRefs.current.prop1,
-      prop2: !!propellerRefs.current.prop2,
-      prop3: !!propellerRefs.current.prop3,
-      prop4: !!propellerRefs.current.prop4
-    });
-
-    // Log materials info - detailed analysis
-    function logMaterials(object) {
-      if (object.isMesh && object.material) {
-        const color = object.material.color;
-        console.log(`=== DETAILED MATERIAL ANALYSIS: ${object.name} ===`);
-        console.log('Material name:', object.material.name);
-        console.log('Color RGB:', `rgb(${Math.round(color.r * 255)}, ${Math.round(color.g * 255)}, ${Math.round(color.b * 255)})`);
-        console.log('Color hex:', '#' + color.getHexString());
-        console.log('Metalness:', object.material.metalness);
-        console.log('Roughness:', object.material.roughness);
-        console.log('Has Map:', !!object.material.map);
-        console.log('Has Normal Map:', !!object.material.normalMap);
-        console.log('Has Emissive Map:', !!object.material.emissiveMap);
-        console.log('Has Roughness Map:', !!object.material.roughnessMap);
-        console.log('Has Metalness Map:', !!object.material.metalnessMap);
-        
-        if (object.material.map) {
-          console.log('Map details:', {
-            name: object.material.map.name,
-            encoding: object.material.map.encoding,
-            colorSpace: object.material.map.colorSpace,
-            source: object.material.map.source?.constructor.name
-          });
-        }
-        
-        // Check if material is actually white
-        const isWhite = Math.abs(color.r - 1.0) < 0.01 && 
-                      Math.abs(color.g - 1.0) < 0.01 && 
-                      Math.abs(color.b - 1.0) < 0.01;
-        console.log('Is white:', isWhite);
-        console.log('---');
-      }
-      if (object.children) {
-        object.children.forEach(child => logMaterials(child));
-      }
-    }
-    logMaterials(scene);
-    
-    // Check for textures in the GLTF
-    console.log('=== GLTF TEXTURE ANALYSIS ===');
-    console.log('Total textures:', scene.textures?.length || 0);
-    if (scene.textures) {
-      scene.textures.forEach((texture, index) => {
-        console.log(`Texture ${index}:`, {
-          name: texture.name,
-          encoding: texture.encoding,
-          colorSpace: texture.colorSpace,
-          source: texture.source?.constructor.name
-        });
-      });
-    }
 
     // Signal that model is loaded
     if (onLoad) onLoad();
