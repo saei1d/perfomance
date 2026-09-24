@@ -142,10 +142,14 @@ function CanvasContent({ progress, onLoad }) {
 
   useEffect(() => {
     if (scene) {
+      console.log('Scene loaded:', scene);
+
       // Center and normalize the model
       const box = new THREE.Box3().setFromObject(scene);
       const center = box.getCenter(new THREE.Vector3());
       const size = box.getSize(new THREE.Vector3());
+
+      console.log('Model bounds:', { center, size });
 
       // Center the model
       scene.position.x = -center.x;
@@ -156,6 +160,8 @@ function CanvasContent({ progress, onLoad }) {
       const maxDim = Math.max(size.x, size.y, size.z);
       const scale = 2 / maxDim;
       scene.scale.set(scale, scale, scale);
+
+      console.log('Model scale:', scale);
 
       scene.traverse((child) => {
         if (child.isMesh) {
@@ -262,6 +268,7 @@ export default function LightingStudio() {
   const showLabels = progress < 0.90;
 
   const handleLoad = () => {
+    console.log('Model loaded successfully');
     setIsLoading(false);
   };
 
@@ -294,7 +301,7 @@ export default function LightingStudio() {
       {error && isWebGLSupported && (
         <div className="lighting-studio-error">
           <p>Failed to load 3D scene</p>
-          <p className="error-message">Please try refreshing the page</p>
+          <p className="error-message">{error?.message || 'Unknown error'}</p>
         </div>
       )}
 
@@ -321,7 +328,7 @@ export default function LightingStudio() {
         </div>
       )}
 
-      {showLabels && (
+      {showLabels && !isLoading && !error && (
         <div className="lighting-studio-overlay">
           <div className="lighting-studio-labels">
             <span className="stage-number">{currentLabel.number}</span>
