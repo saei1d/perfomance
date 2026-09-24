@@ -255,6 +255,8 @@ body {
   display: flex;
   gap: 15px;
   margin-top: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .drone-control-btn {
@@ -268,7 +270,7 @@ body {
   cursor: pointer;
   transition: all 0.3s ease;
   border-radius: 4px;
-  min-width: 100px;
+  min-width: 80px;
 }
 
 .drone-control-btn:hover {
@@ -281,6 +283,39 @@ body {
   background: rgba(255, 255, 255, 0.25);
   border-color: rgba(255, 255, 255, 0.5);
   box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+}
+
+/* Mobile responsive styles */
+@media (max-width: 768px) {
+  .drone-3d-overlay {
+    bottom: 40px;
+    padding: 0 20px;
+  }
+
+  .drone-3d-title {
+    font-size: clamp(18px, 5vw, 32px);
+  }
+
+  .drone-3d-subtitle {
+    font-size: clamp(12px, 3vw, 16px);
+  }
+
+  .drone-3d-hint {
+    font-size: 10px;
+    margin-bottom: 20px;
+  }
+
+  .drone-controls {
+    gap: 10px;
+    margin-top: 15px;
+  }
+
+  .drone-control-btn {
+    padding: 10px 16px;
+    font-size: 10px;
+    min-width: 70px;
+    letter-spacing: 1px;
+  }
 }
 
 .drone-loading,
