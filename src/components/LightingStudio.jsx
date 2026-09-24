@@ -111,14 +111,14 @@ function CameraRig({ progress }) {
     // Camera movement (0.90 - 1.0)
     if (p >= 0.90) {
       const cameraProgress = THREE.MathUtils.mapLinear(p, 0.90, 1.0, 0, 1);
-      const startPos = [0, 0.5, 8]; // Further back to see larger model
-      const endPos = [0, 0.3, 6];  // Closer at the end
+      const startPos = [0, 0.5, 7];
+      const endPos = [0, 0.3, 5];
 
       state.camera.position.x = THREE.MathUtils.lerp(startPos[0], endPos[0], cameraProgress);
       state.camera.position.y = THREE.MathUtils.lerp(startPos[1], endPos[1], cameraProgress);
       state.camera.position.z = THREE.MathUtils.lerp(startPos[2], endPos[2], cameraProgress);
     } else {
-      state.camera.position.set(0, 0.5, 8); // Further back initially
+      state.camera.position.set(0, 0.5, 7);
     }
 
     state.camera.lookAt(0, 0, 0);
@@ -156,9 +156,9 @@ function CanvasContent({ progress, onLoad }) {
       scene.position.y = -center.y;
       scene.position.z = -center.z;
 
-      // Normalize scale to fit in a reasonable size - make it larger for better visibility
+      // Normalize scale to fit in a reasonable size
       const maxDim = Math.max(size.x, size.y, size.z);
-      const scale = 3 / maxDim; // Increased from 2 to 3 for larger display
+      const scale = 1.5 / maxDim; // Reduced scale to fit in frame
       scene.scale.set(scale, scale, scale);
 
       console.log('Model scale:', scale);
@@ -169,12 +169,16 @@ function CanvasContent({ progress, onLoad }) {
           child.receiveShadow = true;
           if (child.material) {
             child.material.needsUpdate = true;
-            // Optimize materials for better lighting
+            // Fix materials to prevent white appearance
             if (child.material.roughness !== undefined) {
-              child.material.roughness = Math.min(child.material.roughness, 0.8);
+              child.material.roughness = Math.max(child.material.roughness, 0.3);
             }
             if (child.material.metalness !== undefined) {
-              child.material.metalness = Math.min(child.material.metalness, 0.9);
+              child.material.metalness = Math.min(child.material.metalness, 0.7);
+            }
+            // Ensure materials have proper colors
+            if (child.material.color) {
+              child.material.color.needsUpdate = true;
             }
           }
         }
@@ -308,7 +312,7 @@ export default function LightingStudio() {
       {isWebGLSupported && !error && (
         <div className="lighting-studio-canvas">
           <Canvas
-            camera={{ position: [0, 0.5, 8], fov: 50 }}
+            camera={{ position: [0, 0.5, 7], fov: 45 }}
             gl={{
               antialias: true,
               alpha: true,
