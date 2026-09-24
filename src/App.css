@@ -20,17 +20,6 @@ body {
 }
 
 .section {
-  min-height: 100vh;
-  width: 100%;
-  z-index: 2;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 8%;
-}
-
-/* Sections */
-.section {
   position: relative;
   height: 100vh;
   width: 100%;
@@ -404,12 +393,38 @@ body {
 }
 
 /* SECTION 5: Lighting Studio */
+.section-5 {
+  position: relative;
+  z-index: 10;
+  padding: 0;
+}
+
 .lighting-studio-container {
   width: 100%;
   height: 100vh;
   position: relative;
   background: linear-gradient(135deg, #050505 0%, #0a0a0a 100%);
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.lighting-studio-header {
+  position: absolute;
+  top: 40px;
+  left: 8%;
+  z-index: 20;
+  pointer-events: none;
+}
+
+.lighting-studio-title {
+  font-size: clamp(24px, 4vw, 48px);
+  font-weight: 300;
+  letter-spacing: 6px;
+  color: rgba(255, 255, 255, 0.9);
+  text-transform: uppercase;
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.8);
+  margin: 0;
 }
 
 .lighting-studio-canvas {
@@ -417,6 +432,7 @@ body {
   inset: 0;
   width: 100%;
   height: 100%;
+  z-index: 1;
 }
 
 .lighting-studio-overlay {
@@ -424,7 +440,7 @@ body {
   top: 50%;
   left: 8%;
   transform: translateY(-50%);
-  z-index: 10;
+  z-index: 15;
   pointer-events: none;
 }
 
@@ -467,7 +483,7 @@ body {
   width: 200px;
   height: 2px;
   background: rgba(255, 255, 255, 0.1);
-  z-index: 10;
+  z-index: 15;
 }
 
 .progress-bar {
@@ -478,11 +494,23 @@ body {
 
 /* Mobile responsive for Lighting Studio */
 @media (max-width: 768px) {
+  .lighting-studio-header {
+    top: 20px;
+    left: 5%;
+    right: 5%;
+    text-align: center;
+  }
+
+  .lighting-studio-title {
+    font-size: clamp(18px, 5vw, 32px);
+    letter-spacing: 4px;
+  }
+
   .lighting-studio-overlay {
     left: 5%;
     right: 5%;
     text-align: center;
-    top: 40%;
+    top: 35%;
   }
 
   .stage-number {
@@ -506,8 +534,17 @@ body {
 }
 
 @media (max-width: 480px) {
+  .lighting-studio-header {
+    top: 15px;
+  }
+
+  .lighting-studio-title {
+    font-size: clamp(14px, 6vw, 24px);
+    letter-spacing: 2px;
+  }
+
   .lighting-studio-overlay {
-    top: 35%;
+    top: 30%;
   }
 
   .stage-number {
