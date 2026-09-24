@@ -15,35 +15,7 @@ const TIMELINE_STAGES = {
   FINAL: { start: 0.90, end: 1.0 }
 };
 
-function StatueModel({ progress }) {
-  const { scene } = useGLTF('/output5.glb');
-  const modelRef = useRef();
 
-  useEffect(() => {
-    if (scene) {
-      scene.traverse((child) => {
-        if (child.isMesh) {
-          child.castShadow = true;
-          child.receiveShadow = true;
-          // Optimize materials
-          if (child.material) {
-            child.material.needsUpdate = true;
-          }
-        }
-      });
-    }
-  }, [scene]);
-
-  return (
-    <primitive
-      ref={modelRef}
-      object={scene}
-      scale={1.5}
-      position={[0, 0, 0]}
-      rotation={[0, Math.PI, 0]}
-    />
-  );
-}
 
 function Lights({ progress }) {
   const keyLightRef = useRef();
@@ -163,11 +135,28 @@ function StudioFloor() {
   );
 }
 
-function CanvasContent({ progress }) {
+function CanvasContent({ progress, onLoad }) {
+  const { scene } = useGLTF('/perfomance/output5.glb');
+
+  useEffect(() => {
+    if (scene) {
+      scene.traverse((child) => {
+        if (child.isMesh) {
+          child.castShadow = true;
+          child.receiveShadow = true;
+          if (child.material) {
+            child.material.needsUpdate = true;
+          }
+        }
+      });
+      if (onLoad) onLoad();
+    }
+  }, [scene, onLoad]);
+
   return (
     <>
       <CameraRig progress={progress} />
-      <StatueModel progress={progress} />
+      <primitive object={scene} scale={1.5} position={[0, 0, 0]} rotation={[0, Math.PI, 0]} />
       <Lights progress={progress} />
       <StudioFloor />
       <Environment preset="studio" background={false} />
@@ -178,7 +167,27 @@ function CanvasContent({ progress }) {
 export default function LightingStudio() {
   const [progress, setProgress] = useState(0);
   const [currentStage, setCurrentStage] = useState('DARKNESS');
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [isWebGLSupported, setIsWebGLSupported] = useState(true);
   const sectionRef = useRef(null);
+
+  // Check WebGL support on mount
+  useEffect(() => {
+    try {
+      const canvas = document.createElement('canvas');
+      const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+      if (!gl) {
+        setIsWebGLSupported(false);
+        setError(new Error('WebGL not supported'));
+        setIsLoading(false);
+      }
+    } catch (e) {
+      setIsWebGLSupported(false);
+      setError(e);
+      setIsLoading(false);
+    }
+  }, []);
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -226,27 +235,61 @@ export default function LightingStudio() {
   const currentLabel = stageLabels[currentStage] || stageLabels.DARKNESS;
   const showLabels = progress < 0.90;
 
+  const handleLoad = () => {
+    setIsLoading(false);
+  };
+
+  const handleError = (error) => {
+    console.error('Lighting Studio Error:', error);
+    setError(error);
+    setIsLoading(false);
+  };
+
   return (
     <div ref={sectionRef} className="lighting-studio-container">
-      <div className="lighting-studio-canvas">
-        <Canvas
-          camera={{ position: [0, 0, 5], fov: 45 }}
-          gl={{
-            antialias: true,
-            alpha: true,
-            powerPreference: "high-performance",
-            preserveDrawingBuffer: true,
-            stencil: false,
-            depth: true
-          }}
-          dpr={Math.min(window.devicePixelRatio, 2)}
-          style={{ width: '100%', height: '100%' }}
-        >
-          <Suspense fallback={null}>
-            <CanvasContent progress={progress} />
-          </Suspense>
-        </Canvas>
-      </div>
+      {!isWebGLSupported && (
+        <div className="lighting-studio-error">
+          <p>3D View Not Available</p>
+          <p className="error-message">Your browser doesn't support WebGL. Please try Chrome, Firefox, or Edge.</p>
+        </div>
+      )}
+
+      {isLoading && isWebGLSupported && (
+        <div className="lighting-studio-loading">
+          <div className="loading-spinner"></div>
+          <p>Loading Studio...</p>
+        </div>
+      )}
+
+      {error && isWebGLSupported && (
+        <div className="lighting-studio-error">
+          <p>Failed to load 3D scene</p>
+          <p className="error-message">Please try refreshing the page</p>
+        </div>
+      )}
+
+      {isWebGLSupported && !error && (
+        <div className="lighting-studio-canvas">
+          <Canvas
+            camera={{ position: [0, 0, 5], fov: 45 }}
+            gl={{
+              antialias: true,
+              alpha: true,
+              powerPreference: "high-performance",
+              preserveDrawingBuffer: true,
+              stencil: false,
+              depth: true
+            }}
+            dpr={Math.min(window.devicePixelRatio, 2)}
+            onError={handleError}
+            style={{ width: '100%', height: '100%', opacity: isLoading ? 0 : 1 }}
+          >
+            <Suspense fallback={null}>
+              <CanvasContent progress={progress} onLoad={handleLoad} />
+            </Suspense>
+          </Canvas>
+        </div>
+      )}
 
       {showLabels && (
         <div className="lighting-studio-overlay">
