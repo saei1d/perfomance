@@ -1,10 +1,6 @@
 import { useState, useEffect } from "react";
 import DroneAnimation from "./components/drone/DroneAnimation";
 import Drone3D from "./components/Drone3D";
-import ProjectCards from "./components/ProjectCards";
-import Services from "./components/Services";
-import About from "./components/About";
-import Contact from "./components/Contact";
 import LightingStudio from "./components/LightingStudio";
 import "./App.css";
 
@@ -14,7 +10,7 @@ function App() {
   // Track scroll position for smooth animations
   useEffect(() => {
     let ticking = false;
-    
+
     const handleScroll = () => {
       if (!ticking) {
         window.requestAnimationFrame(() => {
@@ -50,34 +46,23 @@ function App() {
         </div>
       </section>
 
-      {/* SECTION 2: About */}
+      {/* SECTION 2: 3D Drone */}
       <section className="section section-2">
-        <About />
-      </section>
-
-      {/* SECTION 3: Services */}
-      <section className="section section-3">
-        <Services />
-      </section>
-
-      {/* SECTION 4: 3D Drone */}
-      <section className="section section-4">
         <Drone3D />
       </section>
 
-      {/* SECTION 5: Lighting Studio */}
-      <section className="section section-5">
+      {/* SECTION 3: Title Transition */}
+      <section className="section section-3">
+        <div className="transition-content">
+          <h1 className="transition-title">ROAD TO</h1>
+          <h1 className="transition-title lighting-title">LIGHTING ROOM</h1>
+          <p className="transition-subtitle">Experience the art of cinematic lighting</p>
+        </div>
+      </section>
+
+      {/* SECTION 4: Lighting Studio */}
+      <section className="section section-4">
         <LightingStudio />
-      </section>
-
-      {/* SECTION 6: Selected Work */}
-      <section className="section section-6">
-        <ProjectCards />
-      </section>
-
-      {/* SECTION 7: Contact */}
-      <section className="section section-7">
-        <Contact />
       </section>
     </main>
   );

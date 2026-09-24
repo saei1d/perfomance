@@ -15,7 +15,7 @@ body {
 /* Cinematic Prototype Container */
 .cinematic-prototype {
   width: 100%;
-  min-height: 700vh; /* 7 sections now */
+  min-height: 400vh; /* 4 sections now */
   position: relative;
 }
 
@@ -35,36 +35,53 @@ body {
   justify-content: flex-start;
 }
 
-/* SECTION 2: About */
+/* SECTION 2: 3D Drone */
 .section-2 {
   background: linear-gradient(135deg, #0a0a0a 0%, #111111 100%);
 }
 
-/* SECTION 3: Services */
+/* SECTION 3: Title Transition */
 .section-3 {
   background: linear-gradient(135deg, #111111 0%, #0a0a0a 100%);
+  flex-direction: column;
+  text-align: center;
 }
 
-/* SECTION 4: 3D Drone */
+.transition-content {
+  max-width: 800px;
+  text-align: center;
+}
+
+.transition-title {
+  font-size: clamp(48px, 8vw, 120px);
+  font-weight: 200;
+  letter-spacing: 8px;
+  margin: 0;
+  line-height: 1.1;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.9);
+  text-shadow: 0 4px 30px rgba(0, 0, 0, 0.8);
+}
+
+.lighting-title {
+  color: rgba(255, 221, 170, 0.9);
+  margin-top: 20px;
+}
+
+.transition-subtitle {
+  font-size: clamp(14px, 2vw, 18px);
+  font-weight: 300;
+  letter-spacing: 4px;
+  margin-top: 40px;
+  opacity: 0.6;
+  text-transform: uppercase;
+}
+
+/* SECTION 4: Lighting Studio */
 .section-4 {
   background: linear-gradient(135deg, #0a0a0a 0%, #111111 100%);
-}
-
-/* SECTION 5: Lighting Studio */
-.section-5 {
-  background: linear-gradient(135deg, #111111 0%, #0a0a0a 100%);
   padding: 0;
   z-index: 10;
-}
-
-/* SECTION 6: Selected Work */
-.section-6 {
-  background: linear-gradient(135deg, #0a0a0a 0%, #111111 100%);
-}
-
-/* SECTION 7: Contact */
-.section-7 {
-  background: linear-gradient(135deg, #111111 0%, #0a0a0a 100%);
 }
 
 .hero-content {
@@ -400,26 +417,6 @@ body {
   position: relative;
   background: linear-gradient(135deg, #050505 0%, #0a0a0a 100%);
   overflow: hidden;
-  display: flex;
-  flex-direction: column;
-}
-
-.lighting-studio-header {
-  position: absolute;
-  top: 40px;
-  left: 8%;
-  z-index: 20;
-  pointer-events: none;
-}
-
-.lighting-studio-title {
-  font-size: clamp(24px, 4vw, 48px);
-  font-weight: 300;
-  letter-spacing: 6px;
-  color: rgba(255, 255, 255, 0.9);
-  text-transform: uppercase;
-  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.8);
-  margin: 0;
 }
 
 .lighting-studio-canvas {
@@ -489,18 +486,6 @@ body {
 
 /* Mobile responsive for Lighting Studio */
 @media (max-width: 768px) {
-  .lighting-studio-header {
-    top: 20px;
-    left: 5%;
-    right: 5%;
-    text-align: center;
-  }
-
-  .lighting-studio-title {
-    font-size: clamp(18px, 5vw, 32px);
-    letter-spacing: 4px;
-  }
-
   .lighting-studio-overlay {
     left: 5%;
     right: 5%;
@@ -529,15 +514,6 @@ body {
 }
 
 @media (max-width: 480px) {
-  .lighting-studio-header {
-    top: 15px;
-  }
-
-  .lighting-studio-title {
-    font-size: clamp(14px, 6vw, 24px);
-    letter-spacing: 2px;
-  }
-
   .lighting-studio-overlay {
     top: 30%;
   }

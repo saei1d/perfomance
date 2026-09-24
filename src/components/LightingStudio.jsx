@@ -284,10 +284,6 @@ export default function LightingStudio() {
 
   return (
     <div ref={sectionRef} className="lighting-studio-container">
-      <div className="lighting-studio-header">
-        <h1 className="lighting-studio-title">LIGHTING ROOM</h1>
-      </div>
-
       {!isWebGLSupported && (
         <div className="lighting-studio-error">
           <p>3D View Not Available</p>
