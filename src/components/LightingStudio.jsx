@@ -158,7 +158,7 @@ function CanvasContent({ progress, onLoad }) {
 
       // Normalize scale to fit in a reasonable size
       const maxDim = Math.max(size.x, size.y, size.z);
-      const scale = 1.5 / maxDim; // Reduced scale to fit in frame
+      const scale = 0.15 / maxDim; // Much smaller scale - 10x smaller
       scene.scale.set(scale, scale, scale);
 
       console.log('Model scale:', scale);
