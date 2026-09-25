@@ -122,7 +122,7 @@ export default function CinematicPortfolio() {
         <div className="sprocket" aria-hidden="true" />
 
         <div className="cine-hero-copy">
-          <p className="eyebrow">Toronto — Film and post</p>
+          <p className="eyebrow">HYENA studio — Film and post</p>
           <h1 className="cine-title">
             <span className="cine-title-line">Capture</span>
             <span className="cine-title-line cine-title-italic">the</span>

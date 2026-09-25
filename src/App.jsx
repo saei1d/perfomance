@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from 'react';
 import CinematicPortfolio from './components/cinematic/CinematicPortfolio';
 import Drone3D from './components/Drone3D';
 import LightingStudio from './components/LightingStudio';
+import Footer from './components/Footer';
+import TrustedBy from './components/TrustedBy';
 import './App.css';
 
 function AerialSection() {
@@ -45,12 +47,23 @@ function AerialSection() {
   );
 }
 
+function SectionTransition({ title, description, dark = false, id }) {
+  return (
+    <section id={id} className={`section-transition ${dark ? 'section-transition--dark' : ''}`}>
+      <div className="section-transition-content">
+        <h2 className="section-transition-title">{title}</h2>
+        <p className="section-transition-description">{description}</p>
+      </div>
+    </section>
+  );
+}
+
 export default function App() {
   return (
     <>
       <a className="skip" href="#work">Skip to work</a>
       <header className="nav">
-        <a className="wordmark" href="#top">Northframe</a>
+        <a className="wordmark" href="#top">HYENA studio</a>
         <nav aria-label="Sections">
           <a href="#work">Work</a>
           <a href="#studio">Studio</a>
@@ -60,8 +73,21 @@ export default function App() {
       <main>
         <CinematicPortfolio />
         <LightingStudio />
+        <SectionTransition
+          id="product-photography"
+          title="Product Photography"
+          description="Master the art of light and shadow. Our studio creates cinematic stills that transform products into visual stories, using precise lighting techniques to reveal texture, form, and emotion in every shot."
+        />
         <AerialSection />
+        <SectionTransition
+          id="aerial-cinematography"
+          title="Modern Aerial Cinematography"
+          description="Elevate your perspective with cutting-edge drone technology. From sweeping aerial landscapes to dynamic product shots, we capture the world from angles that inspire and amaze, bringing a new dimension to visual storytelling."
+          dark
+        />
       </main>
+      <TrustedBy />
+      <Footer />
     </>
   );
 }

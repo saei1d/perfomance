@@ -1,7 +1,7 @@
 .cine {
   position: relative;
   z-index: 2;
-  background: #070708;
+  background: #000000;
   color: #e8e2d6;
 }
 
@@ -20,8 +20,8 @@
     max(1.25rem, env(safe-area-inset-left));
   overflow: hidden;
   background:
-    radial-gradient(ellipse at 70% 20%, rgba(196, 165, 116, 0.08), transparent 42%),
-    #070708;
+    radial-gradient(ellipse at 70% 20%, rgba(255, 185, 1, 0.08), transparent 42%),
+    #000000;
 }
 
 .sprocket {
@@ -67,7 +67,7 @@
   width: min(8rem, 30%);
   height: 1px;
   margin: 1.6rem 0 1.2rem;
-  background: rgba(196, 165, 116, 0.85);
+  background: rgba(255, 185, 1, 0.85);
   transform-origin: left center;
 }
 
@@ -149,7 +149,7 @@
 
 .still:hover,
 .still:focus-visible {
-  border-color: rgba(196, 165, 116, 0.7);
+  border-color: rgba(255, 185, 1, 0.7);
 }
 
 .letterbox {
@@ -227,7 +227,7 @@
 .marquee-track span::before {
   content: "·";
   margin-right: 2.5rem;
-  color: rgba(196, 165, 116, 0.8);
+  color: rgba(255, 185, 1, 0.8);
 }
 
 .work {
@@ -391,11 +391,57 @@
   .cine-hero {
     grid-template-columns: 1fr;
     padding-left: max(1.25rem, env(safe-area-inset-left));
+    padding-right: max(1.25rem, env(safe-area-inset-right));
+    padding-top: calc(5.5rem + env(safe-area-inset-top));
+    gap: 1.5rem;
   }
 
   .cine-stills,
   .cine-hero-copy {
     grid-column: 1;
+  }
+
+  .cine-title {
+    font-size: clamp(3rem, 15vw, 5rem);
+  }
+
+  .lede {
+    font-size: 0.9rem;
+  }
+
+  .eyebrow {
+    font-size: 0.6rem;
+    letter-spacing: 0.28em;
+  }
+
+  .work {
+    padding: clamp(3rem, 8vh, 5rem) max(1.25rem, env(safe-area-inset-right)) clamp(2rem, 6vh, 3rem) max(1.25rem, env(safe-area-inset-left));
+  }
+
+  .work-head h2 {
+    font-size: clamp(2rem, 8vw, 3rem);
+  }
+
+  .work-row {
+    grid-template-columns: 5rem minmax(0, 1fr) auto;
+    gap: 0.75rem;
+    padding: 1rem 0;
+  }
+
+  .work-copy h3 {
+    font-size: clamp(1.4rem, 5vw, 2rem);
+  }
+
+  .work-copy p {
+    font-size: 0.7rem;
+  }
+
+  .cine-close {
+    padding: clamp(3rem, 10vh, 5rem) max(1.25rem, env(safe-area-inset-right)) clamp(4rem, 12vh, 6rem) max(1.25rem, env(safe-area-inset-left));
+  }
+
+  .cine-close p {
+    font-size: clamp(1.8rem, 8vw, 3rem);
   }
 }
 

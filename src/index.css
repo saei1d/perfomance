@@ -19,7 +19,7 @@ body,
 }
 
 body {
-  background: #070708;
+  background: #000000;
   color: #e8e2d6;
   font-family: Outfit, "Segoe UI", sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -37,12 +37,12 @@ a {
 }
 
 :focus-visible {
-  outline: 1px solid rgba(196, 165, 116, 0.9);
+  outline: 1px solid rgba(255, 185, 1, 0.9);
   outline-offset: 3px;
 }
 
 ::selection {
-  background: rgba(196, 165, 116, 0.35);
+  background: rgba(255, 185, 1, 0.35);
   color: #fff8ee;
 }
 

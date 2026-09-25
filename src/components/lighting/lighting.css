@@ -220,6 +220,45 @@
   }
 }
 
+@media (max-width: 640px) {
+  .studio-track {
+    height: 350vh;
+  }
+
+  .studio-label {
+    top: calc(5.5rem + env(safe-area-inset-top));
+    max-width: 12rem;
+  }
+
+  .studio-kicker {
+    font-size: clamp(1.8rem, 8vw, 2.8rem);
+  }
+
+  .studio-label h2 {
+    font-size: 0.68rem;
+    letter-spacing: 0.32em;
+  }
+
+  .studio-label p {
+    font-size: clamp(0.95rem, 4vw, 1.2rem);
+  }
+
+  .studio-label--final {
+    bottom: calc(3.5rem + env(safe-area-inset-bottom));
+    width: min(10rem, 80vw);
+  }
+
+  .studio-label--final h2,
+  .studio-label--final p {
+    font-size: clamp(1.6rem, 8vw, 2.4rem);
+  }
+
+  .studio-meter {
+    width: min(6rem, 40vw);
+    bottom: calc(1rem + env(safe-area-inset-bottom));
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .studio-label {
     transition: none;

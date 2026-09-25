@@ -1,6 +1,7 @@
 import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, useGLTF, Environment, ContactShadows, PresentationControls } from '@react-three/drei';
 import { Suspense, useState, useEffect, useRef, useMemo } from 'react';
+import './drone/drone.css';
 
 // Drone states
 const DRONE_STATES = {
@@ -138,9 +139,9 @@ function DroneModel({ droneState, onLoad }) {
   });
 
   return (
-    <primitive 
-      object={scene} 
-      scale={2}
+    <primitive
+      object={scene}
+      scale={3}
       position={[0, 0, 0]}
     />
   );
@@ -207,9 +208,37 @@ function detectWebGL() {
   }
 }
 
+function smoothScrollTo(targetY, duration = 200) {
+  const startY = window.pageYOffset;
+  const distance = targetY - startY;
+  let startTime = null;
+
+  function animation(currentTime) {
+    if (startTime === null) startTime = currentTime;
+    const timeElapsed = currentTime - startTime;
+    const progress = Math.min(timeElapsed / duration, 1);
+
+    // Easing function for smoother animation
+    const easeInOutCubic = progress => {
+      return progress < 0.5
+        ? 4 * progress * progress * progress
+        : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+    };
+
+    const easedProgress = easeInOutCubic(progress);
+    window.scrollTo(0, startY + distance * easedProgress);
+
+    if (timeElapsed < duration) {
+      requestAnimationFrame(animation);
+    }
+  }
+
+  requestAnimationFrame(animation);
+}
+
 export default function Drone3D() {
   const rootRef = useRef(null);
-  const [isWebGLSupported] = useState(detectWebGL);
+  const [isWebGLSupported] = useState(detectWebGL());
   const [isLoading, setIsLoading] = useState(isWebGLSupported);
   const [error, setError] = useState(null);
   const [droneState, setDroneState] = useState(DRONE_STATES.OFF);
@@ -270,7 +299,7 @@ export default function Drone3D() {
 
       {isWebGLSupported && (
         <Canvas
-          camera={{ position: [0, 0, 3.5], fov: 50 }}
+          camera={{ position: [0, 0, 1.2], fov: 40 }}
           frameloop={inView ? 'always' : 'never'}
           gl={{
             antialias: quality.antialias,
@@ -294,7 +323,7 @@ export default function Drone3D() {
         <h2 className="drone-3d-title">Aerial unit</h2>
         <p className="drone-3d-subtitle">Four rotors</p>
         <p className="drone-3d-hint">Drag to orbit · Scroll to zoom</p>
-        
+
         <div className="drone-controls">
           <button
             type="button"
@@ -319,6 +348,43 @@ export default function Drone3D() {
             onClick={() => setDroneState(DRONE_STATES.TURBO)}
           >
             Turbo
+          </button>
+        </div>
+
+        <div className="drone-navigation">
+          <button
+            type="button"
+            className="drone-nav-btn drone-nav-up"
+            onClick={() => {
+              const productSection = document.querySelector('#product-photography');
+              if (productSection) {
+                const elementPosition = productSection.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - 100;
+                smoothScrollTo(offsetPosition, 200);
+              } else {
+                smoothScrollTo(0, 200);
+              }
+            }}
+            aria-label="Go to Product Photography section"
+          >
+            ↑
+          </button>
+          <button
+            type="button"
+            className="drone-nav-btn drone-nav-down"
+            onClick={() => {
+              const footer = document.querySelector('.footer');
+              if (footer) {
+                const elementPosition = footer.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - 50;
+                smoothScrollTo(offsetPosition, 200);
+              } else {
+                smoothScrollTo(document.body.scrollHeight, 200);
+              }
+            }}
+            aria-label="Go to next section"
+          >
+            ↓
           </button>
         </div>
       </div>
