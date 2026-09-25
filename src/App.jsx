@@ -18,7 +18,7 @@ function AerialSection() {
         setShowDrone(true);
         observer.disconnect();
       },
-      { rootMargin: '45% 0px' },
+      { rootMargin: '60% 0px' },
     );
 
     observer.observe(stage);
@@ -53,14 +53,14 @@ export default function App() {
         <a className="wordmark" href="#top">Northframe</a>
         <nav aria-label="Sections">
           <a href="#work">Work</a>
-          <a href="#aerial">Aerial</a>
           <a href="#studio">Studio</a>
+          <a href="#aerial">Aerial</a>
         </nav>
       </header>
       <main>
         <CinematicPortfolio />
-        <AerialSection />
         <LightingStudio />
+        <AerialSection />
       </main>
     </>
   );

@@ -74,7 +74,7 @@ export default function LightingStudio() {
         setArmed(true);
         loader.disconnect();
       },
-      { rootMargin: '40% 0px' },
+      { rootMargin: '50% 0px' },
     );
     loader.observe(track);
     return () => loader.disconnect();
