@@ -1,0 +1,199 @@
+- generic [ref=e2]:
+  - link "Skip to work" [ref=e3] [cursor=pointer]:
+    - /url: "#work"
+  - banner:
+    - link "HYENA studio" [ref=e4] [cursor=pointer]:
+      - /url: "#top"
+    - navigation "Sections":
+      - link "Work" [ref=e5] [cursor=pointer]:
+        - /url: "#work"
+      - link "Studio" [ref=e6] [cursor=pointer]:
+        - /url: "#studio"
+      - link "Aerial" [ref=e7] [cursor=pointer]:
+        - /url: "#aerial"
+  - main [ref=e8]:
+    - generic [ref=e9]:
+      - region "Introduction" [ref=e10]:
+        - generic [ref=e12]:
+          - paragraph [ref=e13]: HYENA studio — Film and post
+          - heading [level=1] [ref=e14]
+          - paragraph [ref=e15]: Cinematography, editing, and aerial for pictures that feel directed. Light first. Then the cut.
+        - complementary "Featured frames" [ref=e16]:
+          - link "01 After the Rain Photography" [ref=e17] [cursor=pointer]:
+            - /url: "#work"
+            - generic [ref=e18]: "01"
+            - generic [ref=e19]:
+              - strong [ref=e20]: After the Rain
+              - emphasis [ref=e21]: Photography
+          - link "02 Glass House Commercial" [ref=e22] [cursor=pointer]:
+            - /url: "#work"
+            - generic [ref=e23]: "02"
+            - generic [ref=e24]:
+              - strong [ref=e25]: Glass House
+              - emphasis [ref=e26]: Commercial
+          - link "03 Night Market Aerial" [ref=e27] [cursor=pointer]:
+            - /url: "#work"
+            - generic [ref=e28]: "03"
+            - generic [ref=e29]:
+              - strong [ref=e30]: Night Market
+              - emphasis [ref=e31]: Aerial
+        - generic [ref=e32]:
+          - generic [ref=e33]: 01 — Portfolio
+          - generic [ref=e34]: "-1:-1:-1:-2"
+          - generic [ref=e35]: Rec
+      - generic [ref=e38]:
+        - generic [ref=e39]: ·Direction
+        - generic [ref=e40]: ·Edit
+        - generic [ref=e41]: ·Grade
+        - generic [ref=e42]: ·Aerial
+        - generic [ref=e43]: ·Sound
+        - generic [ref=e44]: ·Commercial
+        - generic [ref=e45]: ·Direction
+        - generic [ref=e46]: ·Edit
+        - generic [ref=e47]: ·Grade
+        - generic [ref=e48]: ·Aerial
+        - generic [ref=e49]: ·Sound
+        - generic [ref=e50]: ·Commercial
+      - region "Selected work" [ref=e51]:
+        - generic [ref=e52]:
+          - paragraph [ref=e53]: Selected pictures
+          - heading "Work that holds." [level=2] [ref=e54]
+      - region "Studio note" [ref=e56]:
+        - paragraph [ref=e57]: From the first frame to the final grade.
+    - region "Lighting studio" [ref=e58]:
+      - generic [ref=e59]:
+        - paragraph [ref=e60]: "Scroll to build a cinematic still: darkness, key light, light position, fill, color, rim light, and the finished frame."
+        - paragraph: 03 — Lighting
+        - generic:
+          - generic:
+            - generic: "01"
+            - heading "DARKNESS" [level=2]
+          - generic [aria-hidden]:
+            - generic: "02"
+            - heading [level=2]: KEY LIGHT
+            - paragraph: Shape the subject.
+          - generic [aria-hidden]:
+            - generic: "03"
+            - heading [level=2]: POSITION
+            - paragraph: Change the mood.
+          - generic [aria-hidden]:
+            - generic: "04"
+            - heading [level=2]: FILL LIGHT
+            - paragraph: Control the shadows.
+          - generic [aria-hidden]:
+            - generic: "05"
+            - heading [level=2]: COLOR
+            - paragraph: Set the tone.
+          - generic [aria-hidden]:
+            - generic: "06"
+            - heading [level=2]: RIM LIGHT
+            - paragraph: Separate the subject.
+          - generic [aria-hidden]:
+            - heading [level=2]: FROM LIGHT
+            - paragraph: TO STORY
+    - generic [ref=e62]:
+      - heading "Product Photography" [level=2] [ref=e63]
+      - paragraph [ref=e64]: Master the art of light and shadow. Our studio creates cinematic stills that transform products into visual stories, using precise lighting techniques to reveal texture, form, and emotion in every shot.
+    - region "Aerial and drone" [ref=e65]:
+      - generic [ref=e66]:
+        - paragraph [ref=e67]: 02 — Aerial
+        - heading "A modern eye." [level=2] [ref=e68]
+        - paragraph [ref=e69]: The aircraft is part of the picture. Orbit the body, spin the rotors, and treat the tool like a camera.
+      - paragraph [ref=e71]: Aerial unit
+    - generic [ref=e73]:
+      - heading "Modern Aerial Cinematography" [level=2] [ref=e74]
+      - paragraph [ref=e75]: Elevate your perspective with cutting-edge drone technology. From sweeping aerial landscapes to dynamic product shots, we capture the world from angles that inspire and amaze, bringing a new dimension to visual storytelling.
+  - generic [ref=e76]:
+    - heading "Trusted by" [level=2] [ref=e78]
+    - generic [ref=e80]:
+      - generic [ref=e81]: NETFLIX
+      - generic [ref=e83]: APPLE
+      - generic [ref=e85]: AMAZON
+      - generic [ref=e87]: GOOGLE
+      - generic [ref=e89]: MICROSOFT
+      - generic [ref=e91]: ADOBE
+      - generic [ref=e93]: SPOTIFY
+      - generic [ref=e95]: NIKE
+      - generic [ref=e97]: TESLA
+      - generic [ref=e99]: SAMSUNG
+      - generic [ref=e101]: NETFLIX
+      - generic [ref=e103]: APPLE
+      - generic [ref=e105]: AMAZON
+      - generic [ref=e107]: GOOGLE
+      - generic [ref=e109]: MICROSOFT
+      - generic [ref=e111]: ADOBE
+      - generic [ref=e113]: SPOTIFY
+      - generic [ref=e115]: NIKE
+      - generic [ref=e117]: TESLA
+      - generic [ref=e119]: SAMSUNG
+      - generic [ref=e121]: NETFLIX
+      - generic [ref=e123]: APPLE
+      - generic [ref=e125]: AMAZON
+      - generic [ref=e127]: GOOGLE
+      - generic [ref=e129]: MICROSOFT
+      - generic [ref=e131]: ADOBE
+      - generic [ref=e133]: SPOTIFY
+      - generic [ref=e135]: NIKE
+      - generic [ref=e137]: TESLA
+      - generic [ref=e139]: SAMSUNG
+      - generic [ref=e141]: NETFLIX
+      - generic [ref=e143]: APPLE
+      - generic [ref=e145]: AMAZON
+      - generic [ref=e147]: GOOGLE
+      - generic [ref=e149]: MICROSOFT
+      - generic [ref=e151]: ADOBE
+      - generic [ref=e153]: SPOTIFY
+      - generic [ref=e155]: NIKE
+      - generic [ref=e157]: TESLA
+      - generic [ref=e159]: SAMSUNG
+  - contentinfo [ref=e161]:
+    - generic [ref=e162]:
+      - generic [ref=e163]:
+        - generic [ref=e164]:
+          - heading "HYENA studio" [level=3] [ref=e165]
+          - paragraph [ref=e166]: Professional cinematography, editing, and aerial production studio.
+        - generic [ref=e167]:
+          - generic [ref=e168]:
+            - heading "Work" [level=4] [ref=e169]
+            - list [ref=e170]:
+              - listitem [ref=e171]:
+                - link "Portfolio" [ref=e172] [cursor=pointer]:
+                  - /url: "#work"
+              - listitem [ref=e173]:
+                - link "Aerial" [ref=e174] [cursor=pointer]:
+                  - /url: "#aerial"
+              - listitem [ref=e175]:
+                - link "Studio" [ref=e176] [cursor=pointer]:
+                  - /url: "#studio"
+          - generic [ref=e177]:
+            - heading "Connect" [level=4] [ref=e178]
+            - list [ref=e179]:
+              - listitem [ref=e180]:
+                - link "Email" [ref=e181] [cursor=pointer]:
+                  - /url: mailto:hello@hyenastudio.com
+              - listitem [ref=e182]:
+                - link "Instagram" [ref=e183] [cursor=pointer]:
+                  - /url: "#"
+              - listitem [ref=e184]:
+                - link "Vimeo" [ref=e185] [cursor=pointer]:
+                  - /url: "#"
+          - generic [ref=e186]:
+            - heading "Studio" [level=4] [ref=e187]
+            - list [ref=e188]:
+              - listitem [ref=e189]: Iran
+              - listitem [ref=e190]:
+                - link "+98 912 345 6789" [ref=e191] [cursor=pointer]:
+                  - /url: tel:+989123456789
+        - generic [ref=e192]:
+          - heading "Stay updated" [level=4] [ref=e193]
+          - generic [ref=e194]:
+            - textbox "Enter your email" [ref=e195]
+            - button "Subscribe" [ref=e196] [cursor=pointer]
+          - paragraph [ref=e197]: Get the latest work and updates directly to your inbox.
+      - generic [ref=e199]:
+        - paragraph [ref=e200]: © 2025 HYENA studio. All rights reserved.
+        - generic [ref=e201]:
+          - link "Privacy Policy" [ref=e202] [cursor=pointer]:
+            - /url: "#"
+          - link "Terms of Service" [ref=e203] [cursor=pointer]:
+            - /url: "#"

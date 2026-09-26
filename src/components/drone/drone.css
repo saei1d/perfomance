@@ -133,6 +133,7 @@
   gap: 12px;
   z-index: 15;
   pointer-events: auto;
+  touch-action: manipulation;
 }
 
 .drone-nav-btn {
@@ -208,8 +209,10 @@
 /* Responsive Design */
 @media (max-width: 768px) {
   .drone-navigation {
-    right: 15px;
+    right: 75px;
     gap: 8px;
+    top: 50%;
+    transform: translateY(-50%);
   }
 
   .drone-nav-btn {
@@ -228,8 +231,10 @@
 
 @media (max-width: 480px) {
   .drone-navigation {
-    right: 10px;
+    right: 65px;
     gap: 6px;
+    top: 50%;
+    transform: translateY(-50%);
   }
 
   .drone-nav-btn {
@@ -243,6 +248,12 @@
     left: 10px;
     bottom: 10px;
     padding: 12px;
+  }
+}
+
+@media (max-width: 380px) {
+  .drone-navigation {
+    right: 60px;
   }
 }
 

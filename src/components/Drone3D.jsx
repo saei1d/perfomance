@@ -21,7 +21,7 @@ const SPEED_CONFIG = {
 const TRANSITION_SPEED = 0.008;
 
 function DroneModel({ droneState, onLoad }) {
-  const { scene } = useGLTF('/perfomance/output3.glb');
+  const { scene } = useGLTF('/perfomance/x-webp.glb');
   const propellerRefs = useRef({
     prop1: null,
     prop2: null,
@@ -153,7 +153,7 @@ function CanvasContent({ droneState, onLoad }) {
       <PresentationControls
         global
         zoom={0.8}
-        rotation={[0, -Math.PI / 4, 0]}
+        rotation={[0, 0, 0]}
         polar={[0, Math.PI / 4]}
         azimuth={[-Math.PI / 4, Math.PI / 4]}
       >
@@ -241,7 +241,7 @@ export default function Drone3D() {
   const [isWebGLSupported] = useState(detectWebGL());
   const [isLoading, setIsLoading] = useState(isWebGLSupported);
   const [error, setError] = useState(null);
-  const [droneState, setDroneState] = useState(DRONE_STATES.OFF);
+  const [droneState, setDroneState] = useState(DRONE_STATES.ON);
   const [inView, setInView] = useState(true);
   const quality = useMemo(() => {
     const mobile = window.matchMedia('(max-width: 768px)').matches;
@@ -389,6 +389,9 @@ export default function Drone3D() {
         </div>
       </div>
       )}
+
+      {/* Scrollable area on the right side for mobile */}
+      <div className="drone-scroll-area" aria-hidden="true" />
     </div>
   );
 }

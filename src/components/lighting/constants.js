@@ -1,5 +1,5 @@
 /** Served from /public. Vite `base` is `/perfomance/`. */
-export const STATUE_URL = '/perfomance/final1.glb';
+export const STATUE_URL = '/perfomance/quantized-test.glb';
 
 /** Physically based spotlight intensities, in candela. */
 export const LIGHT = {

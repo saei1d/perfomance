@@ -106,6 +106,7 @@
     linear-gradient(90deg, rgba(232, 226, 214, 0.045) 1px, transparent 1px);
   background-size: 72px 72px;
   background-position: center;
+  overflow: hidden;
 }
 
 .aerial-corner {
@@ -141,6 +142,40 @@
   height: 100%;
   position: relative;
   background: transparent;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.drone-scroll-area {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 60px;
+  height: 100%;
+  z-index: 20;
+  pointer-events: auto;
+  touch-action: pan-y;
+  display: none;
+}
+
+@media (max-width: 640px) {
+  .drone-scroll-area {
+    display: block;
+  }
+
+  .drone-3d-overlay {
+    max-width: calc(100% - 80px);
+  }
+}
+
+@media (max-width: 380px) {
+  .drone-scroll-area {
+    width: 50px;
+  }
+
+  .drone-3d-overlay {
+    max-width: calc(100% - 70px) !important;
+  }
 }
 
 .drone-3d-container canvas {
@@ -160,6 +195,7 @@
   align-items: center;
   text-align: center;
   pointer-events: none;
+  max-width: calc(100% - 4rem);
 }
 
 .drone-3d-title {
@@ -235,6 +271,9 @@
   align-items: center;
   justify-content: center;
   background: rgba(8, 8, 8, 0.88);
+  max-width: 100%;
+  max-height: 100%;
+  overflow: hidden;
 }
 
 .drone-loading p,
@@ -320,10 +359,12 @@
   .aerial-stage {
     min-height: 100vh;
     min-height: 100dvh;
+    position: relative;
   }
 
   .drone-3d-overlay {
     padding: 0 1rem;
+    max-width: calc(100% - 80px);
   }
 
   .drone-3d-title {
