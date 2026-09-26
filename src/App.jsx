@@ -4,6 +4,7 @@ import Drone3D from './components/Drone3D';
 import LightingStudio from './components/LightingStudio';
 import Footer from './components/Footer';
 import TrustedBy from './components/TrustedBy';
+import Navigation from './components/Navigation';
 import './App.css';
 
 function AerialSection() {
@@ -62,15 +63,8 @@ export default function App() {
   return (
     <>
       <a className="skip" href="#work">Skip to work</a>
-      <header className="nav">
-        <a className="wordmark" href="#top">HYENA studio</a>
-        <nav aria-label="Sections">
-          <a href="#work">Work</a>
-          <a href="#studio">Studio</a>
-          <a href="#aerial">Aerial</a>
-        </nav>
-      </header>
-      <main>
+      <Navigation />
+      <main className="pt-16">
         <CinematicPortfolio />
         <LightingStudio />
         <SectionTransition

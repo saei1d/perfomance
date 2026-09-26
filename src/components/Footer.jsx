@@ -19,7 +19,7 @@ export default function Footer() {
       <div className="footer-container">
         <div className="footer-content">
           <div className="footer-brand">
-            <h3 className="footer-title">HYENA studio</h3>
+            <h3 className="footer-title">TORRENTO</h3>
             <p className="footer-tagline">Professional cinematography, editing, and aerial production studio.</p>
           </div>
 
@@ -36,7 +36,7 @@ export default function Footer() {
             <div className="footer-link-group">
               <h4 className="footer-link-title">Connect</h4>
               <ul className="footer-link-list">
-                <li><a href="mailto:hello@hyenastudio.com">Email</a></li>
+                <li><a href="mailto:hello@torrento.studio">Email</a></li>
                 <li><a href="#">Instagram</a></li>
                 <li><a href="#">Vimeo</a></li>
               </ul>
@@ -45,8 +45,8 @@ export default function Footer() {
             <div className="footer-link-group">
               <h4 className="footer-link-title">Studio</h4>
               <ul className="footer-link-list">
-                <li>Iran</li>
-                <li><a href="tel:+989123456789">+98 912 345 6789</a></li>
+                <li>Toronto, Canada</li>
+                <li><a href="tel:+14165551234">+1 416 555 1234</a></li>
               </ul>
             </div>
           </div>
@@ -72,7 +72,7 @@ export default function Footer() {
 
         <div className="footer-bottom">
           <div className="footer-bottom-content">
-            <p className="footer-copyright">© 2025 HYENA studio. All rights reserved.</p>
+            <p className="footer-copyright">© 2025 TORRENTO. All rights reserved.</p>
             <div className="footer-bottom-links">
               <a href="#">Privacy Policy</a>
               <a href="#">Terms of Service</a>

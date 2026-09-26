@@ -64,7 +64,7 @@
 .aerial {
   position: relative;
   z-index: 2;
-  background: #000000;
+  background: linear-gradient(180deg, #000000 0%, #0a0a0a 100%);
   scroll-margin-top: 4.5rem;
 }
 
@@ -79,11 +79,12 @@
 
 .aerial-copy h2 {
   margin: 0 0 1rem;
-  font-family: "Cormorant Garamond", Georgia, serif;
-  font-size: clamp(3rem, 7vw, 5.6rem);
-  font-weight: 500;
-  letter-spacing: -0.035em;
-  line-height: 0.92;
+  font-family: Outfit, "Segoe UI", sans-serif;
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  text-transform: uppercase;
 }
 
 .aerial-copy p:last-child {
@@ -100,12 +101,7 @@
   height: 100vh;
   height: 100dvh;
   min-height: 32rem;
-  background-color: #080808;
-  background-image:
-    linear-gradient(rgba(232, 226, 214, 0.045) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(232, 226, 214, 0.045) 1px, transparent 1px);
-  background-size: 72px 72px;
-  background-position: center;
+  background: linear-gradient(135deg, #0a0a0a 0%, #000000 50%, #050505 100%);
   overflow: hidden;
 }
 
@@ -201,20 +197,21 @@
 .drone-3d-title {
   margin: 0;
   font-family: Outfit, "Segoe UI", sans-serif;
-  font-size: clamp(0.72rem, 1.4vw, 0.85rem);
-  font-weight: 400;
-  letter-spacing: 0.42em;
+  font-size: clamp(0.85rem, 1.6vw, 1rem);
+  font-weight: 500;
+  letter-spacing: 0.5em;
   text-transform: uppercase;
+  color: #ffffff;
 }
 
 .drone-3d-subtitle {
   margin: 0.4rem 0 0;
-  font-family: "Cormorant Garamond", Georgia, serif;
-  font-size: 1.35rem;
-  font-style: italic;
-  letter-spacing: 0;
+  font-family: Outfit, "Segoe UI", sans-serif;
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  font-weight: 300;
+  letter-spacing: 0.1em;
   text-transform: none;
-  color: rgba(232, 226, 214, 0.78);
+  color: rgba(255, 255, 255, 0.8);
 }
 
 .drone-3d-hint {
@@ -238,27 +235,32 @@
   min-width: 5.5rem;
   min-height: 2.75rem;
   padding: 0.7rem 1rem;
-  border: 1px solid rgba(232, 226, 214, 0.22);
-  border-radius: 999px;
-  background: rgba(7, 7, 8, 0.55);
-  color: #e8e2d6;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.05);
+  color: #ffffff;
   font-family: inherit;
-  font-size: 0.68rem;
-  letter-spacing: 0.22em;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
   text-transform: uppercase;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
-  transition: border-color 0.25s ease, background 0.25s ease, color 0.25s ease;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
 }
 
 .drone-control-btn:hover {
-  border-color: rgba(232, 226, 214, 0.45);
+  border-color: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
 }
 
 .drone-control-btn.active {
-  border-color: rgba(255, 185, 1, 0.9);
-  background: rgba(255, 185, 1, 0.16);
-  color: #f6efe2;
+  border-color: #ffffff;
+  background: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
 }
 
 .drone-loading,

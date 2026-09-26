@@ -13,6 +13,8 @@ const WORK = [
   { id: '02', title: 'North Shore', role: 'Edit and grade', year: '2025', tone: 'warm' },
   { id: '03', title: 'Glass House', role: 'Commercial', year: '2024', tone: 'neutral' },
   { id: '04', title: 'Night Market', role: 'Aerial and edit', year: '2024', tone: 'amber' },
+  { id: '05', title: 'Desert Storm', role: 'Direction', year: '2024', tone: 'warm' },
+  { id: '06', title: 'Urban Decay', role: 'Documentary', year: '2023', tone: 'cool' },
 ];
 
 const REEL = ['Direction', 'Edit', 'Grade', 'Aerial', 'Sound', 'Commercial'];
@@ -122,7 +124,7 @@ export default function CinematicPortfolio() {
         <div className="sprocket" aria-hidden="true" />
 
         <div className="cine-hero-copy">
-          <p className="eyebrow">HYENA studio — Film and post</p>
+          <p className="eyebrow">TORRENTO — Film and post</p>
           <h1 className="cine-title">
             <span className="cine-title-line">Capture</span>
             <span className="cine-title-line cine-title-italic">the</span>

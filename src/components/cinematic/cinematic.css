@@ -11,8 +11,8 @@
   grid-template-columns: 2.25rem minmax(0, 1.4fr) minmax(14rem, 0.8fr);
   gap: clamp(1.5rem, 4vw, 4rem);
   align-items: end;
-  min-height: 100vh;
-  min-height: 100dvh;
+  min-height: 110vh;
+  min-height: 110dvh;
   padding:
     calc(6.5rem + env(safe-area-inset-top))
     max(4vw, env(safe-area-inset-right))
@@ -20,7 +20,8 @@
     max(1.25rem, env(safe-area-inset-left));
   overflow: hidden;
   background:
-    radial-gradient(ellipse at 70% 20%, rgba(255, 185, 1, 0.08), transparent 42%),
+    radial-gradient(ellipse at 70% 20%, rgba(255, 185, 1, 0.12), transparent 50%),
+    radial-gradient(ellipse at 30% 80%, rgba(232, 226, 214, 0.03), transparent 40%),
     #000000;
 }
 
@@ -45,10 +46,11 @@
 .cine-title {
   margin: 0;
   font-family: "Cormorant Garamond", Georgia, serif;
-  font-weight: 500;
-  font-size: clamp(4.6rem, 11vw, 9.4rem);
-  line-height: 0.9;
-  letter-spacing: -0.045em;
+  font-weight: 400;
+  font-size: clamp(5rem, 12vw, 10rem);
+  line-height: 0.85;
+  letter-spacing: -0.05em;
+  text-shadow: 0 0 40px rgba(255, 185, 1, 0.15);
 }
 
 .cine-title-line {
@@ -231,7 +233,7 @@
 }
 
 .work {
-  padding: clamp(4.5rem, 10vh, 7rem) max(6vw, env(safe-area-inset-right)) clamp(3rem, 8vh, 5rem) max(6vw, env(safe-area-inset-left));
+  padding: clamp(6rem, 12vh, 10rem) max(6vw, env(safe-area-inset-right)) clamp(5rem, 10vh, 8rem) max(6vw, env(safe-area-inset-left));
   scroll-margin-top: 4.5rem;
 }
 
