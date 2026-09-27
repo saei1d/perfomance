@@ -18,6 +18,7 @@ function Statue({ onReady }) {
 
     root.scale.set(1, 1, 1);
     root.position.set(0, 0, 0);
+    root.rotation.y = Math.PI * 1.27; // Rotate 225 degrees
     root.updateWorldMatrix(true, true);
 
     const box = new THREE.Box3().setFromObject(root);
@@ -147,7 +148,7 @@ function StudioRig({ progressRef, compact }) {
         decay={2}
         distance={0}
         intensity={0}
-        color="#f4f4f2"
+        color="#00ff00"
       />
 
       <spotLight
@@ -171,6 +172,88 @@ function StudioRig({ progressRef, compact }) {
   );
 }
 
+function FinalEffect({ progressRef }) {
+  const groupRef = useRef(null);
+  const particlesRef = useRef(null);
+  
+  const particles = useMemo(() => {
+    const count = 80;
+    const positions = new Float32Array(count * 3);
+    const colors = new Float32Array(count * 3);
+    
+    for (let i = 0; i < count; i++) {
+      positions[i * 3] = (Math.random() - 0.5) * 8;
+      positions[i * 3 + 1] = (Math.random() - 0.5) * 6;
+      positions[i * 3 + 2] = 2 + Math.random() * 2;
+      
+      // Green and gold colors
+      const isGreen = Math.random() > 0.3;
+      colors[i * 3] = isGreen ? 0 : 1;
+      colors[i * 3 + 1] = isGreen ? 1 : 0.8;
+      colors[i * 3 + 2] = isGreen ? 0 : 0;
+    }
+    
+    return { positions, count, colors };
+  }, []);
+  
+  useFrame((state, delta) => {
+    if (!groupRef.current) return;
+    
+    // Show during final stage (0.85 to 1.01)
+    const progress = (progressRef.current - 0.85) / 0.16;
+    if (progress <= 0) {
+      groupRef.current.visible = false;
+      return;
+    }
+    
+    groupRef.current.visible = true;
+    
+    const easedProgress = Math.min(1, progress * 1.5);
+    
+    // Particle animation
+    if (particlesRef.current) {
+      const positions = particlesRef.current.geometry.attributes.position.array;
+      for (let i = 0; i < particles.count; i++) {
+        positions[i * 3] += (Math.random() - 0.5) * 0.02;
+        positions[i * 3 + 1] += (Math.random() - 0.5) * 0.02;
+        positions[i * 3 + 2] += Math.random() * 0.03;
+      }
+      particlesRef.current.geometry.attributes.position.needsUpdate = true;
+      particlesRef.current.material.opacity = easedProgress * 0.7;
+    }
+  });
+
+  return (
+    <group ref={groupRef} position={[0, 0, 0]}>
+      {/* Decorative particles */}
+      <points ref={particlesRef}>
+        <bufferGeometry>
+          <bufferAttribute
+            attach="attributes-position"
+            count={particles.count}
+            array={particles.positions}
+            itemSize={3}
+          />
+          <bufferAttribute
+            attach="attributes-color"
+            count={particles.count}
+            array={particles.colors}
+            itemSize={3}
+          />
+        </bufferGeometry>
+        <pointsMaterial
+          size={0.05}
+          transparent
+          opacity={0}
+          vertexColors
+          sizeAttenuation
+          depthTest={false}
+        />
+      </points>
+    </group>
+  );
+}
+
 export default function StudioScene({ progressRef, compact, onReady }) {
   return (
     <>
@@ -179,6 +262,7 @@ export default function StudioScene({ progressRef, compact, onReady }) {
       <Suspense fallback={null}>
         <Statue onReady={onReady} />
       </Suspense>
+      <FinalEffect progressRef={progressRef} />
     </>
   );
 }

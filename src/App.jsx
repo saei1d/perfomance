@@ -48,12 +48,13 @@ function AerialSection() {
   );
 }
 
-function SectionTransition({ title, description, dark = false, id }) {
+function SectionTransition({ title, description, dark = false, id, image }) {
   return (
     <section id={id} className={`section-transition ${dark ? 'section-transition--dark' : ''}`}>
       <div className="section-transition-content">
         <h2 className="section-transition-title">{title}</h2>
         <p className="section-transition-description">{description}</p>
+        {image && <img src={image} alt={title} className="section-transition-image" />}
       </div>
     </section>
   );
@@ -71,6 +72,7 @@ export default function App() {
           id="product-photography"
           title="Product Photography"
           description="Master the art of light and shadow. Our studio creates cinematic stills that transform products into visual stories, using precise lighting techniques to reveal texture, form, and emotion in every shot."
+          image="/perfomance/finalshot.webp"
         />
         <AerialSection />
         <SectionTransition

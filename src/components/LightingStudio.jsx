@@ -167,7 +167,7 @@ export default function LightingStudio() {
                 frameloop={inView ? 'always' : 'never'}
                 dpr={compact ? [1, 1.25] : [1, 1.75]}
                 camera={{
-                  position: [0.02, 1.22, 6.5],
+                  position: [0, 1.22, 10.0],
                   fov: compact ? 34 : 30,
                   near: 0.1,
                   far: 40,

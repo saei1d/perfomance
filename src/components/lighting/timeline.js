@@ -59,18 +59,20 @@ export function sampleTimeline(progress, compact, out) {
   out.keyPosition.z = Math.cos(angle) * lerp(3.4, 2.35, arc);
 
   out.fillIntensity = LIGHT.fill * smooth(range(p, 0.45, 0.6));
-  out.rimIntensity = LIGHT.rim * smooth(range(p, 0.75, 0.9));
-  out.ambient = lerp(LIGHT.ambientStart, LIGHT.ambientEnd, smooth(range(p, 0.15, 1)));
+  out.rimIntensity = LIGHT.rim * smooth(range(p, 0.75, 0.85));
+  out.ambient = lerp(LIGHT.ambientStart, LIGHT.ambientEnd, smooth(range(p, 0.15, 0.85)));
 
   const colorMix = smooth(range(p, 0.6, 0.75));
   lerpColor(NEUTRAL, WARM, colorMix, out.keyColor);
 
   const glide = smooth(p) * 0.58 + smooth(range(p, 0.88, 1)) * 0.42;
   const cameraMix = glide * travel;
-  out.camera.x = lerp(0.02, 0.38, cameraMix);
+
+  // Camera views directly from front of the can - much further back
+  out.camera.x = 0;
   out.camera.y = lerp(1.22, 0.98, cameraMix);
-  out.camera.z = lerp(6.5, 4.35, cameraMix);
-  out.look.x = lerp(0, 0.02, cameraMix);
+  out.camera.z = 10.0;
+  out.look.x = 0;
   out.look.y = lerp(0.95, 1.0, cameraMix);
   out.look.z = 0;
 
@@ -85,7 +87,7 @@ export function createTimelineSample() {
     rimIntensity: 0,
     ambient: LIGHT.ambientStart,
     keyColor: { r: NEUTRAL.r, g: NEUTRAL.g, b: NEUTRAL.b },
-    camera: { x: 0.02, y: 1.22, z: 6.5 },
+    camera: { x: 0, y: 1.22, z: 10.0 },
     look: { x: 0, y: 0.95, z: 0 },
   };
 }
