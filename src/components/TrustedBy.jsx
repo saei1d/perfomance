@@ -1,16 +1,16 @@
 import './TrustedBy.css';
 
 const CLIENTS = [
-  { name: 'Netflix', logo: 'NETFLIX' },
-  { name: 'Apple', logo: 'APPLE' },
-  { name: 'Amazon', logo: 'AMAZON' },
-  { name: 'Google', logo: 'GOOGLE' },
-  { name: 'Microsoft', logo: 'MICROSOFT' },
-  { name: 'Adobe', logo: 'ADOBE' },
-  { name: 'Spotify', logo: 'SPOTIFY' },
-  { name: 'Nike', logo: 'NIKE' },
-  { name: 'Tesla', logo: 'TESLA' },
-  { name: 'Samsung', logo: 'SAMSUNG' },
+  { name: 'Winova Windows', logo: 'WINOVA WINDOWS' },
+  { name: 'Winova Windows', logo: 'WINOVA WINDOWS' },
+  { name: 'Winova Windows', logo: 'WINOVA WINDOWS' },
+  { name: 'Winova Windows', logo: 'WINOVA WINDOWS' },
+  { name: 'Winova Windows', logo: 'WINOVA WINDOWS' },
+  { name: 'Winova Windows', logo: 'WINOVA WINDOWS' },
+  { name: 'Winova Windows', logo: 'WINOVA WINDOWS' },
+  { name: 'Winova Windows', logo: 'WINOVA WINDOWS' },
+  { name: 'Winova Windows', logo: 'WINOVA WINDOWS' },
+  { name: 'Winova Windows', logo: 'WINOVA WINDOWS' },
 ];
 
 export default function TrustedBy() {

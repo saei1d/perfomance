@@ -1,0 +1,199 @@
+import { useEffect, useRef, useState } from 'react';
+import Drone3D from './Drone3D.jsx';
+import './EquipmentSection.css';
+
+const EQUIPMENT = [
+  {
+    id: '01',
+    name: 'Cameras',
+    icon: (
+      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z" />
+        <circle cx="12" cy="13" r="3" />
+      </svg>
+    ),
+    description: 'Sony FX3, RED Komodo, ARRI Alexa Mini'
+  },
+  {
+    id: '02',
+    name: 'Lenses',
+    icon: (
+      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="12" cy="12" r="10" />
+        <circle cx="12" cy="12" r="6" />
+        <circle cx="12" cy="12" r="2" />
+      </svg>
+    ),
+    description: 'Zeiss Supreme, Canon CN-E, Sigma Cine'
+  },
+  {
+    id: '03',
+    name: 'Lighting',
+    icon: (
+      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M9 18h6" />
+        <path d="M10 22h4" />
+        <path d="M12 2v1" />
+        <path d="M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10z" />
+        <path d="M5.6 5.6l.7.7" />
+        <path d="M18.4 5.6l-.7.7" />
+        <path d="M5.6 18.4l.7-.7" />
+        <path d="M18.4 18.4l-.7-.7" />
+      </svg>
+    ),
+    description: 'Aputure, Nanlux, ARRI SkyPanel'
+  },
+  {
+    id: '04',
+    name: 'Audio',
+    icon: (
+      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
+        <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+        <line x1="12" y1="19" x2="12" y2="23" />
+        <line x1="8" y1="23" x2="16" y2="23" />
+      </svg>
+    ),
+    description: 'Sennheiser, Rode, Sound Devices'
+  },
+  {
+    id: '05',
+    name: 'Gimbals',
+    icon: (
+      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="12" cy="12" r="10" />
+        <path d="M12 2a10 10 0 0 1 10 10" />
+        <path d="M12 22a10 10 0 0 1-10-10" />
+        <circle cx="12" cy="12" r="3" />
+      </svg>
+    ),
+    description: 'DJI Ronin, Freefly MoVI'
+  },
+  {
+    id: '06',
+    name: 'Drones',
+    icon: (
+      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M12 2L2 7l10 5 10-5-10-5z" />
+        <path d="M2 17l10 5 10-5" />
+        <path d="M2 12l10 5 10-5" />
+        <path d="M17 8l-5 3-5-3" />
+      </svg>
+    ),
+    description: 'DJI Inspire, Mavic 3 Pro, FPV'
+  },
+  {
+    id: '07',
+    name: 'Support',
+    icon: (
+      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M3 3v18h18" />
+        <path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3" />
+      </svg>
+    ),
+    description: 'Sachtler, Manfrotto, GVM'
+  },
+  {
+    id: '08',
+    name: 'Monitoring',
+    icon: (
+      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
+        <line x1="8" y1="21" x2="16" y2="21" />
+        <line x1="12" y1="17" x2="12" y2="21" />
+      </svg>
+    ),
+    description: 'SmallHD, Atomos, Teradek'
+  },
+];
+
+function EquipmentSlider() {
+  const sliderRef = useRef(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
+
+  const updateScrollButtons = () => {
+    if (sliderRef.current) {
+      setCanScrollLeft(sliderRef.current.scrollLeft > 0);
+      setCanScrollRight(
+        sliderRef.current.scrollLeft <
+          sliderRef.current.scrollWidth - sliderRef.current.clientWidth
+      );
+    }
+  };
+
+  useEffect(() => {
+    const slider = sliderRef.current;
+    if (slider) {
+      slider.addEventListener('scroll', updateScrollButtons);
+      updateScrollButtons();
+      return () => slider.removeEventListener('scroll', updateScrollButtons);
+    }
+  }, []);
+
+  const scroll = (direction) => {
+    if (sliderRef.current) {
+      const scrollAmount = 300;
+      sliderRef.current.scrollBy({
+        left: direction === 'left' ? -scrollAmount : scrollAmount,
+        behavior: 'smooth',
+      });
+    }
+  };
+
+  return (
+    <div className="equipment-slider-container">
+      <button
+        className="slider-arrow slider-arrow-left"
+        onClick={() => scroll('left')}
+        disabled={!canScrollLeft}
+        aria-label="Scroll left"
+      >
+        ←
+      </button>
+      <div className="equipment-slider" ref={sliderRef}>
+        {EQUIPMENT.map((item) => (
+          <div key={item.id} className="equipment-card">
+            <div className="equipment-icon">{item.icon}</div>
+            <h3 className="equipment-name">{item.name}</h3>
+            <p className="equipment-description">{item.description}</p>
+          </div>
+        ))}
+      </div>
+      <button
+        className="slider-arrow slider-arrow-right"
+        onClick={() => scroll('right')}
+        disabled={!canScrollRight}
+        aria-label="Scroll right"
+      >
+        →
+      </button>
+    </div>
+  );
+}
+
+export default function EquipmentSection() {
+  return (
+    <section id="equipment" className="equipment-section" aria-label="Equipment">
+      <div className="equipment-header">
+        <p className="eyebrow">05 — Equipment</p>
+        <h2>Professional Gear</h2>
+        <p className="equipment-subtitle">
+          Industry-standard equipment for cinematic excellence
+        </p>
+      </div>
+
+      <div className="equipment-drone-section">
+        <Drone3D />
+      </div>
+
+      <div className="equipment-slider-wrapper">
+        <div className="equipment-slider-header">
+          <h3>Our Arsenal</h3>
+          <p>Explore our complete equipment inventory</p>
+        </div>
+        <EquipmentSlider />
+      </div>
+    </section>
+  );
+}

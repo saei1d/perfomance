@@ -198,16 +198,16 @@ function FinalEffect({ progressRef }) {
   
   useFrame((state, delta) => {
     if (!groupRef.current) return;
-    
-    // Show during final stage (0.85 to 1.01)
-    const progress = (progressRef.current - 0.85) / 0.16;
+
+    // Show during final stage (0.6 to 0.75)
+    const progress = (progressRef.current - 0.6) / 0.15;
     if (progress <= 0) {
       groupRef.current.visible = false;
       return;
     }
-    
+
     groupRef.current.visible = true;
-    
+
     const easedProgress = Math.min(1, progress * 1.5);
     
     // Particle animation

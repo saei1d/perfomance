@@ -7,10 +7,8 @@ export default function Navigation() {
   const menuItems = [
     { name: 'Work', href: '#work' },
     { name: 'Studio', href: '#studio' },
-    { name: 'Aerial', href: '#aerial' },
-    { name: 'About', href: '#about' },
-    { name: 'Contact', href: '#contact' },
-    { name: 'Portfolio', href: '#portfolio' },
+    { name: 'Photography', href: '#photography' },
+    { name: 'Equipment', href: '#equipment' },
   ];
 
   return (
@@ -18,7 +16,7 @@ export default function Navigation() {
       <div className="nav-container">
         <div className="nav-content">
           <a href="#top" className="nav-logo">
-            TORRENTO
+            HYENA STUDIO
           </a>
 
           <nav className="nav-desktop" aria-label="Main navigation">

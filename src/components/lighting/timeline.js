@@ -59,10 +59,10 @@ export function sampleTimeline(progress, compact, out) {
   out.keyPosition.z = Math.cos(angle) * lerp(3.4, 2.35, arc);
 
   out.fillIntensity = LIGHT.fill * smooth(range(p, 0.45, 0.6));
-  out.rimIntensity = LIGHT.rim * smooth(range(p, 0.75, 0.85));
-  out.ambient = lerp(LIGHT.ambientStart, LIGHT.ambientEnd, smooth(range(p, 0.15, 0.85)));
+  out.rimIntensity = LIGHT.rim * smooth(range(p, 0.6, 0.75));
+  out.ambient = lerp(LIGHT.ambientStart, LIGHT.ambientEnd, smooth(range(p, 0.15, 0.75)));
 
-  const colorMix = smooth(range(p, 0.6, 0.75));
+  const colorMix = smooth(range(p, 0.45, 0.6));
   lerpColor(NEUTRAL, WARM, colorMix, out.keyColor);
 
   const glide = smooth(p) * 0.58 + smooth(range(p, 0.88, 1)) * 0.42;

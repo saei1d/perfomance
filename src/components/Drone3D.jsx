@@ -276,6 +276,15 @@ export default function Drone3D() {
 
   return (
     <div className="drone-3d-container" ref={rootRef}>
+      <div className="drone-aurora">
+        <div className="drone-aurora-blob" />
+        <div className="drone-aurora-blob" />
+        <div className="drone-aurora-blob" />
+        <div className="drone-aurora-blob" />
+        <div className="drone-aurora-blob" />
+      </div>
+      <div className="drone-infinity-ring" />
+      <div className="drone-center-glow" />
       {!isWebGLSupported && (
         <div className="drone-error">
           <p>3D View Not Available</p>
@@ -298,24 +307,26 @@ export default function Drone3D() {
       )}
 
       {isWebGLSupported && (
-        <Canvas
-          camera={{ position: [0, 0, 1.2], fov: 40 }}
-          frameloop={inView ? 'always' : 'never'}
-          gl={{
-            antialias: quality.antialias,
-            alpha: true,
-            powerPreference: quality.powerPreference,
-            stencil: false,
-            depth: true
-          }}
-          dpr={quality.dpr}
-          onError={handleError}
-          style={{ opacity: isLoading ? 0 : 1 }}
-        >
-        <Suspense fallback={null}>
-          <CanvasContent droneState={droneState} onLoad={handleLoad} />
-          </Suspense>
-        </Canvas>
+        <div className="drone-canvas-wrapper">
+          <Canvas
+            camera={{ position: [0, 0, 1.2], fov: 40 }}
+            frameloop={inView ? 'always' : 'never'}
+            gl={{
+              antialias: quality.antialias,
+              alpha: true,
+              powerPreference: quality.powerPreference,
+              stencil: false,
+              depth: true
+            }}
+            dpr={quality.dpr}
+            onError={handleError}
+            style={{ opacity: isLoading ? 0 : 1 }}
+          >
+          <Suspense fallback={null}>
+            <CanvasContent droneState={droneState} onLoad={handleLoad} />
+            </Suspense>
+          </Canvas>
+        </div>
       )}
 
       {isWebGLSupported && (
@@ -348,43 +359,6 @@ export default function Drone3D() {
             onClick={() => setDroneState(DRONE_STATES.TURBO)}
           >
             Turbo
-          </button>
-        </div>
-
-        <div className="drone-navigation">
-          <button
-            type="button"
-            className="drone-nav-btn drone-nav-up"
-            onClick={() => {
-              const productSection = document.querySelector('#product-photography');
-              if (productSection) {
-                const elementPosition = productSection.getBoundingClientRect().top;
-                const offsetPosition = elementPosition + window.pageYOffset - 100;
-                smoothScrollTo(offsetPosition, 200);
-              } else {
-                smoothScrollTo(0, 200);
-              }
-            }}
-            aria-label="Go to Product Photography section"
-          >
-            ↑
-          </button>
-          <button
-            type="button"
-            className="drone-nav-btn drone-nav-down"
-            onClick={() => {
-              const footer = document.querySelector('.footer');
-              if (footer) {
-                const elementPosition = footer.getBoundingClientRect().top;
-                const offsetPosition = elementPosition + window.pageYOffset - 50;
-                smoothScrollTo(offsetPosition, 200);
-              } else {
-                smoothScrollTo(document.body.scrollHeight, 200);
-              }
-            }}
-            aria-label="Go to next section"
-          >
-            ↓
           </button>
         </div>
       </div>

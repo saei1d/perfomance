@@ -156,7 +156,7 @@ export default function LightingStudio() {
     >
       <div ref={stickyRef} className="studio-sticky">
         <p className="sr-only">
-          Scroll to build a cinematic still: darkness, key light, light position, fill, color, rim light, and the finished frame.
+          Scroll to build a cinematic still: darkness, key light, light position, fill & color, and rim light.
         </p>
 
         {webgl && armed && (
