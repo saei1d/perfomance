@@ -125,30 +125,27 @@ function DroneModel({ droneState, onLoad }) {
       propellerRotations.current.prop1 += currentSpeed.current;
       propellerRefs.current.prop1.rotation.y = propellerRotations.current.prop1;
     }
-    
+
     if (propellerRefs.current.prop2) {
       propellerRotations.current.prop2 -= currentSpeed.current; // Opposite direction
       propellerRefs.current.prop2.rotation.y = propellerRotations.current.prop2;
     }
-    
+
     if (propellerRefs.current.prop3) {
       propellerRotations.current.prop3 += currentSpeed.current; // Same as prop1
       propellerRefs.current.prop3.rotation.y = propellerRotations.current.prop3;
     }
-    
+
     if (propellerRefs.current.prop4) {
       propellerRotations.current.prop4 -= currentSpeed.current; // Opposite direction
       propellerRefs.current.prop4.rotation.y = propellerRotations.current.prop4;
     }
-
-
   });
 
   return (
     <primitive
       object={scene}
       scale={scale}
-      position={[0, 0, 0]}
     />
   );
 }
@@ -169,7 +166,7 @@ function CanvasContent({ droneState, onLoad }) {
         />
       </PresentationControls>
 
-      <Environment preset="studio" />
+      <Environment preset="studio" background={false} />
 
       <ambientLight intensity={0.8} />
       <directionalLight
@@ -353,7 +350,7 @@ export default function Drone3D() {
               }}
               dpr={quality.dpr}
               onError={handleError}
-              style={{ opacity: isLoading ? 0 : 1 }}
+              style={{ opacity: isLoading ? 0 : 1, background: 'transparent' }}
             >
             <Suspense fallback={null}>
               <CanvasContent droneState={droneState} onLoad={handleLoad} />
@@ -361,33 +358,28 @@ export default function Drone3D() {
             </Canvas>
           </div>
 
-          <div className="drone-3d-overlay">
-            <div className="drone-controls">
-              <button
-                type="button"
-                className={`drone-control-btn ${droneState === DRONE_STATES.OFF ? 'active' : ''}`}
-                aria-pressed={droneState === DRONE_STATES.OFF}
-                onClick={() => setDroneState(DRONE_STATES.OFF)}
-              >
-                Off
-              </button>
-              <button
-                type="button"
-                className={`drone-control-btn ${droneState === DRONE_STATES.ON ? 'active' : ''}`}
-                aria-pressed={droneState === DRONE_STATES.ON}
-                onClick={() => setDroneState(DRONE_STATES.ON)}
-              >
-                On
-              </button>
-              <button
-                type="button"
-                className={`drone-control-btn ${droneState === DRONE_STATES.TURBO ? 'active' : ''}`}
-                aria-pressed={droneState === DRONE_STATES.TURBO}
-                onClick={() => setDroneState(DRONE_STATES.TURBO)}
-              >
-                Turbo
-              </button>
-            </div>
+          <div className="drone-controls-new">
+            <button
+              type="button"
+              className={`drone-btn-new ${droneState === DRONE_STATES.OFF ? 'active' : ''}`}
+              onClick={() => setDroneState(DRONE_STATES.OFF)}
+            >
+              Off
+            </button>
+            <button
+              type="button"
+              className={`drone-btn-new ${droneState === DRONE_STATES.ON ? 'active' : ''}`}
+              onClick={() => setDroneState(DRONE_STATES.ON)}
+            >
+              On
+            </button>
+            <button
+              type="button"
+              className={`drone-btn-new ${droneState === DRONE_STATES.TURBO ? 'active' : ''}`}
+              onClick={() => setDroneState(DRONE_STATES.TURBO)}
+            >
+              Turbo
+            </button>
           </div>
         </>
       )}
