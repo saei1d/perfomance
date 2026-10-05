@@ -61,19 +61,153 @@
 .drone-3d-container {
   position: relative;
   width: 100%;
-  height: 100%;
-  min-height: 450px;
-  z-index: 20;
-  isolation: isolate;
   overflow: visible;
+  z-index: 100;
+  background: linear-gradient(135deg, #0a0a1a 0%, #1a1a3a 50%, #0a0a2a 100%);
+  border-radius: 16px;
+}
+
+.drone-aurora {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: 16px;
+}
+
+.drone-aurora-blob {
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.4;
+  animation: aurora-float 8s ease-in-out infinite;
+}
+
+.drone-aurora-blob:nth-child(1) {
+  top: -100px;
+  left: -100px;
+  background: radial-gradient(circle, #00d4ff 0%, transparent 70%);
+  animation-delay: 0s;
+}
+
+.drone-aurora-blob:nth-child(2) {
+  top: -50px;
+  right: -100px;
+  background: radial-gradient(circle, #ff00ff 0%, transparent 70%);
+  animation-delay: 2s;
+}
+
+.drone-aurora-blob:nth-child(3) {
+  bottom: -100px;
+  left: 20%;
+  background: radial-gradient(circle, #00ff99 0%, transparent 70%);
+  animation-delay: 4s;
+}
+
+.drone-aurora-blob:nth-child(4) {
+  bottom: -50px;
+  right: 20%;
+  background: radial-gradient(circle, #9900ff 0%, transparent 70%);
+  animation-delay: 6s;
+}
+
+.drone-aurora-blob:nth-child(5) {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, #00ffff 0%, transparent 70%);
+  animation-delay: 1s;
+}
+
+@keyframes aurora-float {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  25% {
+    transform: translate(30px, -30px) scale(1.1);
+  }
+  50% {
+    transform: translate(-20px, 20px) scale(0.9);
+  }
+  75% {
+    transform: translate(20px, 10px) scale(1.05);
+  }
+}
+
+.drone-infinity-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  height: 400px;
+  border: 2px solid rgba(0, 212, 255, 0.3);
+  border-radius: 50%;
+  animation: ring-pulse 4s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.drone-infinity-ring::before {
+  content: '';
+  position: absolute;
+  inset: -10px;
+  border: 1px solid rgba(255, 0, 255, 0.2);
+  border-radius: 50%;
+  animation: ring-pulse 4s ease-in-out infinite 1s;
+}
+
+.drone-infinity-ring::after {
+  content: '';
+  position: absolute;
+  inset: -20px;
+  border: 1px solid rgba(0, 255, 153, 0.15);
+  border-radius: 50%;
+  animation: ring-pulse 4s ease-in-out infinite 2s;
+}
+
+@keyframes ring-pulse {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.3;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.1);
+    opacity: 0.6;
+  }
+}
+
+.drone-center-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(0, 212, 255, 0.4) 0%, transparent 70%);
+  border-radius: 50%;
+  animation: glow-pulse 3s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes glow-pulse {
+  0%, 100% {
+    opacity: 0.4;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: translate(-50%, -50%) scale(1.2);
+  }
 }
 
 .drone-canvas-wrapper {
-  position: absolute;
-  top: 0;
-  left: 0;
+  position: relative;
   width: 100%;
-  height: 100%;
+  height: 450px;
+  z-index: 1;
+  border-radius: 16px;
+  overflow: hidden;
 }
 
 .drone-canvas-wrapper canvas {
@@ -82,61 +216,84 @@
 }
 
 .drone-3d-overlay {
-  position: absolute;
-  top: 350px;
-  left: 20px;
-  right: 80px;
-  background: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(10px);
-  padding: 20px;
-  border-radius: 8px;
+  position: relative;
+  margin-top: 20px;
+  background: transparent;
+  padding: 15px;
+  border-radius: 12px;
   color: white;
-  z-index: 10;
 }
 
-.drone-3d-title {
-  margin: 0 0 8px 0;
-  font-size: 1.5rem;
-  font-weight: 600;
+@media (min-width: 769px) {
+  .drone-3d-overlay {
+    position: relative;
+    margin-top: 20px;
+    z-index: 10;
+  }
 }
 
-.drone-3d-subtitle {
-  margin: 0 0 16px 0;
-  font-size: 0.9rem;
-  opacity: 0.8;
-}
-
-.drone-3d-hint {
-  margin: 0 0 16px 0;
-  font-size: 0.85rem;
-  opacity: 0.6;
+@media (max-width: 768px) {
+  .drone-3d-overlay {
+    position: relative;
+    margin-top: 15px;
+    padding: 12px;
+  }
 }
 
 .drone-controls {
   display: flex;
-  gap: 8px;
-  margin-bottom: 16px;
+  gap: 12px;
   flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
 }
 
 .drone-control-btn {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  color: white;
-  padding: 8px 16px;
-  border-radius: 6px;
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.6);
+  padding: 12px 28px;
+  border-radius: 8px;
   cursor: pointer;
-  transition: all 0.2s;
-  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  position: relative;
+  overflow: hidden;
+}
+
+.drone-control-btn::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 2px;
+  background: #00d4ff;
+  transition: width 0.3s ease;
 }
 
 .drone-control-btn:hover {
-  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.drone-control-btn:hover::before {
+  width: 80%;
 }
 
 .drone-control-btn.active {
-  background: linear-gradient(135deg, #ffb901 0%, #e8a600 100%);
-  border-color: transparent;
+  color: #00d4ff;
+  background: rgba(0, 212, 255, 0.1);
+}
+
+.drone-control-btn.active::before {
+  width: 100%;
+  background: #00d4ff;
+  box-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
 }
 
 .drone-navigation {
@@ -162,13 +319,15 @@
   text-align: center;
   color: white;
   z-index: 5;
+  width: 100%;
+  max-width: 300px;
 }
 
 .loading-spinner {
-  width: 40px;
-  height: 40px;
-  border: 3px solid rgba(255, 255, 255, 0.2);
-  border-top-color: #ffb901;
+  width: 50px;
+  height: 50px;
+  border: 3px solid rgba(255, 255, 255, 0.1);
+  border-top-color: #00d4ff;
   border-radius: 50%;
   animation: spin 1s linear infinite;
   margin: 0 auto 16px;
@@ -191,26 +350,49 @@
 
 /* Responsive Design */
 @media (max-width: 768px) {
-  .drone-3d-overlay {
-    top: 280px;
-    right: 60px;
-    left: 15px;
-    padding: 15px;
+  .drone-canvas-wrapper {
+    height: 350px;
+    border-radius: 12px;
+  }
+
+  .drone-control-btn {
+    font-size: 0.85rem;
+    padding: 10px 20px;
+    letter-spacing: 1.5px;
+  }
+
+  .drone-controls {
+    gap: 10px;
   }
 }
 
 @media (max-width: 480px) {
-  .drone-3d-overlay {
-    top: 240px;
-    right: 50px;
-    left: 10px;
-    padding: 12px;
+  .drone-canvas-wrapper {
+    height: 300px;
+    border-radius: 10px;
+  }
+
+  .drone-control-btn {
+    font-size: 0.8rem;
+    padding: 8px 16px;
+    letter-spacing: 1px;
+  }
+
+  .drone-controls {
+    gap: 8px;
   }
 }
 
 @media (max-width: 380px) {
-  .drone-navigation {
-    right: 60px;
+  .drone-canvas-wrapper {
+    height: 280px;
+    border-radius: 8px;
+  }
+
+  .drone-control-btn {
+    font-size: 0.75rem;
+    padding: 6px 14px;
+    letter-spacing: 1px;
   }
 }
 

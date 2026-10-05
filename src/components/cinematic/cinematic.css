@@ -396,6 +396,17 @@
   transition: border-color 0.3s ease;
 }
 
+.portfolio-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.portfolio-card:hover .portfolio-image img {
+  transform: scale(1.05);
+}
+
 .portfolio-card:hover .portfolio-image {
   border-color: rgba(255, 185, 1, 0.5);
 }

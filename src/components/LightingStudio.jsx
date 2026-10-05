@@ -60,6 +60,7 @@ export default function LightingStudio() {
   const [inView, setInView] = useState(false);
   const [ready, setReady] = useState(false);
   const [webgl] = useState(supportsWebGL);
+  const [isContextLost, setIsContextLost] = useState(false);
 
   const markReady = useCallback(() => setReady(true), []);
 
@@ -90,6 +91,28 @@ export default function LightingStudio() {
     );
     visibility.observe(sticky);
     return () => visibility.disconnect();
+  }, []);
+
+  // Handle WebGL context lost/restored
+  useEffect(() => {
+    const handleContextLost = (event) => {
+      event.preventDefault();
+      console.log('Lighting Studio: WebGL context lost');
+      setIsContextLost(true);
+    };
+
+    const handleContextRestored = () => {
+      console.log('Lighting Studio: WebGL context restored');
+      setIsContextLost(false);
+    };
+
+    window.addEventListener('webglcontextlost', handleContextLost);
+    window.addEventListener('webglcontextrestored', handleContextRestored);
+
+    return () => {
+      window.removeEventListener('webglcontextlost', handleContextLost);
+      window.removeEventListener('webglcontextrestored', handleContextRestored);
+    };
   }, []);
 
   useEffect(() => {
@@ -142,7 +165,7 @@ export default function LightingStudio() {
 
   const fallback = (
     <div className="studio-fallback">
-      <p>This lighting studio needs WebGL.</p>
+      <p>{isContextLost ? 'Restoring lighting studio...' : 'This lighting studio needs WebGL.'}</p>
       <p>Try Safari, Chrome, or Firefox with hardware acceleration turned on.</p>
     </div>
   );
@@ -159,7 +182,7 @@ export default function LightingStudio() {
           Scroll to build a cinematic still: darkness, key light, light position, fill & color, and rim light.
         </p>
 
-        {webgl && armed && (
+        {webgl && armed && !isContextLost && (
           <SceneBoundary fallback={fallback}>
             <div className="studio-canvas">
               <Canvas
@@ -188,7 +211,7 @@ export default function LightingStudio() {
           </SceneBoundary>
         )}
 
-        {!webgl && fallback}
+        {(!webgl || isContextLost) && fallback}
 
         <div className="studio-vignette" />
         <p ref={chapterRef} className="studio-chapter">03 — Lighting</p>

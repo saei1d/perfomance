@@ -61,10 +61,15 @@ const EQUIPMENT = [
     name: 'Gimbals',
     icon: (
       <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="12" cy="12" r="10" />
-        <path d="M12 2a10 10 0 0 1 10 10" />
-        <path d="M12 22a10 10 0 0 1-10-10" />
         <circle cx="12" cy="12" r="3" />
+        <path d="M12 2v7" />
+        <path d="M12 15v7" />
+        <path d="M2 12h7" />
+        <path d="M15 12h7" />
+        <path d="M5.5 5.5l3.5 3.5" />
+        <path d="M15 15l3.5 3.5" />
+        <path d="M5.5 18.5l3.5-3.5" />
+        <path d="M15 9l3.5-3.5" />
       </svg>
     ),
     description: 'DJI Ronin, Freefly MoVI'
@@ -74,10 +79,15 @@ const EQUIPMENT = [
     name: 'Drones',
     icon: (
       <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M12 2L2 7l10 5 10-5-10-5z" />
-        <path d="M2 17l10 5 10-5" />
-        <path d="M2 12l10 5 10-5" />
-        <path d="M17 8l-5 3-5-3" />
+        <circle cx="12" cy="12" r="3" />
+        <path d="M12 2v7" />
+        <path d="M12 15v7" />
+        <path d="M2 12h7" />
+        <path d="M15 12h7" />
+        <path d="M4.93 4.93l4.95 4.95" />
+        <path d="M14.12 14.12l4.95 4.95" />
+        <path d="M4.93 19.07l4.95-4.95" />
+        <path d="M14.12 9.88l4.95-4.95" />
       </svg>
     ),
     description: 'DJI Inspire, Mavic 3 Pro, FPV'
@@ -87,8 +97,10 @@ const EQUIPMENT = [
     name: 'Support',
     icon: (
       <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M3 3v18h18" />
-        <path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3" />
+        <path d="M12 3v18" />
+        <path d="M5 21h14" />
+        <path d="M5 9l7-6 7 6" />
+        <path d="M4 21l16-12" />
       </svg>
     ),
     description: 'Sachtler, Manfrotto, GVM'
@@ -149,7 +161,7 @@ function EquipmentSlider() {
         disabled={!canScrollLeft}
         aria-label="Scroll left"
       >
-        ←
+        <span>←</span>
       </button>
       <div className="equipment-slider" ref={sliderRef}>
         {EQUIPMENT.map((item) => (
@@ -166,7 +178,7 @@ function EquipmentSlider() {
         disabled={!canScrollRight}
         aria-label="Scroll right"
       >
-        →
+        <span>→</span>
       </button>
     </div>
   );

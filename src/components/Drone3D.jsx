@@ -37,6 +37,12 @@ function DroneModel({ droneState, onLoad }) {
     prop4: 0
   });
 
+  // Responsive scale based on screen size
+  const scale = useMemo(() => {
+    const isMobile = window.matchMedia('(max-width: 768px)').matches;
+    return isMobile ? 1.8 : 3;
+  }, []);
+
   // Update target speed when drone state changes
   useEffect(() => {
     targetSpeed.current = SPEED_CONFIG[droneState];
@@ -141,7 +147,7 @@ function DroneModel({ droneState, onLoad }) {
   return (
     <primitive
       object={scene}
-      scale={3}
+      scale={scale}
       position={[0, 0, 0]}
     />
   );
@@ -157,38 +163,38 @@ function CanvasContent({ droneState, onLoad }) {
         polar={[0, Math.PI / 4]}
         azimuth={[-Math.PI / 4, Math.PI / 4]}
       >
-        <DroneModel 
-          droneState={droneState} 
+        <DroneModel
+          droneState={droneState}
           onLoad={onLoad}
         />
       </PresentationControls>
-      
+
       <Environment preset="studio" />
-      
+
       <ambientLight intensity={0.8} />
-      <directionalLight 
-        position={[10, 10, 5]} 
-        intensity={1.5} 
-        castShadow 
+      <directionalLight
+        position={[10, 10, 5]}
+        intensity={1.5}
+        castShadow
       />
-      <directionalLight 
-        position={[-10, -10, -5]} 
-        intensity={0.8} 
+      <directionalLight
+        position={[-10, -10, -5]}
+        intensity={0.8}
       />
-      <directionalLight 
-        position={[0, 10, 0]} 
-        intensity={0.5} 
+      <directionalLight
+        position={[0, 10, 0]}
+        intensity={0.5}
       />
-      
-      <ContactShadows 
-        position={[0, -1, 0]} 
-        opacity={0.4} 
-        scale={10} 
-        blur={2} 
-        far={4} 
+
+      <ContactShadows
+        position={[0, -1, 0]}
+        opacity={0.4}
+        scale={10}
+        blur={2}
+        far={4}
       />
-      
-      <OrbitControls 
+
+      <OrbitControls
         enableZoom={true}
         enablePan={false}
         enableRotate={true}
@@ -243,6 +249,8 @@ export default function Drone3D() {
   const [error, setError] = useState(null);
   const [droneState, setDroneState] = useState(DRONE_STATES.ON);
   const [inView, setInView] = useState(true);
+  const [canvasKey, setCanvasKey] = useState(0);
+  const [isContextLost, setIsContextLost] = useState(false);
   const quality = useMemo(() => {
     const mobile = window.matchMedia('(max-width: 768px)').matches;
     return {
@@ -262,6 +270,29 @@ export default function Drone3D() {
     );
     observer.observe(node);
     return () => observer.disconnect();
+  }, []);
+
+  // Handle WebGL context lost/restored
+  useEffect(() => {
+    const handleContextLost = (event) => {
+      event.preventDefault();
+      console.log('WebGL context lost, showing loading');
+      setIsContextLost(true);
+    };
+
+    const handleContextRestored = () => {
+      console.log('WebGL context restored, forcing re-render');
+      setIsContextLost(false);
+      setCanvasKey(prev => prev + 1);
+    };
+
+    window.addEventListener('webglcontextlost', handleContextLost);
+    window.addEventListener('webglcontextrestored', handleContextRestored);
+
+    return () => {
+      window.removeEventListener('webglcontextlost', handleContextLost);
+      window.removeEventListener('webglcontextrestored', handleContextRestored);
+    };
   }, []);
 
   const handleLoad = () => {
@@ -292,10 +323,10 @@ export default function Drone3D() {
         </div>
       )}
 
-      {isLoading && isWebGLSupported && (
+      {(isLoading || isContextLost) && isWebGLSupported && (
         <div className="drone-loading">
           <div className="loading-spinner"></div>
-          <p>Loading 3D Model...</p>
+          <p>{isContextLost ? 'Restoring 3D View...' : 'Loading 3D Model...'}</p>
         </div>
       )}
 
@@ -307,65 +338,59 @@ export default function Drone3D() {
       )}
 
       {isWebGLSupported && (
-        <div className="drone-canvas-wrapper">
-          <Canvas
-            camera={{ position: [0, 0, 1.2], fov: 40 }}
-            frameloop={inView ? 'always' : 'never'}
-            gl={{
-              antialias: quality.antialias,
-              alpha: true,
-              powerPreference: quality.powerPreference,
-              stencil: false,
-              depth: true
-            }}
-            dpr={quality.dpr}
-            onError={handleError}
-            style={{ opacity: isLoading ? 0 : 1 }}
-          >
-          <Suspense fallback={null}>
-            <CanvasContent droneState={droneState} onLoad={handleLoad} />
-            </Suspense>
-          </Canvas>
-        </div>
+        <>
+          <div className="drone-canvas-wrapper">
+            <Canvas
+              key={canvasKey}
+              camera={{ position: [0, 0, 1.2], fov: 40 }}
+              frameloop={inView ? 'always' : 'never'}
+              gl={{
+                antialias: quality.antialias,
+                alpha: true,
+                powerPreference: quality.powerPreference,
+                stencil: false,
+                depth: true
+              }}
+              dpr={quality.dpr}
+              onError={handleError}
+              style={{ opacity: isLoading ? 0 : 1 }}
+            >
+            <Suspense fallback={null}>
+              <CanvasContent droneState={droneState} onLoad={handleLoad} />
+              </Suspense>
+            </Canvas>
+          </div>
+
+          <div className="drone-3d-overlay">
+            <div className="drone-controls">
+              <button
+                type="button"
+                className={`drone-control-btn ${droneState === DRONE_STATES.OFF ? 'active' : ''}`}
+                aria-pressed={droneState === DRONE_STATES.OFF}
+                onClick={() => setDroneState(DRONE_STATES.OFF)}
+              >
+                Off
+              </button>
+              <button
+                type="button"
+                className={`drone-control-btn ${droneState === DRONE_STATES.ON ? 'active' : ''}`}
+                aria-pressed={droneState === DRONE_STATES.ON}
+                onClick={() => setDroneState(DRONE_STATES.ON)}
+              >
+                On
+              </button>
+              <button
+                type="button"
+                className={`drone-control-btn ${droneState === DRONE_STATES.TURBO ? 'active' : ''}`}
+                aria-pressed={droneState === DRONE_STATES.TURBO}
+                onClick={() => setDroneState(DRONE_STATES.TURBO)}
+              >
+                Turbo
+              </button>
+            </div>
+          </div>
+        </>
       )}
-
-      {isWebGLSupported && (
-        <div className="drone-3d-overlay">
-        <h2 className="drone-3d-title">Aerial unit</h2>
-        <p className="drone-3d-subtitle">Four rotors</p>
-        <p className="drone-3d-hint">Drag to orbit · Scroll to zoom</p>
-
-        <div className="drone-controls">
-          <button
-            type="button"
-            className={`drone-control-btn ${droneState === DRONE_STATES.OFF ? 'active' : ''}`}
-            aria-pressed={droneState === DRONE_STATES.OFF}
-            onClick={() => setDroneState(DRONE_STATES.OFF)}
-          >
-            Off
-          </button>
-          <button
-            type="button"
-            className={`drone-control-btn ${droneState === DRONE_STATES.ON ? 'active' : ''}`}
-            aria-pressed={droneState === DRONE_STATES.ON}
-            onClick={() => setDroneState(DRONE_STATES.ON)}
-          >
-            On
-          </button>
-          <button
-            type="button"
-            className={`drone-control-btn ${droneState === DRONE_STATES.TURBO ? 'active' : ''}`}
-            aria-pressed={droneState === DRONE_STATES.TURBO}
-            onClick={() => setDroneState(DRONE_STATES.TURBO)}
-          >
-            Turbo
-          </button>
-        </div>
-      </div>
-      )}
-
-      {/* Scrollable area on the right side for mobile */}
-      <div className="drone-scroll-area" aria-hidden="true" />
     </div>
   );
 }

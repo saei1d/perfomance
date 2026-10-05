@@ -143,13 +143,20 @@
   background: #1a1a1a;
   border: 1px solid #333;
   color: #fff;
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   cursor: pointer;
   transition: all 0.3s ease;
   z-index: 10;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 0;
+  line-height: 0;
+  text-align: center;
+}
+
+.slider-arrow span {
+  transform: translateY(-3px);
 }
 
 .slider-arrow:hover:not(:disabled) {

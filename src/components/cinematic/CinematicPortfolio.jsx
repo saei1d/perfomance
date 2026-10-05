@@ -1,14 +1,18 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { gsap, ScrollTrigger } from '../../lib/gsap';
 import './cinematic.css';
+import partfolio1 from '/partfolio1.jpg';
+import partfolio2 from '/partfolio2.jpg';
+import partfolio3 from '/partfolio3.jpg';
+import partfolio4 from '/partfolio4.jpg';
 
 const STILLS = [];
 
 const WORK = [
-  { id: '01', title: 'Project One', role: 'Cinematography', year: '2025', tone: 'cool' },
-  { id: '02', title: 'Project Two', role: 'Edit and grade', year: '2025', tone: 'warm' },
-  { id: '03', title: 'Project Three', role: 'Commercial', year: '2024', tone: 'neutral' },
-  { id: '04', title: 'Project Four', role: 'Aerial and edit', year: '2024', tone: 'amber' },
+  { id: '01', title: 'Project One', role: 'Cinematography', year: '2025', image: partfolio1 },
+  { id: '02', title: 'Project Two', role: 'Edit and grade', year: '2025', image: partfolio2 },
+  { id: '03', title: 'Project Three', role: 'Commercial', year: '2024', image: partfolio3 },
+  { id: '04', title: 'Project Four', role: 'Aerial and edit', year: '2024', image: partfolio4 },
 ];
 
 const REEL = ['Direction', 'Edit', 'Grade', 'Aerial', 'Sound', 'Commercial'];
@@ -41,7 +45,8 @@ function VideoEditorFrame() {
     const timeDisplay = timeDisplayRef.current;
     if (!video || !playhead || !timeDisplay) return;
 
-    const START_TIME = 9;
+    const START_TIME = 0;
+    let animationFrameId = null;
 
     const initVideo = async () => {
       video.currentTime = START_TIME;
@@ -51,6 +56,14 @@ function VideoEditorFrame() {
       } catch (e) {
         console.log('Autoplay prevented');
       }
+    };
+
+    const updateTimeline = () => {
+      const progress = (video.currentTime / video.duration) * 100;
+      playhead.style.left = `${progress}%`;
+      timeDisplay.textContent = formatTime(video.currentTime);
+
+      animationFrameId = requestAnimationFrame(updateTimeline);
     };
 
     const handleTimeUpdate = () => {
@@ -63,6 +76,8 @@ function VideoEditorFrame() {
 
         setTimeout(() => {
           video.currentTime = START_TIME;
+          playhead.style.left = '0%';
+          timeDisplay.textContent = formatTime(START_TIME);
           video.style.transition = 'opacity 0.3s ease';
           video.style.opacity = '1';
 
@@ -71,16 +86,19 @@ function VideoEditorFrame() {
             video.play();
           }, 300);
         }, 300);
-      } else {
-        const progress = (video.currentTime / video.duration) * 100;
-        playhead.style.left = `${progress}%`;
-        timeDisplay.textContent = formatTime(video.currentTime);
       }
     };
 
     initVideo();
     video.addEventListener('timeupdate', handleTimeUpdate);
-    return () => video.removeEventListener('timeupdate', handleTimeUpdate);
+    animationFrameId = requestAnimationFrame(updateTimeline);
+
+    return () => {
+      video.removeEventListener('timeupdate', handleTimeUpdate);
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+      }
+    };
   }, []);
 
   return (
@@ -93,7 +111,7 @@ function VideoEditorFrame() {
           muted
           playsInline
         >
-          <source src="/perfomance/showreel.mp4" type="video/mp4" />
+          <source src="/perfomance/showreel2.mp4" type="video/mp4" />
         </video>
         <div className="editor-overlay">
           <div className="editor-metrics">
@@ -277,9 +295,7 @@ export default function CinematicPortfolio() {
           {WORK.map((piece) => (
             <article key={piece.id} className="portfolio-card">
               <div className="portfolio-image">
-                <div className={`image-placeholder tone-${piece.tone}`}>
-                  <span className="placeholder-text">{piece.title}</span>
-                </div>
+                <img src={piece.image} alt={piece.title} />
                 <div className="portfolio-overlay">
                   <div className="overlay-content">
                     <span className="overlay-category">{piece.role}</span>
