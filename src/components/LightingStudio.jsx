@@ -5,16 +5,8 @@ import { STATUE_URL, STAGES } from './lighting/constants';
 import StudioScene from './lighting/StudioScene';
 import { labelOpacity } from './lighting/timeline';
 import { gsap, ScrollTrigger } from '../lib/gsap';
+import { supportsWebGL } from '../lib/webgl';
 import './lighting/lighting.css';
-
-function supportsWebGL() {
-  try {
-    const canvas = document.createElement('canvas');
-    return Boolean(canvas.getContext('webgl2') || canvas.getContext('webgl'));
-  } catch {
-    return false;
-  }
-}
 
 class SceneBoundary extends Component {
   constructor(props) {
@@ -57,12 +49,18 @@ export default function LightingStudio() {
   const chapterRef = useRef(null);
   const compact = useCompactViewport();
   const [armed, setArmed] = useState(false);
-  const [inView, setInView] = useState(false);
   const [ready, setReady] = useState(false);
   const [webgl] = useState(supportsWebGL);
-  const [isContextLost, setIsContextLost] = useState(false);
+  const readyRef = useRef(false);
+  const paintRef = useRef(() => {});
+  const invalidateRef = useRef(() => {});
 
-  const markReady = useCallback(() => setReady(true), []);
+  const markReady = useCallback(() => {
+    readyRef.current = true;
+    setReady(true);
+    paintRef.current(progressRef.current);
+    invalidateRef.current();
+  }, []);
 
   useEffect(() => {
     const track = trackRef.current;
@@ -79,40 +77,6 @@ export default function LightingStudio() {
     );
     loader.observe(track);
     return () => loader.disconnect();
-  }, []);
-
-  useEffect(() => {
-    const sticky = stickyRef.current;
-    if (!sticky) return undefined;
-
-    const visibility = new IntersectionObserver(
-      ([entry]) => setInView(entry.isIntersecting),
-      { rootMargin: '80px 0px' },
-    );
-    visibility.observe(sticky);
-    return () => visibility.disconnect();
-  }, []);
-
-  // Handle WebGL context lost/restored
-  useEffect(() => {
-    const handleContextLost = (event) => {
-      event.preventDefault();
-      console.log('Lighting Studio: WebGL context lost');
-      setIsContextLost(true);
-    };
-
-    const handleContextRestored = () => {
-      console.log('Lighting Studio: WebGL context restored');
-      setIsContextLost(false);
-    };
-
-    window.addEventListener('webglcontextlost', handleContextLost);
-    window.addEventListener('webglcontextrestored', handleContextRestored);
-
-    return () => {
-      window.removeEventListener('webglcontextlost', handleContextLost);
-      window.removeEventListener('webglcontextrestored', handleContextRestored);
-    };
   }, []);
 
   useEffect(() => {
@@ -138,6 +102,8 @@ export default function LightingStudio() {
       }
     };
 
+    paintRef.current = paint;
+
     const proxy = { p: 0 };
     const ctx = gsap.context(() => {
       gsap.to(proxy, {
@@ -147,12 +113,13 @@ export default function LightingStudio() {
           trigger: track,
           start: 'top top',
           end: 'bottom bottom',
-            scrub: 0.18,
+          scrub: true,
           invalidateOnRefresh: true,
         },
         onUpdate: () => {
           progressRef.current = proxy.p;
-          paint(proxy.p);
+          if (readyRef.current) paint(proxy.p);
+          invalidateRef.current();
         },
       });
     });
@@ -165,7 +132,7 @@ export default function LightingStudio() {
 
   const fallback = (
     <div className="studio-fallback">
-      <p>{isContextLost ? 'Restoring lighting studio...' : 'This lighting studio needs WebGL.'}</p>
+      <p>This lighting studio needs WebGL.</p>
       <p>Try Safari, Chrome, or Firefox with hardware acceleration turned on.</p>
     </div>
   );
@@ -182,16 +149,16 @@ export default function LightingStudio() {
           Scroll to build a cinematic still: darkness, key light, light position, fill & color, and rim light.
         </p>
 
-        {webgl && armed && !isContextLost && (
+        {webgl && armed && (
           <SceneBoundary fallback={fallback}>
             <div className="studio-canvas">
               <Canvas
                 shadows
-                frameloop={inView ? 'always' : 'never'}
-                dpr={compact ? [1, 1.25] : [1, 1.75]}
+                frameloop="demand"
+                dpr={compact ? [1, 1.15] : [1, 1.5]}
                 camera={{
-                  position: [0, 1.22, 10.0],
-                  fov: compact ? 34 : 30,
+                  position: [0.35, 1.28, 7.4],
+                  fov: compact ? 34 : 32,
                   near: 0.1,
                   far: 40,
                 }}
@@ -199,10 +166,12 @@ export default function LightingStudio() {
                   antialias: !compact,
                   alpha: false,
                   stencil: false,
-                  powerPreference: compact ? 'default' : 'high-performance',
+                  powerPreference: 'default',
                 }}
-                onCreated={({ gl }) => {
+                onCreated={({ gl, invalidate }) => {
                   gl.toneMappingExposure = 0.98;
+                  invalidateRef.current = invalidate;
+                  invalidate();
                 }}
               >
                 <StudioScene progressRef={progressRef} compact={compact} onReady={markReady} />
@@ -211,7 +180,7 @@ export default function LightingStudio() {
           </SceneBoundary>
         )}
 
-        {(!webgl || isContextLost) && fallback}
+        {!webgl && fallback}
 
         <div className="studio-vignette" />
         <p ref={chapterRef} className="studio-chapter">03 — Lighting</p>

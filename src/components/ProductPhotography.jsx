@@ -1,5 +1,5 @@
 import { useLayoutEffect, useRef } from 'react';
-import { gsap, ScrollTrigger } from '../lib/gsap';
+import { gsap } from '../lib/gsap';
 import './ProductPhotography.css';
 
 export default function ProductPhotography() {
@@ -41,15 +41,13 @@ export default function ProductPhotography() {
       <div className="product-hero">
         <div className="product-hero-content">
           <p className="eyebrow">04 — Photography</p>
-          <h1 className="product-hero-title">Product Photography</h1>
+          <h2 className="product-hero-title">Still light</h2>
           <p className="product-hero-description">
-            Transform your products into compelling visual stories. From e-commerce to advertising campaigns,
-            we craft images that captivate and convert. Our approach combines technical precision with artistic vision,
-            ensuring every product is showcased in its best light.
+            Objects, rooms, and materials, photographed with the same lighting discipline as a moving shot. One source, a reason for the shadow, and a finish that belongs on the page.
           </p>
         </div>
         <div className="product-hero-image">
-          <img src="/perfomance/finalshot.webp" alt="Product photography showcase" />
+          <img src={`${import.meta.env.BASE_URL}finalshot.webp`} alt="Finished product still from the studio set." />
         </div>
       </div>
     </section>

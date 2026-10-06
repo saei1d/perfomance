@@ -1,6 +1,6 @@
 import { useGLTF } from '@react-three/drei';
-import { useFrame } from '@react-three/fiber';
-import { Suspense, useLayoutEffect, useMemo, useRef } from 'react';
+import { useFrame, useThree } from '@react-three/fiber';
+import { Suspense, useCallback, useLayoutEffect, useMemo, useRef } from 'react';
 import * as THREE from 'three';
 import { STATUE_URL } from './constants';
 import { createTimelineSample, sampleTimeline } from './timeline';
@@ -11,6 +11,7 @@ function Statue({ onReady }) {
   const { scene } = useGLTF(STATUE_URL, false, false);
   const cloned = useMemo(() => scene.clone(true), [scene]);
   const group = useRef(null);
+  const invalidate = useThree((state) => state.invalidate);
 
   useLayoutEffect(() => {
     const root = group.current;
@@ -18,7 +19,7 @@ function Statue({ onReady }) {
 
     root.scale.set(1, 1, 1);
     root.position.set(0, 0, 0);
-    root.rotation.y = Math.PI * 1.27; // Rotate 225 degrees
+    root.rotation.y = Math.PI * 1.27;
     root.updateWorldMatrix(true, true);
 
     const box = new THREE.Box3().setFromObject(root);
@@ -39,7 +40,8 @@ function Statue({ onReady }) {
     });
 
     onReady?.();
-  }, [cloned, onReady]);
+    invalidate();
+  }, [cloned, invalidate, onReady]);
 
   return (
     <group ref={group}>
@@ -48,7 +50,27 @@ function Statue({ onReady }) {
   );
 }
 
-function StudioRig({ progressRef, compact }) {
+function applyTimeline(progress, compact, sample, rig) {
+  sampleTimeline(progress, compact, sample);
+
+  const key = rig.key.current;
+  if (key) {
+    key.intensity = sample.keyIntensity;
+    key.position.set(sample.keyPosition.x, sample.keyPosition.y, sample.keyPosition.z);
+    rig.keyColor.setRGB(sample.keyColor.r, sample.keyColor.g, sample.keyColor.b);
+    key.color.copy(rig.keyColor);
+  }
+
+  if (rig.fill.current) rig.fill.current.intensity = sample.fillIntensity;
+  if (rig.rim.current) rig.rim.current.intensity = sample.rimIntensity;
+  if (rig.ambient.current) rig.ambient.current.intensity = sample.ambient;
+
+  const camera = rig.camera;
+  camera.position.set(sample.camera.x, sample.camera.y, sample.camera.z);
+  camera.lookAt(sample.look.x, sample.look.y, sample.look.z);
+}
+
+function StudioRig({ progressRef, compact, modelReady }) {
   const keyRef = useRef(null);
   const fillRef = useRef(null);
   const rimRef = useRef(null);
@@ -56,9 +78,7 @@ function StudioRig({ progressRef, compact }) {
   const ambientRef = useRef(null);
   const sample = useMemo(() => createTimelineSample(), []);
   const keyColor = useMemo(() => new THREE.Color(), []);
-  const cameraTarget = useMemo(() => new THREE.Vector3(), []);
-  const lookTarget = useMemo(() => new THREE.Vector3(), []);
-  const currentLook = useMemo(() => new THREE.Vector3(0, 0.95, 0), []);
+  const camera = useThree((state) => state.camera);
 
   useLayoutEffect(() => {
     const aim = aimRef.current;
@@ -68,52 +88,19 @@ function StudioRig({ progressRef, compact }) {
     });
   }, []);
 
-  useFrame((state, delta) => {
+  useFrame(() => {
     const aim = aimRef.current;
     if (aim) aim.updateMatrixWorld();
 
-    sampleTimeline(progressRef.current, compact, sample);
-    const damp = 1 - Math.exp(-delta * 7.5);
-
-    const key = keyRef.current;
-    if (key) {
-      key.intensity = THREE.MathUtils.lerp(key.intensity, sample.keyIntensity, damp);
-      key.position.x = THREE.MathUtils.lerp(key.position.x, sample.keyPosition.x, damp);
-      key.position.y = THREE.MathUtils.lerp(key.position.y, sample.keyPosition.y, damp);
-      key.position.z = THREE.MathUtils.lerp(key.position.z, sample.keyPosition.z, damp);
-      keyColor.setRGB(sample.keyColor.r, sample.keyColor.g, sample.keyColor.b);
-      key.color.lerp(keyColor, damp);
-    }
-
-    if (fillRef.current) {
-      fillRef.current.intensity = THREE.MathUtils.lerp(
-        fillRef.current.intensity,
-        sample.fillIntensity,
-        damp,
-      );
-    }
-
-    if (rimRef.current) {
-      rimRef.current.intensity = THREE.MathUtils.lerp(
-        rimRef.current.intensity,
-        sample.rimIntensity,
-        damp,
-      );
-    }
-
-    if (ambientRef.current) {
-      ambientRef.current.intensity = THREE.MathUtils.lerp(
-        ambientRef.current.intensity,
-        sample.ambient,
-        damp,
-      );
-    }
-
-    cameraTarget.set(sample.camera.x, sample.camera.y, sample.camera.z);
-    lookTarget.set(sample.look.x, sample.look.y, sample.look.z);
-    currentLook.lerp(lookTarget, damp);
-    state.camera.position.lerp(cameraTarget, damp);
-    state.camera.lookAt(currentLook);
+    const progress = modelReady.current ? progressRef.current : 0;
+    applyTimeline(progress, compact, sample, {
+      key: keyRef,
+      fill: fillRef,
+      rim: rimRef,
+      ambient: ambientRef,
+      keyColor,
+      camera,
+    });
   });
 
   const shadowSize = compact ? 512 : 1024;
@@ -125,8 +112,8 @@ function StudioRig({ progressRef, compact }) {
       <spotLight
         ref={keyRef}
         position={[-2.8, 2.35, 3.3]}
-        angle={0.46}
-        penumbra={0.78}
+        angle={0.42}
+        penumbra={0.85}
         decay={2}
         distance={0}
         intensity={5}
@@ -144,18 +131,18 @@ function StudioRig({ progressRef, compact }) {
         ref={fillRef}
         position={[3.1, 1.7, 2.5]}
         angle={0.72}
-        penumbra={0.9}
+        penumbra={0.95}
         decay={2}
         distance={0}
         intensity={0}
-        color="#00ff00"
+        color="#b7e38a"
       />
 
       <spotLight
         ref={rimRef}
         position={[-0.35, 2.4, -3.1]}
-        angle={0.5}
-        penumbra={0.7}
+        angle={0.45}
+        penumbra={0.8}
         decay={2}
         distance={0}
         intensity={0}
@@ -165,104 +152,29 @@ function StudioRig({ progressRef, compact }) {
       <object3D ref={aimRef} position={[AIM.x, AIM.y, AIM.z]} />
 
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]} receiveShadow>
-        <planeGeometry args={[80, 80]} />
-        <meshStandardMaterial color="#0c0c0c" roughness={0.82} metalness={0.04} />
+        <circleGeometry args={[7.5, 64]} />
+        <meshStandardMaterial color="#0c0c0c" roughness={0.9} metalness={0} />
       </mesh>
     </>
   );
 }
 
-function FinalEffect({ progressRef }) {
-  const groupRef = useRef(null);
-  const particlesRef = useRef(null);
-  
-  const particles = useMemo(() => {
-    const count = 80;
-    const positions = new Float32Array(count * 3);
-    const colors = new Float32Array(count * 3);
-    
-    for (let i = 0; i < count; i++) {
-      positions[i * 3] = (Math.random() - 0.5) * 8;
-      positions[i * 3 + 1] = (Math.random() - 0.5) * 6;
-      positions[i * 3 + 2] = 2 + Math.random() * 2;
-      
-      // Green and gold colors
-      const isGreen = Math.random() > 0.3;
-      colors[i * 3] = isGreen ? 0 : 1;
-      colors[i * 3 + 1] = isGreen ? 1 : 0.8;
-      colors[i * 3 + 2] = isGreen ? 0 : 0;
-    }
-    
-    return { positions, count, colors };
-  }, []);
-  
-  useFrame((state, delta) => {
-    if (!groupRef.current) return;
-
-    // Show during final stage (0.6 to 0.75)
-    const progress = (progressRef.current - 0.6) / 0.15;
-    if (progress <= 0) {
-      groupRef.current.visible = false;
-      return;
-    }
-
-    groupRef.current.visible = true;
-
-    const easedProgress = Math.min(1, progress * 1.5);
-    
-    // Particle animation
-    if (particlesRef.current) {
-      const positions = particlesRef.current.geometry.attributes.position.array;
-      for (let i = 0; i < particles.count; i++) {
-        positions[i * 3] += (Math.random() - 0.5) * 0.02;
-        positions[i * 3 + 1] += (Math.random() - 0.5) * 0.02;
-        positions[i * 3 + 2] += Math.random() * 0.03;
-      }
-      particlesRef.current.geometry.attributes.position.needsUpdate = true;
-      particlesRef.current.material.opacity = easedProgress * 0.7;
-    }
-  });
-
-  return (
-    <group ref={groupRef} position={[0, 0, 0]}>
-      {/* Decorative particles */}
-      <points ref={particlesRef}>
-        <bufferGeometry>
-          <bufferAttribute
-            attach="attributes-position"
-            count={particles.count}
-            array={particles.positions}
-            itemSize={3}
-          />
-          <bufferAttribute
-            attach="attributes-color"
-            count={particles.count}
-            array={particles.colors}
-            itemSize={3}
-          />
-        </bufferGeometry>
-        <pointsMaterial
-          size={0.05}
-          transparent
-          opacity={0}
-          vertexColors
-          sizeAttenuation
-          depthTest={false}
-        />
-      </points>
-    </group>
-  );
-}
-
 export default function StudioScene({ progressRef, compact, onReady }) {
+  const modelReady = useRef(false);
+
+  const handleReady = useCallback(() => {
+    modelReady.current = true;
+    onReady?.();
+  }, [onReady]);
+
   return (
     <>
       <color attach="background" args={['#050505']} />
-      <StudioRig progressRef={progressRef} compact={compact} />
+      <fog attach="fog" args={['#050505', 9, 16]} />
+      <StudioRig progressRef={progressRef} compact={compact} modelReady={modelReady} />
       <Suspense fallback={null}>
-        <Statue onReady={onReady} />
+        <Statue onReady={handleReady} />
       </Suspense>
-      <FinalEffect progressRef={progressRef} />
     </>
   );
 }

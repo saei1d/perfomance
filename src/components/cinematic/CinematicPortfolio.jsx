@@ -1,19 +1,8 @@
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef } from 'react';
 import { gsap, ScrollTrigger } from '../../lib/gsap';
+import { Link } from '../../lib/router';
+import { projects } from '../../data/projects';
 import './cinematic.css';
-import partfolio1 from '/partfolio1.jpg';
-import partfolio2 from '/partfolio2.jpg';
-import partfolio3 from '/partfolio3.jpg';
-import partfolio4 from '/partfolio4.jpg';
-
-const STILLS = [];
-
-const WORK = [
-  { id: '01', title: 'Project One', role: 'Cinematography', year: '2025', image: partfolio1 },
-  { id: '02', title: 'Project Two', role: 'Edit and grade', year: '2025', image: partfolio2 },
-  { id: '03', title: 'Project Three', role: 'Commercial', year: '2024', image: partfolio3 },
-  { id: '04', title: 'Project Four', role: 'Aerial and edit', year: '2024', image: partfolio4 },
-];
 
 const REEL = ['Direction', 'Edit', 'Grade', 'Aerial', 'Sound', 'Commercial'];
 
@@ -53,8 +42,8 @@ function VideoEditorFrame() {
       video.style.opacity = '1';
       try {
         await video.play();
-      } catch (e) {
-        console.log('Autoplay prevented');
+      } catch {
+        // Autoplay can be blocked until the visitor interacts with the page.
       }
     };
 
@@ -111,7 +100,7 @@ function VideoEditorFrame() {
           muted
           playsInline
         >
-          <source src="/perfomance/showreel2.mp4" type="video/mp4" />
+          <source src={`${import.meta.env.BASE_URL}showreel2.mp4`} type="video/mp4" />
         </video>
         <div className="editor-overlay">
           <div className="editor-metrics">
@@ -154,7 +143,7 @@ export default function CinematicPortfolio() {
     const motion = gsap.matchMedia();
 
     motion.add('(prefers-reduced-motion: reduce)', () => {
-      gsap.set(root.querySelectorAll('.cine-title-line, .portfolio-card, .cine-rule'), {
+      gsap.set(root.querySelectorAll('.cine-title-line, .work-row, .cine-rule, .hero-actions'), {
         autoAlpha: 1,
         y: 0,
         scaleX: 1,
@@ -179,6 +168,14 @@ export default function CinematicPortfolio() {
           delay: 0.45,
         });
 
+        gsap.from('.hero-actions', {
+          y: 16,
+          autoAlpha: 0,
+          duration: 0.8,
+          ease: 'power2.out',
+          delay: 0.55,
+        });
+
         gsap.from('.video-editor-frame', {
           scale: 0.95,
           autoAlpha: 0,
@@ -198,7 +195,7 @@ export default function CinematicPortfolio() {
           },
         });
 
-        gsap.utils.toArray('.portfolio-card').forEach((card) => {
+        gsap.utils.toArray('.work-row').forEach((card) => {
           gsap.from(card, {
             y: 36,
             autoAlpha: 0,
@@ -248,7 +245,7 @@ export default function CinematicPortfolio() {
 
         <div className="cine-hero-content">
           <div className="cine-hero-copy">
-            <p className="eyebrow">HYENA STUDIO — Visual storytelling</p>
+            <p className="eyebrow">Toronto — Film, edit, aerial</p>
             <h1 className="cine-title">
               <span className="cine-title-line">We craft</span>
               <span className="cine-title-line cine-title-italic">moments</span>
@@ -256,15 +253,19 @@ export default function CinematicPortfolio() {
             </h1>
             <span className="cine-rule" aria-hidden="true" />
             <p className="lede">
-              From the first light to the final frame. Every cut tells a story, every angle has a purpose.
+              A film and post studio. We light, shoot, cut, and grade, then finish the picture in the same room.
             </p>
+            <div className="hero-actions">
+              <Link to="/work" className="btn btn-solid">Selected work</Link>
+              <Link to="/collaborate" className="btn btn-line">Start a project</Link>
+            </div>
           </div>
 
           <VideoEditorFrame />
         </div>
 
         <div className="letterbox">
-          <span>01 — Portfolio</span>
+          <span>Hyena — Toronto</span>
           <span ref={timecodeRef} className="timecode">00:00:00:00</span>
           <span className="rec"><i /> Rec</span>
         </div>
@@ -288,25 +289,27 @@ export default function CinematicPortfolio() {
       <section className="work" id="work" aria-label="Selected work">
         <header className="work-head">
           <p className="eyebrow">Selected work</p>
-          <h2>Our portfolio</h2>
+          <div className="work-head-row">
+            <h2>Pictures we finished.</h2>
+            <Link to="/work" className="work-all">Full index</Link>
+          </div>
         </header>
 
-        <div className="portfolio-grid">
-          {WORK.map((piece) => (
-            <article key={piece.id} className="portfolio-card">
-              <div className="portfolio-image">
-                <img src={piece.image} alt={piece.title} />
-                <div className="portfolio-overlay">
-                  <div className="overlay-content">
-                    <span className="overlay-category">{piece.role}</span>
-                    <h3 className="overlay-title">{piece.title}</h3>
-                    <span className="overlay-year">{piece.year}</span>
-                  </div>
-                </div>
-              </div>
-            </article>
+        <ol className="work-index">
+          {projects.map((piece) => (
+            <li key={piece.id}>
+              <Link to={`/work#${piece.id}`} className="work-row">
+                <span className="work-id">{piece.id}</span>
+                <span className="work-title">{piece.title}</span>
+                <span className="work-role">{piece.role}</span>
+                <span className="work-year">{piece.year}</span>
+                <span className="work-thumb">
+                  <img src={piece.image} alt="" />
+                </span>
+              </Link>
+            </li>
           ))}
-        </div>
+        </ol>
       </section>
 
       <section className="cine-close" aria-label="Studio note">

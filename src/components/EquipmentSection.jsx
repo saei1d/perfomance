@@ -189,9 +189,9 @@ export default function EquipmentSection() {
     <section id="equipment" className="equipment-section" aria-label="Equipment">
       <div className="equipment-header">
         <p className="eyebrow">05 — Equipment</p>
-        <h2>Professional Gear</h2>
+        <h2>In the air</h2>
         <p className="equipment-subtitle">
-          Industry-standard equipment for cinematic excellence
+          The aircraft the studio flies, then the rest of the kit.
         </p>
       </div>
 
@@ -201,8 +201,8 @@ export default function EquipmentSection() {
 
       <div className="equipment-slider-wrapper">
         <div className="equipment-slider-header">
-          <h3>Our Arsenal</h3>
-          <p>Explore our complete equipment inventory</p>
+          <h3>The kit</h3>
+          <p>Cameras, light, sound, and aircraft the studio actually carries.</p>
         </div>
         <EquipmentSlider />
       </div>

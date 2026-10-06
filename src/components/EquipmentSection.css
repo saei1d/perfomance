@@ -34,12 +34,12 @@
 }
 
 .equipment-drone-section {
-  margin-bottom: 80px;
-  min-height: 700px;
+  margin: 0 auto 4.5rem;
+  min-height: 0;
   position: relative;
   z-index: 1;
-  padding: 0 2vw;
-  overflow: visible;
+  padding: 0;
+  overflow: hidden;
 }
 
 .equipment-slider-wrapper {

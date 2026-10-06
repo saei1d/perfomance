@@ -68,12 +68,11 @@ export function sampleTimeline(progress, compact, out) {
   const glide = smooth(p) * 0.58 + smooth(range(p, 0.88, 1)) * 0.42;
   const cameraMix = glide * travel;
 
-  // Camera views directly from front of the can - much further back
-  out.camera.x = 0;
-  out.camera.y = lerp(1.22, 0.98, cameraMix);
-  out.camera.z = 10.0;
+  out.camera.x = lerp(0.35, -0.55, arc) * travel;
+  out.camera.y = lerp(1.28, 1.05, cameraMix);
+  out.camera.z = lerp(7.4, 6.35, cameraMix);
   out.look.x = 0;
-  out.look.y = lerp(0.95, 1.0, cameraMix);
+  out.look.y = lerp(0.95, 1.02, cameraMix);
   out.look.z = 0;
 
   return out;
@@ -87,7 +86,7 @@ export function createTimelineSample() {
     rimIntensity: 0,
     ambient: LIGHT.ambientStart,
     keyColor: { r: NEUTRAL.r, g: NEUTRAL.g, b: NEUTRAL.b },
-    camera: { x: 0, y: 1.22, z: 10.0 },
+    camera: { x: 0.35, y: 1.28, z: 7.4 },
     look: { x: 0, y: 0.95, z: 0 },
   };
 }

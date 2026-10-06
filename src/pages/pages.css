@@ -1,0 +1,605 @@
+.page {
+  padding:
+    calc(7.25rem + env(safe-area-inset-top))
+    max(5vw, env(safe-area-inset-right))
+    clamp(4rem, 10vh, 7rem)
+    max(5vw, env(safe-area-inset-left));
+}
+
+.page-hero {
+  max-width: 78rem;
+}
+
+.page-title {
+  max-width: 11ch;
+  margin: 0;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(3.4rem, 8vw, 7.2rem);
+  font-weight: 500;
+  line-height: 0.9;
+  letter-spacing: -0.045em;
+}
+
+.page-title em {
+  font-style: italic;
+  font-weight: 500;
+  color: rgba(232, 226, 214, 0.78);
+}
+
+.page-lede {
+  max-width: 38rem;
+  margin: 1.4rem 0 0;
+  font-size: 1.05rem;
+  font-weight: 300;
+  line-height: 1.65;
+  color: rgba(232, 226, 214, 0.74);
+}
+
+.about-still {
+  margin: clamp(2.5rem, 7vh, 4.5rem) 0 0;
+}
+
+.about-still img {
+  display: block;
+  width: 100%;
+  height: min(72vh, 46rem);
+  object-fit: cover;
+  object-position: 62% center;
+}
+
+.about-still figcaption {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 0.75rem 0 0;
+  font-size: 0.85rem;
+  line-height: 1.45;
+  color: rgba(232, 226, 214, 0.62);
+}
+
+.about-still figcaption span {
+  font-size: 0.68rem;
+  letter-spacing: 0.2em;
+}
+
+.belief,
+.split-list,
+.discipline-band,
+.page-end {
+  margin-top: clamp(5rem, 12vh, 8rem);
+}
+
+.belief h2,
+.split-list h2,
+.discipline-intro h2,
+.page-end h2,
+.feature-copy h2,
+.stack-copy h2,
+.contact-paths h2 {
+  margin: 0;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  line-height: 0.95;
+}
+
+.belief h2 {
+  max-width: 16ch;
+  font-size: clamp(2.6rem, 5.5vw, 4.8rem);
+  font-style: italic;
+}
+
+.belief-copy {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem 3rem;
+  max-width: 68rem;
+  margin-top: 1.8rem;
+}
+
+.belief-copy p,
+.split-list p,
+.discipline-band p,
+.stack-copy p,
+.feature-copy p,
+.path-card p,
+.next-steps {
+  margin: 0.55rem 0 0;
+  font-weight: 300;
+  line-height: 1.65;
+  color: rgba(232, 226, 214, 0.74);
+}
+
+.split-list {
+  display: grid;
+  grid-template-columns: minmax(12rem, 0.7fr) minmax(0, 1.4fr);
+  gap: 2rem 4rem;
+}
+
+.split-list h2,
+.discipline-intro h2,
+.page-end h2 {
+  font-size: clamp(2.4rem, 4vw, 3.6rem);
+}
+
+.split-list ol,
+.discipline-band ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.split-list li {
+  display: grid;
+  grid-template-columns: 3rem minmax(0, 1fr);
+  gap: 1rem;
+  padding: 1.25rem 0;
+  border-top: 1px solid rgba(232, 226, 214, 0.14);
+}
+
+.split-list li:last-child {
+  border-bottom: 1px solid rgba(232, 226, 214, 0.14);
+}
+
+.split-list li span,
+.discipline-band li span,
+.path-card span,
+.stack-role,
+.feature-year {
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(255, 185, 1, 0.85);
+}
+
+.split-list h3,
+.discipline-band h3 {
+  margin: 0;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 2rem;
+  font-weight: 500;
+}
+
+.discipline-band ul {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  margin-top: 2rem;
+  border-top: 1px solid rgba(232, 226, 214, 0.14);
+}
+
+.discipline-band li {
+  padding: 1.6rem 1.6rem 1.6rem 0;
+  border-bottom: 1px solid rgba(232, 226, 214, 0.14);
+}
+
+.discipline-band li:nth-child(odd) {
+  padding-right: 2.5rem;
+  border-right: 1px solid rgba(232, 226, 214, 0.14);
+}
+
+.discipline-band li:nth-child(even) {
+  padding-left: 2.5rem;
+}
+
+.page-end {
+  max-width: 40rem;
+}
+
+.page-end .btn {
+  margin-top: 1.4rem;
+}
+
+.work-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(16rem, 0.7fr);
+  gap: 2rem 4rem;
+  align-items: end;
+}
+
+.work-hero .page-lede {
+  margin: 0 0 0.4rem;
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 2.5rem;
+}
+
+.filter {
+  min-height: 44px;
+  padding: 0.45rem 0.8rem;
+  border: 1px solid rgba(232, 226, 214, 0.18);
+  background: transparent;
+  color: rgba(232, 226, 214, 0.72);
+  font-family: Outfit, "Segoe UI", sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.filter[aria-pressed="true"],
+.filter:hover {
+  border-color: rgba(255, 185, 1, 0.7);
+  color: #f4efe6;
+}
+
+.feature {
+  display: grid;
+  gap: 1rem;
+  margin-top: clamp(2rem, 5vh, 3rem);
+  scroll-margin-top: 5.5rem;
+}
+
+.feature-copy {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 1rem 2rem;
+  align-items: end;
+  order: -1;
+}
+
+.feature-media,
+.stack-media {
+  overflow: hidden;
+  background: #111;
+}
+
+.feature-media img,
+.stack-media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.01);
+  transition: transform 0.7s ease;
+}
+
+.feature:hover img,
+.stack-piece:hover img {
+  transform: scale(1.045);
+}
+
+.feature-media img {
+  width: 100%;
+  aspect-ratio: 16 / 8;
+  max-height: 72vh;
+  object-fit: cover;
+}
+
+.feature-copy h2,
+.stack-copy h2 {
+  margin-top: 0.35rem;
+  font-size: clamp(2.4rem, 4vw, 4rem);
+  font-style: italic;
+}
+
+.feature-year,
+.stack-role {
+  margin-top: 1rem;
+}
+
+.work-stack {
+  display: grid;
+  gap: clamp(3.5rem, 8vh, 6rem);
+  margin-top: clamp(4rem, 9vh, 6.5rem);
+}
+
+.stack-piece {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(14rem, 0.7fr);
+  gap: clamp(1.25rem, 3vw, 3rem);
+  align-items: center;
+  scroll-margin-top: 5.5rem;
+}
+
+.stack-piece.is-flip {
+  grid-template-columns: minmax(14rem, 0.7fr) minmax(0, 1.15fr);
+}
+
+.stack-piece.is-flip .stack-media {
+  order: 2;
+}
+
+.stack-media img {
+  aspect-ratio: 4 / 5;
+  max-height: 78vh;
+}
+
+.empty-work {
+  margin-top: 2rem;
+  color: rgba(232, 226, 214, 0.7);
+}
+
+.email-display {
+  display: block;
+  margin-top: clamp(2.5rem, 6vh, 4rem);
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(2rem, 5vw, 4.4rem);
+  font-style: italic;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  text-decoration: none;
+  color: #f4efe6;
+  overflow-wrap: anywhere;
+}
+
+.email-display span {
+  display: block;
+  margin-bottom: 0.6rem;
+  font-family: Outfit, "Segoe UI", sans-serif;
+  font-size: 0.68rem;
+  font-style: normal;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgba(255, 185, 1, 0.85);
+}
+
+.email-display:hover {
+  color: #ffb901;
+}
+
+.contact-facts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.5rem;
+  margin: 2.5rem 0 0;
+  padding: 1.4rem 0 0;
+  border-top: 1px solid rgba(232, 226, 214, 0.14);
+}
+
+.contact-facts div {
+  margin: 0;
+}
+
+.contact-facts dt {
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(232, 226, 214, 0.48);
+}
+
+.contact-facts dd {
+  margin: 0.4rem 0 0;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 1.7rem;
+}
+
+.contact-paths {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: clamp(3rem, 8vh, 5rem);
+}
+
+.path-card {
+  display: block;
+  min-height: 16rem;
+  padding: 1.4rem 1.3rem;
+  border-top: 1px solid rgba(232, 226, 214, 0.2);
+  text-decoration: none;
+  transition: border-color 0.25s ease, background 0.25s ease;
+}
+
+.path-card:hover {
+  border-color: #ffb901;
+  background: rgba(255, 185, 1, 0.04);
+}
+
+.path-card h2 {
+  margin-top: 1.5rem;
+  font-size: clamp(2rem, 3vw, 2.8rem);
+}
+
+.collab-layout {
+  display: grid;
+  grid-template-columns: minmax(16rem, 0.8fr) minmax(0, 1.15fr);
+  gap: clamp(2rem, 5vw, 5rem);
+  align-items: start;
+}
+
+.collab-intro {
+  position: sticky;
+  top: 6.5rem;
+}
+
+.collab-intro .page-title {
+  font-size: clamp(3rem, 5vw, 4.8rem);
+}
+
+.next-steps {
+  margin-top: 1.6rem;
+  padding-left: 1.1rem;
+}
+
+.next-steps li + li {
+  margin-top: 0.45rem;
+}
+
+.brief {
+  display: grid;
+  gap: 1.35rem;
+}
+
+.field,
+.choice-set {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+
+.field label,
+.choice-set legend {
+  display: block;
+  margin-bottom: 0.45rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(232, 226, 214, 0.62);
+}
+
+.field input,
+.field select,
+.field textarea {
+  width: 100%;
+  padding: 0.85rem 0.1rem;
+  border: 0;
+  border-bottom: 1px solid rgba(232, 226, 214, 0.28);
+  border-radius: 0;
+  background: transparent;
+  color: #f4efe6;
+  font: inherit;
+  font-size: 1.05rem;
+}
+
+.field textarea {
+  resize: vertical;
+  min-height: 9rem;
+  line-height: 1.55;
+}
+
+.field select {
+  cursor: pointer;
+}
+
+.field input:focus-visible,
+.field select:focus-visible,
+.field textarea:focus-visible {
+  outline: 1px solid rgba(255, 185, 1, 0.9);
+  outline-offset: 4px;
+  border-bottom-color: #ffb901;
+}
+
+.choice-set:focus {
+  outline: 1px solid rgba(255, 185, 1, 0.9);
+  outline-offset: 6px;
+}
+
+.field.is-invalid input,
+.field.is-invalid select,
+.field.is-invalid textarea,
+.choice-set.is-invalid {
+  border-bottom: 1px solid #e07a68;
+}
+
+.hint,
+.field-error {
+  margin: 0.4rem 0 0;
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+.hint {
+  color: rgba(232, 226, 214, 0.48);
+}
+
+.field-error {
+  color: #f0b2a8;
+}
+
+.choice-list {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.choice {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 44px;
+  cursor: pointer;
+}
+
+.choice input {
+  width: 1rem;
+  height: 1rem;
+  accent-color: #ffb901;
+}
+
+.choice span {
+  color: rgba(232, 226, 214, 0.86);
+}
+
+.form-summary {
+  padding: 0.9rem 0 0.2rem;
+  border-top: 1px solid rgba(224, 122, 104, 0.7);
+  color: #f0b2a8;
+}
+
+.form-summary ul {
+  margin: 0.4rem 0 0;
+  padding-left: 1.1rem;
+}
+
+.form-summary a {
+  color: inherit;
+}
+
+.brief-submit {
+  justify-self: start;
+  margin-top: 0.4rem;
+}
+
+.form-success .page-lede {
+  margin-bottom: 1.5rem;
+}
+
+@media (max-width: 900px) {
+  .page {
+    padding-inline: max(1.25rem, env(safe-area-inset-left));
+  }
+
+  .belief-copy,
+  .split-list,
+  .discipline-band ul,
+  .work-hero,
+  .stack-piece,
+  .stack-piece.is-flip,
+  .contact-facts,
+  .contact-paths,
+  .collab-layout,
+  .feature-copy {
+    grid-template-columns: 1fr;
+  }
+
+  .about-still img {
+    height: auto;
+    aspect-ratio: 4 / 3;
+  }
+
+  .stack-media img {
+    aspect-ratio: 4 / 5;
+    max-height: none;
+  }
+
+  .stack-piece.is-flip .stack-media {
+    order: 0;
+  }
+
+  .discipline-band li:nth-child(odd),
+  .discipline-band li:nth-child(even) {
+    padding-right: 0;
+    padding-left: 0;
+    border-right: 0;
+  }
+
+  .collab-intro {
+    position: static;
+  }
+
+  .page-title {
+    max-width: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .feature-media img,
+  .stack-media img,
+  .path-card {
+    transition: none;
+  }
+}
