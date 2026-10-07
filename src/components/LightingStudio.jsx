@@ -54,6 +54,7 @@ export default function LightingStudio() {
   const readyRef = useRef(false);
   const paintRef = useRef(() => {});
   const invalidateRef = useRef(() => {});
+  const mouseRef = useRef({ x: 0, y: 0 });
 
   const markReady = useCallback(() => {
     readyRef.current = true;
@@ -130,6 +131,87 @@ export default function LightingStudio() {
     return () => ctx.revert();
   }, []);
 
+  // Mouse tracking for magnetic hover effect and cursor light
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      mouseRef.current = {
+        x: (e.clientX / window.innerWidth) * 2 - 1,
+        y: -(e.clientY / window.innerHeight) * 2 + 1,
+      };
+
+      // Update CSS variables for cursor light effect
+      if (stickyRef.current) {
+        const rect = stickyRef.current.getBoundingClientRect();
+        const x = ((e.clientX - rect.left) / rect.width) * 100;
+        const y = ((e.clientY - rect.top) / rect.height) * 100;
+        stickyRef.current.style.setProperty('--mouse-x', `${x}%`);
+        stickyRef.current.style.setProperty('--mouse-y', `${y}%`);
+      }
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
+
+  // Magnetic hover effect on labels
+  useEffect(() => {
+    if (!ready) return;
+
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reducedMotion) return;
+
+    const ctx = gsap.context(() => {
+      STAGES.forEach((stage) => {
+        const node = labelRefs.current[stage.id];
+        if (!node) return;
+
+        gsap.from(node, {
+          opacity: 0,
+          y: 30,
+          duration: 0.6,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: node,
+            start: 'top 80%',
+            toggleActions: 'play none none reverse',
+          },
+        });
+
+        // Magnetic hover effect
+        const onPointerMove = (e) => {
+          const r = node.getBoundingClientRect();
+          const x = (e.clientX - r.left - r.width / 2) * 0.15;
+          const y = (e.clientY - r.top - r.height / 2) * 0.15;
+          gsap.to(node, {
+            x,
+            y,
+            duration: 0.3,
+            ease: 'power2.out',
+          });
+        };
+
+        const onPointerLeave = () => {
+          gsap.to(node, {
+            x: 0,
+            y: 0,
+            duration: 0.3,
+            ease: 'power2.out',
+          });
+        };
+
+        node.addEventListener('pointermove', onPointerMove);
+        node.addEventListener('pointerleave', onPointerLeave);
+
+        return () => {
+          node.removeEventListener('pointermove', onPointerMove);
+          node.removeEventListener('pointerleave', onPointerLeave);
+        };
+      });
+    });
+
+    return () => ctx.revert();
+  }, [ready]);
+
   const fallback = (
     <div className="studio-fallback">
       <p>This lighting studio needs WebGL.</p>
@@ -157,7 +239,7 @@ export default function LightingStudio() {
                 frameloop="demand"
                 dpr={compact ? [1, 1.15] : [1, 1.5]}
                 camera={{
-                  position: [0.35, 1.28, 7.4],
+                  position: [0.35, 1.28, 9.5],
                   fov: compact ? 34 : 32,
                   near: 0.1,
                   far: 40,
@@ -174,7 +256,7 @@ export default function LightingStudio() {
                   invalidate();
                 }}
               >
-                <StudioScene progressRef={progressRef} compact={compact} onReady={markReady} />
+                <StudioScene progressRef={progressRef} compact={compact} onReady={markReady} mousePosition={mouseRef.current} />
               </Canvas>
             </div>
           </SceneBoundary>
@@ -200,6 +282,14 @@ export default function LightingStudio() {
               {stage.subtitle ? <p>{stage.subtitle}</p> : null}
             </div>
           ))}
+        </div>
+
+        <div className="studio-particles" aria-hidden="true">
+          <div className="particle"></div>
+          <div className="particle"></div>
+          <div className="particle"></div>
+          <div className="particle"></div>
+          <div className="particle"></div>
         </div>
 
         <div className="studio-meter" aria-hidden="true">

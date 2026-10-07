@@ -4,6 +4,15 @@
   box-sizing: border-box;
 }
 
+input,
+select,
+textarea,
+fieldset,
+legend {
+  background: transparent;
+  background-color: transparent;
+}
+
 html {
   color-scheme: dark;
   scroll-behavior: smooth;

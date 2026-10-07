@@ -10,6 +10,9 @@ export default function SiteFooter() {
         <p className="kicker">Next</p>
         <h2>If the picture matters, start with a note.</h2>
         <div className="footer-actions">
+          <Link to="/web-design" className="btn btn-solid btn-gold">
+            Web Design Services
+          </Link>
           <a className="btn btn-solid" href={`mailto:${studio.email}`}>
             {studio.email}
           </a>

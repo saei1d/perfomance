@@ -1,0 +1,21 @@
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "Hyena Studio",
+  "description": "Hyena Studio is a film and post studio. Cinematography, editing, and aerial for visual storytelling.",
+  "url": "https://hyenastudio.com/perfomance/",
+  "logo": "https://hyenastudio.com/perfomance/favicon.svg",
+  "image": "https://hyenastudio.com/perfomance/finalshot.webp",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Torrento Base",
+    "addressCountry": "US"
+  },
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "contactType": "customer service",
+    "url": "https://hyenastudio.com/perfomance/contact"
+  },
+  "sameAs": [],
+  "serviceType": ["Cinematography", "Video Editing", "Aerial Photography", "Post-Production"]
+}

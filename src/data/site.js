@@ -15,12 +15,14 @@ export const nav = [
   { label: 'Work', to: '/work' },
   { label: 'About', to: '/about' },
   { label: 'Contact', to: '/contact' },
+  { label: 'Web Design', to: '/web-design' },
 ];
 
 export const footerVisit = [
   { label: 'Selected work', to: '/work' },
   { label: 'About the studio', to: '/about' },
   { label: 'Contact', to: '/contact' },
+  { label: 'Web Design Services', to: '/web-design' },
   { label: 'Start a project', to: '/collaborate' },
 ];
 
@@ -130,5 +132,9 @@ export const sources = [
   'Search',
   'Instagram',
   'Vimeo',
+  'ChatGPT',
+  'AI Search',
+  'LinkedIn',
+  'Twitter/X',
   'Other',
 ];

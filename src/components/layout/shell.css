@@ -97,6 +97,18 @@
   color: #ffb901;
 }
 
+.nav-cta-gold {
+  border-color: #ffb901;
+  background: linear-gradient(135deg, #ffb901 0%, #ffa500 100%);
+  color: #000;
+  font-weight: 600;
+}
+
+.nav-cta-gold:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 185, 1, 0.4);
+}
+
 .nav-cta:hover,
 .nav-cta[aria-current="page"] {
   background: #ffb901;
@@ -106,6 +118,17 @@
 .btn-solid {
   background: #e8e2d6;
   color: #14110a;
+}
+
+.btn-gold {
+  background: linear-gradient(135deg, #ffb901 0%, #ffa500 100%);
+  color: #000;
+  font-weight: 600;
+}
+
+.btn-gold:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 185, 1, 0.4);
 }
 
 .btn-solid:hover {

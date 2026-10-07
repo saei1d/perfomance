@@ -10,6 +10,7 @@ const AboutPage = lazy(() => import('./pages/AboutPage'));
 const WorkPage = lazy(() => import('./pages/WorkPage'));
 const ContactPage = lazy(() => import('./pages/ContactPage'));
 const CollaboratePage = lazy(() => import('./pages/CollaboratePage'));
+const WebDesignPage = lazy(() => import('./pages/WebDesignPage'));
 import './App.css';
 import './components/layout/shell.css';
 
@@ -19,6 +20,7 @@ const PAGES = {
   '/work': WorkPage,
   '/contact': ContactPage,
   '/collaborate': CollaboratePage,
+  '/web-design': WebDesignPage,
 };
 
 const TITLES = {
@@ -27,6 +29,7 @@ const TITLES = {
   '/work': 'Work — Hyena Studio',
   '/contact': 'Contact — Hyena Studio',
   '/collaborate': 'Start a project — Hyena Studio',
+  '/web-design': 'Web Design Services — Build Your Digital Future',
 };
 
 function PageView() {

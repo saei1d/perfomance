@@ -7,7 +7,7 @@ import { createTimelineSample, sampleTimeline } from './timeline';
 
 const AIM = new THREE.Vector3(0, 1.05, 0);
 
-function Statue({ onReady }) {
+function Statue({ onReady, mousePosition }) {
   const { scene } = useGLTF(STATUE_URL, false, false);
   const cloned = useMemo(() => scene.clone(true), [scene]);
   const group = useRef(null);
@@ -42,6 +42,14 @@ function Statue({ onReady }) {
     onReady?.();
     invalidate();
   }, [cloned, invalidate, onReady]);
+
+  // Interactive rotation based on mouse position
+  useFrame(() => {
+    if (group.current && mousePosition) {
+      const targetRotation = Math.PI * 1.27 + mousePosition.x * 0.3;
+      group.current.rotation.y += (targetRotation - group.current.rotation.y) * 0.05;
+    }
+  });
 
   return (
     <group ref={group}>
@@ -159,7 +167,7 @@ function StudioRig({ progressRef, compact, modelReady }) {
   );
 }
 
-export default function StudioScene({ progressRef, compact, onReady }) {
+export default function StudioScene({ progressRef, compact, onReady, mousePosition }) {
   const modelReady = useRef(false);
 
   const handleReady = useCallback(() => {
@@ -173,7 +181,7 @@ export default function StudioScene({ progressRef, compact, onReady }) {
       <fog attach="fog" args={['#050505', 9, 16]} />
       <StudioRig progressRef={progressRef} compact={compact} modelReady={modelReady} />
       <Suspense fallback={null}>
-        <Statue onReady={handleReady} />
+        <Statue onReady={handleReady} mousePosition={mousePosition} />
       </Suspense>
     </>
   );

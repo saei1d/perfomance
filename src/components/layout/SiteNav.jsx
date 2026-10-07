@@ -47,6 +47,9 @@ export default function SiteNav() {
               {item.label}
             </Link>
           ))}
+          <Link to="/web-design" className="nav-cta nav-cta-gold">
+            Web Design
+          </Link>
           <Link to="/collaborate" className="nav-cta">
             Start a project
           </Link>
@@ -75,6 +78,9 @@ export default function SiteNav() {
               {item.label}
             </Link>
           ))}
+          <Link to="/web-design" className="panel-link panel-link-cta" onClick={() => setMenuPath(null)}>
+            Web Design
+          </Link>
           <Link to="/collaborate" className="panel-link panel-link-cta" onClick={() => setMenuPath(null)}>
             Start a project
           </Link>
