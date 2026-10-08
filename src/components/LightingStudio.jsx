@@ -6,7 +6,9 @@ import StudioScene from './lighting/StudioScene';
 import { labelOpacity } from './lighting/timeline';
 import { gsap, ScrollTrigger } from '../lib/gsap';
 import { supportsWebGL } from '../lib/webgl';
+import CinematicTimeline from './lighting/CinematicTimeline';
 import './lighting/lighting.css';
+import './lighting/cinematic-timeline.css';
 
 class SceneBoundary extends Component {
   constructor(props) {
@@ -44,6 +46,7 @@ export default function LightingStudio() {
   const trackRef = useRef(null);
   const stickyRef = useRef(null);
   const progressRef = useRef(0);
+  const [timelineProgress, setTimelineProgress] = useState(0);
   const labelRefs = useRef({});
   const meterRef = useRef(null);
   const chapterRef = useRef(null);
@@ -98,9 +101,12 @@ export default function LightingStudio() {
       }
 
       if (chapterRef.current) {
-        const fade = 1 - Math.min(1, Math.max(0, (progress - 0.04) / 0.12));
+        const fade = 1 - Math.min(1, Math.max(0, (progress - 0.05) / 0.15));
         chapterRef.current.style.opacity = String(fade);
       }
+
+      // Update timeline progress state
+      setTimelineProgress(progress);
     };
 
     paintRef.current = paint;
@@ -116,16 +122,17 @@ export default function LightingStudio() {
           end: 'bottom bottom',
           scrub: true,
           invalidateOnRefresh: true,
-        },
-        onUpdate: () => {
-          progressRef.current = proxy.p;
-          if (readyRef.current) paint(proxy.p);
-          invalidateRef.current();
+          onUpdate: (self) => {
+            progressRef.current = self.progress;
+            setTimelineProgress(self.progress);
+            if (readyRef.current) paintRef.current(self.progress);
+            invalidateRef.current();
+          },
         },
       });
     });
 
-    paint(0);
+    paintRef.current(0);
     document.fonts?.ready.then(() => ScrollTrigger.refresh());
 
     return () => ctx.revert();
@@ -239,8 +246,8 @@ export default function LightingStudio() {
                 frameloop="demand"
                 dpr={compact ? [1, 1.15] : [1, 1.5]}
                 camera={{
-                  position: [0.35, 1.28, 9.5],
-                  fov: compact ? 34 : 32,
+                  position: [0.35, 1.28, 10.5],
+                  fov: compact ? 30 : 28,
                   near: 0.1,
                   far: 40,
                 }}
@@ -251,12 +258,17 @@ export default function LightingStudio() {
                   powerPreference: 'default',
                 }}
                 onCreated={({ gl, invalidate }) => {
-                  gl.toneMappingExposure = 0.98;
+                  gl.toneMappingExposure = 1.15;
                   invalidateRef.current = invalidate;
                   invalidate();
                 }}
               >
-                <StudioScene progressRef={progressRef} compact={compact} onReady={markReady} mousePosition={mouseRef.current} />
+                <StudioScene
+                  progressRef={progressRef}
+                  compact={compact}
+                  onReady={markReady}
+                  mousePosition={mouseRef.current}
+                />
               </Canvas>
             </div>
           </SceneBoundary>
@@ -266,6 +278,19 @@ export default function LightingStudio() {
 
         <div className="studio-vignette" />
         <p ref={chapterRef} className="studio-chapter">03 — Lighting</p>
+
+        {webgl && armed && ready && (
+          <CinematicTimeline
+            progress={timelineProgress}
+            onSeek={(newProgress) => {
+              progressRef.current = newProgress;
+              setTimelineProgress(newProgress);
+              paintRef.current(newProgress);
+              invalidateRef.current();
+            }}
+            stages={STAGES}
+          />
+        )}
 
         <div className="studio-ui">
           {STAGES.map((stage) => (

@@ -1,0 +1,243 @@
+.cinematic-timeline {
+  position: absolute;
+  bottom: calc(1.5rem + env(safe-area-inset-bottom));
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(95vw, 65rem);
+  z-index: 10;
+  padding: 1rem 1.5rem;
+  background: #000000;
+  border: 2px solid #ffffff;
+  border-radius: 0;
+  font-family: 'Archivo', 'Space Grotesk', sans-serif;
+  box-shadow: 4px 4px 0 rgba(255, 255, 255, 0.1);
+}
+
+.timeline-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+  gap: 1rem;
+}
+
+.timeline-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #ffffff;
+}
+
+.timeline-time {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #ffffff;
+  font-variant-numeric: tabular-nums;
+}
+
+.current-stage {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid #ffffff;
+  padding: 0.25rem 0.5rem;
+}
+
+.timeline-track {
+  position: relative;
+  height: 40px;
+  background: #0a0a0a;
+  border: 1px solid #333;
+  cursor: pointer;
+  overflow: hidden;
+  user-select: none;
+}
+
+.timeline-track:focus-visible {
+  outline: 3px solid #ffffff;
+  outline-offset: 2px;
+}
+
+.timeline-track:active {
+  cursor: grabbing;
+}
+
+.timeline-ruler {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.ruler-mark {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.ruler-mark:nth-child(5n) {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.ruler-mark:last-child {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.timeline-marker {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  pointer-events: none;
+  transition: all 0.2s ease;
+}
+
+.timeline-marker.active .marker-dot {
+  background: #ffffff;
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.8);
+}
+
+.timeline-marker.active .marker-label {
+  color: #ffffff;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+}
+
+.marker-dot {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateX(-50%);
+  width: 8px;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.5);
+  border: 2px solid #000000;
+  border-radius: 0;
+  transition: all 0.2s ease;
+}
+
+.marker-label {
+  position: absolute;
+  top: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.6);
+  white-space: nowrap;
+  text-shadow: 0 0 4px rgba(0, 0, 0, 0.8);
+  transition: all 0.2s ease;
+}
+
+.timeline-progress {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.25));
+  border-right: 3px solid #ffffff;
+  pointer-events: none;
+}
+
+.progress-handle {
+  position: absolute;
+  top: 50%;
+  right: -8px;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  background: #ffffff;
+  border: 2px solid #000000;
+  border-radius: 0;
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.6);
+  cursor: grabbing;
+  transition: transform 0.15s ease;
+}
+
+.progress-handle:hover {
+  transform: translateY(-50%) scale(1.2);
+  box-shadow: 0 0 16px rgba(255, 255, 255, 0.8);
+}
+
+.timeline-footer {
+  display: flex;
+  gap: 2rem;
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid #333;
+}
+
+.timeline-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.info-label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.info-value {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.4);
+  transition: all 0.3s ease;
+}
+
+.info-value.active {
+  color: #ffffff;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+}
+
+@media (max-width: 900px) {
+  .cinematic-timeline {
+    width: min(95vw, 50rem);
+    padding: 0.875rem 1.25rem;
+  }
+
+  .timeline-footer {
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .cinematic-timeline {
+    width: min(98vw, 40rem);
+    padding: 0.75rem 1rem;
+  }
+
+  .timeline-label,
+  .timeline-time {
+    font-size: 0.65rem;
+  }
+
+  .timeline-track {
+    height: 32px;
+  }
+
+  .marker-label {
+    font-size: 0.55rem;
+  }
+
+  .timeline-footer {
+    gap: 1rem;
+  }
+
+  .info-label,
+  .info-value {
+    font-size: 0.6rem;
+  }
+}

@@ -1,7 +1,7 @@
 import { LIGHT } from './constants';
 
-const NEUTRAL = { r: 0.97, g: 0.95, b: 0.91 };
-const WARM = { r: 1, g: 0.74, b: 0.55 };
+const NEUTRAL = { r: 1, g: 1, b: 1 };
+const WARM = { r: 0.9, g: 1, b: 0.85 };
 
 export function clamp01(value) {
   return Math.min(1, Math.max(0, value));
@@ -48,31 +48,31 @@ export function sampleTimeline(progress, compact, out) {
   const p = clamp01(progress);
   const travel = compact ? 0.42 : 1;
 
-  const arrive = smooth(range(p, 0.15, 0.3));
-  const arc = smooth(range(p, 0.3, 0.45));
+  const arrive = smooth(range(p, 0.2, 0.4));
+  const arc = smooth(range(p, 0.4, 0.6));
   const angle = lerp(-0.95, 0.72, arc);
   const radius = lerp(5.1, 3.35, Math.max(arrive, arc));
 
-  out.keyIntensity = lerp(LIGHT.keyIdle, LIGHT.key, smooth(range(p, 0.12, 0.3)));
+  out.keyIntensity = lerp(LIGHT.keyIdle, LIGHT.key, smooth(range(p, 0.15, 0.4)));
   out.keyPosition.x = Math.sin(angle) * radius;
   out.keyPosition.y = lerp(2.35, 3.45, arc);
   out.keyPosition.z = Math.cos(angle) * lerp(3.4, 2.35, arc);
 
-  out.fillIntensity = LIGHT.fill * smooth(range(p, 0.45, 0.6));
-  out.rimIntensity = LIGHT.rim * smooth(range(p, 0.6, 0.75));
-  out.ambient = lerp(LIGHT.ambientStart, LIGHT.ambientEnd, smooth(range(p, 0.15, 0.75)));
+  out.fillIntensity = LIGHT.fill * smooth(range(p, 0.6, 0.8));
+  out.rimIntensity = LIGHT.rim * smooth(range(p, 0.8, 1));
+  out.ambient = lerp(LIGHT.ambientStart, LIGHT.ambientEnd, smooth(range(p, 0.2, 1)));
 
-  const colorMix = smooth(range(p, 0.45, 0.6));
+  const colorMix = smooth(range(p, 0.6, 0.8));
   lerpColor(NEUTRAL, WARM, colorMix, out.keyColor);
 
-  const glide = smooth(p) * 0.58 + smooth(range(p, 0.88, 1)) * 0.42;
+  const glide = smooth(p) * 0.58 + smooth(range(p, 0.9, 1)) * 0.42;
   const cameraMix = glide * travel;
 
-  out.camera.x = lerp(0.35, -0.55, arc) * travel;
-  out.camera.y = lerp(1.28, 1.05, cameraMix);
-  out.camera.z = lerp(7.4, 6.35, cameraMix);
+  out.camera.x = lerp(0.35, -0.35, arc) * travel;
+  out.camera.y = lerp(1.28, 1.15, cameraMix);
+  out.camera.z = lerp(10.5, 10.5, cameraMix);
   out.look.x = 0;
-  out.look.y = lerp(0.95, 1.02, cameraMix);
+  out.look.y = lerp(0.95, 1.0, cameraMix);
   out.look.z = 0;
 
   return out;

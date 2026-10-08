@@ -1,0 +1,265 @@
+.lighting-controls {
+  position: absolute;
+  top: calc(5.2rem + env(safe-area-inset-top));
+  right: max(1.5rem, env(safe-area-inset-right));
+  width: min(22rem, 30vw);
+  max-width: 350px;
+  padding: 1.5rem;
+  background: #000000;
+  border: 2px solid #ffffff;
+  border-radius: 0;
+  z-index: 10;
+  color: #ffffff;
+  font-family: 'Archivo', 'Space Grotesk', sans-serif;
+  overflow-y: auto;
+  max-height: calc(100vh - 8rem);
+  scrollbar-width: thin;
+  scrollbar-color: #ffffff transparent;
+  box-shadow: 4px 4px 0 rgba(255, 255, 255, 0.1);
+}
+
+.lighting-controls::-webkit-scrollbar {
+  width: 4px;
+}
+
+.lighting-controls::-webkit-scrollbar-track {
+  background: #0a0a0a;
+}
+
+.lighting-controls::-webkit-scrollbar-thumb {
+  background: #ffffff;
+  border-radius: 0;
+}
+
+.controls-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #ffffff;
+}
+
+.brutalist-title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #ffffff;
+}
+
+.brutalist-btn {
+  padding: 0.5rem 1rem;
+  background: #000000;
+  border: 2px solid #ffffff;
+  border-radius: 0;
+  color: #ffffff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.brutalist-btn:hover {
+  background: #ffffff;
+  color: #000000;
+  box-shadow: 2px 2px 0 rgba(255, 255, 255, 0.3);
+}
+
+.brutalist-btn:focus-visible {
+  outline: 3px solid #ffffff;
+  outline-offset: 2px;
+}
+
+.presets-section {
+  margin-bottom: 2rem;
+}
+
+.brutalist-label {
+  margin: 0 0 1rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: #ffffff;
+}
+
+.preset-buttons {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem;
+}
+
+.preset-btn {
+  padding: 0.75rem 0.5rem;
+  background: #000000;
+  border: 2px solid #ffffff;
+  border-radius: 0;
+  color: #ffffff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.preset-btn:hover {
+  background: #ffffff;
+  color: #000000;
+  transform: translate(-2px, -2px);
+  box-shadow: 4px 4px 0 rgba(255, 255, 255, 0.2);
+}
+
+.preset-btn:focus-visible {
+  outline: 3px solid #ffffff;
+  outline-offset: 2px;
+}
+
+.preset-btn:active {
+  transform: translate(0, 0);
+  box-shadow: none;
+}
+
+.control-group {
+  margin-bottom: 2rem;
+}
+
+.control-group:last-child {
+  margin-bottom: 0;
+}
+
+.control-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.control-item:last-child {
+  margin-bottom: 0;
+}
+
+.control-item label {
+  flex: 0 0 3.5rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #ffffff;
+}
+
+.brutalist-slider {
+  flex: 1;
+  height: 6px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: #1a1a1a;
+  border: 2px solid #ffffff;
+  border-radius: 0;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.5);
+}
+
+.brutalist-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  background: #ffffff;
+  border: 2px solid #000000;
+  border-radius: 0;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.3);
+}
+
+.brutalist-slider::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  background: #ffffff;
+  border: 2px solid #000000;
+  border-radius: 0;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.3);
+}
+
+.brutalist-slider:hover::-webkit-slider-thumb {
+  transform: scale(1.1);
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.4);
+}
+
+.brutalist-slider:hover::-moz-range-thumb {
+  transform: scale(1.1);
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.4);
+}
+
+.brutalist-slider:focus-visible {
+  outline: 3px solid #ffffff;
+  outline-offset: 2px;
+}
+
+.brutalist-value {
+  flex: 0 0 2.5rem;
+  text-align: right;
+  font-size: 0.7rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: #ffffff;
+  letter-spacing: 0.1em;
+  background: #1a1a1a;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid #ffffff;
+}
+
+@media (max-width: 900px) {
+  .lighting-controls {
+    top: calc(6.5rem + env(safe-area-inset-top));
+    bottom: auto;
+    right: max(1.25rem, env(safe-area-inset-right));
+    left: auto;
+    width: min(16rem, 44vw);
+    max-height: calc(100vh - 10rem);
+  }
+}
+
+@media (max-width: 640px) {
+  .lighting-controls {
+    top: calc(5.5rem + env(safe-area-inset-top));
+    width: min(14rem, 80vw);
+    padding: 1rem;
+    max-height: calc(100vh - 8rem);
+  }
+
+  .controls-header h3 {
+    font-size: 0.75rem;
+  }
+
+  .preset-buttons {
+    grid-template-columns: 1fr;
+  }
+
+  .control-item label {
+    flex: 0 0 4rem;
+    font-size: 0.65rem;
+  }
+
+  .value-display {
+    flex: 0 0 2rem;
+    font-size: 0.65rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .preset-btn,
+  .reset-btn,
+  .control-item input[type="range"]::-webkit-slider-thumb,
+  .control-item input[type="range"]::-moz-range-thumb {
+    transition: none;
+  }
+}

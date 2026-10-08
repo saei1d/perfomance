@@ -1,8 +1,8 @@
 .studio-track {
   position: relative;
-  height: 600vh;
-  background: linear-gradient(180deg, #0a0a0a 0%, #050505 50%, #080808 100%);
-  color: #e8e2d6;
+  height: 700vh;
+  background: #000000;
+  color: #ffffff;
 }
 
 .studio-sticky {
@@ -11,7 +11,7 @@
   height: 100vh;
   height: 100dvh;
   overflow: hidden;
-  background: #050505;
+  background: #000000;
 }
 
 .studio-canvas {
@@ -33,9 +33,9 @@
   z-index: 2;
   pointer-events: none;
   background:
-    radial-gradient(ellipse at center, transparent 42%, rgba(0, 0, 0, 0.45) 100%),
-    linear-gradient(to top, rgba(0, 0, 0, 0.35), transparent 28%);
-  transition: opacity 0.5s ease;
+    radial-gradient(ellipse at center, transparent 35%, rgba(0, 0, 0, 0.6) 100%),
+    linear-gradient(to top, rgba(0, 0, 0, 0.5), transparent 25%);
+  transition: opacity 0.3s ease;
 }
 
 .studio-canvas::after {
@@ -83,57 +83,82 @@
   opacity: 0;
   pointer-events: auto;
   cursor: pointer;
-  transition: transform 0.3s ease-out;
+  transition: transform 0.3s ease-out, opacity 0.3s ease, box-shadow 0.3s ease;
   will-change: transform, opacity;
+  padding: 1.5rem;
+  background: rgba(0, 0, 0, 0.85);
+  border: 2px solid #ffffff;
+  border-radius: 0;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+.studio-label:hover {
+  box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+  transform: scale(1.02);
 }
 
 .studio-kicker {
   display: block;
-  font-family: "Playfair Display", "Cormorant Garamond", Georgia, serif;
+  font-family: 'Archivo', 'Space Grotesk', sans-serif;
   font-size: clamp(2.8rem, 6vw, 5rem);
-  font-weight: 400;
+  font-weight: 700;
   line-height: 0.9;
-  letter-spacing: -0.04em;
-  color: rgba(232, 226, 214, 0.45);
-  font-style: italic;
-  text-shadow: 0 0 30px rgba(232, 226, 214, 0.15);
-  transition: text-shadow 0.3s ease;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+  text-transform: uppercase;
+  transition: color 0.15s ease;
 }
 
 .studio-label:hover .studio-kicker {
-  text-shadow: 0 0 50px rgba(232, 226, 214, 0.35), 0 0 80px rgba(232, 226, 214, 0.2);
-}
-
-.studio-label h2 {
-  margin: 0.45rem 0 0;
-  font-family: "Playfair Display", "Cormorant Garamond", Georgia, serif;
-  font-size: 0.82rem;
-  font-weight: 400;
-  letter-spacing: 0.35em;
-  text-transform: uppercase;
-  font-style: italic;
-  text-shadow: 0 0 20px rgba(232, 226, 214, 0.1);
-  transition: all 0.3s ease;
-}
-
-.studio-label:hover h2 {
-  letter-spacing: 0.45em;
-  text-shadow: 0 0 30px rgba(232, 226, 214, 0.3);
-}
-
-.studio-label p {
-  margin: 0.65rem 0 0;
-  font-family: "Cormorant Garamond", Georgia, serif;
-  font-size: clamp(1.15rem, 2vw, 1.55rem);
-  font-style: italic;
-  font-weight: 500;
-  letter-spacing: 0;
-  text-transform: none;
-  color: rgba(232, 226, 214, 0.72);
+  color: #ffffff;
 }
 
 .studio-label--darkness {
   opacity: 1;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.studio-label--darkness .studio-kicker,
+.studio-label--darkness h2,
+.studio-label--darkness p {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.studio-label h2 {
+  margin: 0.45rem 0 0;
+  font-family: 'Archivo', 'Space Grotesk', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: #ffffff;
+  transition: letter-spacing 0.15s ease;
+}
+
+.studio-label:hover h2 {
+  letter-spacing: 0.45em;
+}
+
+.studio-label p {
+  margin: 0.65rem 0 0;
+  font-family: 'Archivo', 'Space Grotesk', sans-serif;
+  font-size: clamp(1.15rem, 2vw, 1.55rem);
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.studio-label--darkness {
+  opacity: 1;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.studio-label--darkness .studio-kicker,
+.studio-label--darkness h2,
+.studio-label--darkness p {
+  color: rgba(255, 255, 255, 0.7);
 }
 
 .studio-label--final {
@@ -168,21 +193,20 @@
   bottom: calc(1.4rem + env(safe-area-inset-bottom));
   z-index: 4;
   width: min(9rem, 28vw);
-  height: 2px;
+  height: 3px;
   transform: translateX(-50%);
-  background: rgba(232, 226, 214, 0.16);
+  background: #1a1a1a;
+  border: 1px solid #ffffff;
   pointer-events: none;
-  box-shadow: 0 0 10px rgba(232, 226, 214, 0.1);
 }
 
 .studio-meter span {
   display: block;
   width: 100%;
   height: 100%;
-  background: rgba(232, 226, 214, 0.9);
+  background: #ffffff;
   transform: scaleX(0);
   transform-origin: left center;
-  box-shadow: 0 0 15px rgba(232, 226, 214, 0.6), 0 0 30px rgba(232, 226, 214, 0.3);
 }
 
 .studio-status,
@@ -190,8 +214,8 @@
   position: absolute;
   z-index: 5;
   margin: 0;
-  color: rgba(232, 226, 214, 0.62);
-  font-family: Outfit, "Segoe UI", sans-serif;
+  color: #ffffff;
+  font-family: 'Archivo', 'Space Grotesk', sans-serif;
   font-size: 0.72rem;
   letter-spacing: 0.28em;
   text-transform: uppercase;
@@ -212,7 +236,7 @@
   gap: 0.75rem;
   text-align: center;
   padding: 2rem;
-  background: #050505;
+  background: #000000;
 }
 
 .studio-fallback p {
@@ -226,7 +250,7 @@
 
 @media (max-width: 900px) {
   .studio-track {
-    height: 400vh;
+    height: 500vh;
   }
 
   .studio-label {
@@ -258,7 +282,7 @@
 
 @media (max-width: 640px) {
   .studio-track {
-    height: 350vh;
+    height: 450vh;
   }
 
   .studio-label {
@@ -293,6 +317,11 @@
     width: min(6rem, 40vw);
     bottom: calc(1rem + env(safe-area-inset-bottom));
   }
+
+  .mode-toggle {
+    padding: 0.5rem 1rem;
+    font-size: 0.7rem;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -315,12 +344,12 @@
 
 .particle {
   position: absolute;
-  width: 2px;
-  height: 2px;
-  background: rgba(232, 226, 214, 0.3);
-  border-radius: 50%;
-  animation: float 8s ease-in-out infinite;
-  box-shadow: 0 0 6px rgba(232, 226, 214, 0.4);
+  width: 3px;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 0;
+  animation: float 10s ease-in-out infinite;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
 }
 
 .particle:nth-child(1) {

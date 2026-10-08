@@ -61,7 +61,7 @@ function DroneModel({ droneState, onLoad }) {
     const root = group.current;
     if (!root) return;
     root.scale.setScalar(3);
-    root.position.set(0, -0.35, 0);
+    root.position.set(0, -0.05, 0);
     root.rotation.set(0.25, yaw.current, 0);
     onLoad?.();
   }, [aircraft, onLoad]);
@@ -163,7 +163,7 @@ export default function Drone3D() {
           <div className="drone-canvas-wrapper">
             {loading && <p className="drone-status">Loading aircraft</p>}
             <Canvas
-              camera={{ position: [0.45, 0.28, 1.45], fov: 38, near: 0.01, far: 50 }}
+              camera={{ position: [0, 0.28, 1.45], fov: 38, near: 0.01, far: 50 }}
               frameloop={inView ? 'always' : 'demand'}
               dpr={[1, 1.5]}
               gl={{
